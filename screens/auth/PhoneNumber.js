@@ -9,7 +9,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {gStyles} from '../../styles/global';
+import {gStyles} from './../styles/global';
 import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
