@@ -12,14 +12,14 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../shared/header2';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
-import {gStyles} from '../styles/global';
+import Header from '../../shared/header2';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function bookingDetails() {
   // const [value, onChangeText] = React.useState('42|');
-  const [Servises, setServises] = useState([
+  const [Services, setServices] = useState([
     {
       bookingno: '1',
       status: 'completed',
@@ -74,11 +74,10 @@ export default function bookingDetails() {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View style={styles.back}>
+      <View>
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
             margin: 15,
           }}>
           <Text
@@ -86,17 +85,33 @@ export default function bookingDetails() {
               color: 'white',
               fontWeight: 'bold',
               fontSize: 30,
-              justifyContent: 'space-between',
               margin: 25,
             }}>
-            Jobs Done
+            Bridal Makeup Required
           </Text>
+          <Text style={{fontSize: 10, margin: 2}}>{Services.service}</Text>
           <MaterialIcons
-            name="ellipsis-v"
-            style={{alignSelf: 'center', color: 'white'}}
-            size={30}
+            name="map-marker"
+            size={10}
+            /*onPress={openMenu}*/ style={styles.icon}
           />
+          <Text>Description</Text>
+          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+            <Text>Budget</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>Rs.</Text>
+          </View>
+          <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+            <Text>Posted by</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>
+              <Image
+                source={require('../../assets/i.jpg')}
+                style={{borderRadius: 10}}
+              />
+            </Text>
+          </View>
+          <FlatButton text="Bid" />
         </View>
+
         <Card>
           <View style={{margin: 10}}>
             <Text

@@ -12,10 +12,10 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../shared/header2';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
-import {gStyles} from '../styles/global';
+import Header from '../../shared/header2';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function jobsDone() {
   // const [value, onChangeText] = React.useState('42|');
@@ -169,13 +169,8 @@ export default function jobsDone() {
               justifyContent: 'space-between',
               margin: 25,
             }}>
-            Jobs Done
+            Jobs In Progress
           </Text>
-          <MaterialIcons
-            name="ellipsis-v"
-            style={{alignSelf: 'center', color: 'white'}}
-            size={30}
-          />
         </View>
         <Card>
           <SafeAreaView style={styles.container}>

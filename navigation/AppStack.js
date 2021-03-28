@@ -5,12 +5,10 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import Home from '../screens/Home';
-import About from '../screens/About';
-import Notifications from '../screens/Notifications';
-import Profile from '../screens/Profile';
-import Explorer from '../screens/Explorer';
-import {DrawerContent} from '../screens/DrawerContent';
+import Home from '../screens/seller/home';
+import Profile from '../screens/seller/profile';
+
+// import {DrawerContent} from '../screens/DrawerContent';
 
 import Icon from 'react-native-vector-icons';
 
@@ -25,83 +23,73 @@ const HomeStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="About" component={About} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 };
 
-// const NotificationsScreen = () => {
+// const AppStack = () => {
 //   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Notifications" component={Notifications} />
-//     </Stack.Navigator>
+//     <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+//       <Drawer.Screen name="Welcome to the App" component={MainBottomTabStack} />
+//       {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
+//     </Drawer.Navigator>
 //   );
 // };
 
-const AppStack = () => {
-  return (
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
-      <Drawer.Screen name="Welcome to the App" component={MainBottomTabStack} />
-      {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
-    </Drawer.Navigator>
-  );
-};
+// const MainBottomTabStack = () => {
+//   return (
+//     <Tab.Navigator
+//       initialRouteName="Home"
+//       activeColor="#fff"
+//       style={{backgroundColor: 'tomato'}}>
+//       <Tab.Screen
+//         name="Home"
+//         component={HomeStackScreen}
+//         options={{
+//           tabBarLabel: 'Home',
+//           tabBarColor: '#FF9900',
+//           tabBarIcon: ({color}) => (
+//             <MaterialCommunityIcons name="home" color={color} size={26} />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Notifications"
+//         component={Notifications}
+//         options={{
+//           tabBarLabel: 'Updates',
+//           tabBarColor: '#FF6699',
+//           tabBarIcon: ({color}) => (
+//             <MaterialCommunityIcons name="bell" color={color} size={26} />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Profile"
+//         component={Profile}
+//         options={{
+//           tabBarLabel: 'Profile',
+//           tabBarColor: '#CC33FF',
+//           tabBarIcon: ({color}) => (
+//             <MaterialCommunityIcons name="account" color={color} size={26} />
+//           ),
+//         }}
+//       />
+//       <Tab.Screen
+//         name="Explore"
+//         component={Explorer}
+//         options={{
+//           tabBarLabel: 'Explore',
+//           tabBarColor: '#CC0000',
+//           tabBarIcon: ({color}) => (
+//             <MaterialIcons name="explore" color={color} size={26} />
+//           ),
+//         }}
+//       />
+//     </Tab.Navigator>
+//   );
+// };
 
-const MainBottomTabStack = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#fff"
-      style={{backgroundColor: 'tomato'}}>
-      <Tab.Screen
-        name="Home"
-        component={HomeStackScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarColor: '#FF9900',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          tabBarLabel: 'Updates',
-          tabBarColor: '#FF6699',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarColor: '#CC33FF',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Explore"
-        component={Explorer}
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarColor: '#CC0000',
-          tabBarIcon: ({color}) => (
-            <MaterialIcons name="explore" color={color} size={26} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-export default AppStack;
+export default HomeStackScreen;
+// export default AppStack;

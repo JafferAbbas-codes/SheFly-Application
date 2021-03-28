@@ -10,15 +10,15 @@ import {
   ScrollView,
 } from 'react-native';
 import Checkbox from 'react-native-check-box';
-import Header from '../shared/header';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
-import {gStyles} from '../styles/global';
+import Header from '../../shared/header';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
+import {gStyles} from '../../styles/global';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function getStarted() {
+export default function EnterAccount() {
   // const [name, onChangeName] = useState('');
   // const [email, onChangeEmail] = useState('');
   // const [pass, onChangePass] = useState('');
@@ -51,7 +51,7 @@ export default function getStarted() {
       <ScrollView style={styles.back}>
         <Header />
         <Image
-          source={require('../assets/step4.jpg')}
+          source={require('../../assets/step4.jpg')}
           style={gStyles.stepImg}
         />
         <Card>

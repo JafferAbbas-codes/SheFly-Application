@@ -9,13 +9,13 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {gStyles} from '../styles/global';
-import Header from '../shared/header';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
+import {gStyles} from '../../styles/global';
+import Header from '../../shared/header';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function getStarted() {
+export default function PhoneNumber() {
   const [value, onChangeText] = React.useState('+92');
   return (
     <TouchableWithoutFeedback
@@ -25,7 +25,7 @@ export default function getStarted() {
       <ScrollView style={styles.back}>
         <Header />
         <Image
-          source={require('../assets/step1.jpg')}
+          source={require('../../assets/step1.jpg')}
           style={gStyles.stepImg}
         />
         <Card>
@@ -39,7 +39,7 @@ export default function getStarted() {
           </View>
           <View style={{flexDirection: 'row'}}>
             <Image
-              source={require('../assets/flag-400.jpg')}
+              source={require('../../assets/flag-400.jpg')}
               style={styles.headerImage}
             />
             <TextInput
