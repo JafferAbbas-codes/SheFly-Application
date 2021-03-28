@@ -9,7 +9,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import FlatButton from './../shared/button.js';
+import FlatButton from '../../shared/button.js';
 import MultiSelect from 'react-native-multiple-select';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
