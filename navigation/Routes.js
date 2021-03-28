@@ -7,12 +7,14 @@ import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './AuthStack.android';
 import AppStack from './AppStack';
 
-import LottieView from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
 
 const Routes = () => {
   // const {user, setUser, loading} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({id: '1', name: 'jaffer'});
+  // const [user, setUser] = useState({id: '1', name: 'jaffer'});
+  const [user, setUser] = useState(null);
+
   const [initializing, setInitializing] = useState(true);
   console.log('loading in routes', loading);
   const onAuthStateChanged = (user) => {
@@ -26,7 +28,7 @@ const Routes = () => {
   //   return subscriber; // unsubscribe on unmount
   // }, []);
 
-  if (initializing) return null;
+  // if (initializing) return null;
 
   return (
     <NavigationContainer>

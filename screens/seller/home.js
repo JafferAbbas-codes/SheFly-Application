@@ -12,10 +12,10 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../shared/header2';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
-import {gStyles} from '../styles/global';
+import Header from '../../shared/header2';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function getStarted() {
   // const [value, onChangeText] = React.useState('42|');
@@ -27,7 +27,7 @@ export default function getStarted() {
   const renderItem = ({item}) => <Item text={item.text} />;
   const Item = ({text}) => (
     <ImageBackground
-      source={require('../assets/i.jpg')}
+      source={require('../../assets/i.jpg')}
       style={{
         width: 120,
         height: 120,
@@ -106,7 +106,10 @@ export default function getStarted() {
         marginHorizontal: 5,
       }}>
       <View style={{height: 75, width: 300, flexDirection: 'row'}}>
-        <Image source={require('../assets/i.jpg')} style={styles.headerImage} />
+        <Image
+          source={require('../../assets/i.jpg')}
+          style={styles.headerImage}
+        />
         <View>
           <Text style={{fontSize: 20, fontWeight: 'bold', margin: 2}}>
             {name}

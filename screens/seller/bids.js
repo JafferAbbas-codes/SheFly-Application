@@ -12,10 +12,10 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../shared/header2';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
-import {gStyles} from '../styles/global';
+import Header from '../../shared/header2';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function jobsDone() {
   // const [value, onChangeText] = React.useState('42|');
@@ -102,10 +102,10 @@ export default function jobsDone() {
         <Text
           style={{
             fontWeight: 'bold',
+            textAlign: 'center',
           }}>
           Booking No: {bookingno}
         </Text>
-        <Text>completed on {date}</Text>
       </View>
       <View
         style={{
@@ -146,6 +146,8 @@ export default function jobsDone() {
           {service}
         </Text>
       </View>
+      <Text>Description:</Text>
+      <Text>Budget:</Text>
     </View>
   );
 
@@ -169,7 +171,7 @@ export default function jobsDone() {
               justifyContent: 'space-between',
               margin: 25,
             }}>
-            Jobs In Progress
+            Bids
           </Text>
         </View>
         <Card>

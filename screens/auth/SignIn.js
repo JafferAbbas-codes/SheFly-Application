@@ -9,14 +9,14 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import Header from '../shared/header';
-import Card from '../shared/card';
-import FlatButton from '../shared/button.js';
+import Header from '../../shared/header';
+import Card from '../../shared/card';
+import FlatButton from '../../shared/button.js';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function getStarted() {
+export default function SignIn() {
   const [name, onChangeName] = useState('');
   const [email, onChangeEmail] = useState('');
   const [pass, onChangePass] = useState('');

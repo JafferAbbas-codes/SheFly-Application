@@ -10,6 +10,8 @@ target 'SheFly' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
+
   target 'SheFlyTests' do
     inherit! :complete
     # Pods for testing
