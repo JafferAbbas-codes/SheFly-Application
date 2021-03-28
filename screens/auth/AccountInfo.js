@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Checkbox from 'react-native-check-box';
-import Header from './../shared/header';
+import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
 import {gStyles} from '../../styles/global';
