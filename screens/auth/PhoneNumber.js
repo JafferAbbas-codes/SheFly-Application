@@ -15,8 +15,11 @@ import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function PhoneNumber() {
+const PhoneNumber = (props) => {
   const [value, onChangeText] = React.useState('+92');
+  const nextPressHandler = () => {
+    props.navigation.navigate('EnterCNIC');
+  };
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -57,12 +60,12 @@ export default function PhoneNumber() {
               value={value}
             />
           </View>
-          <FlatButton text="Next" />
+          <FlatButton text="Next" onPress={nextPressHandler} />
         </Card>
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -93,3 +96,5 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 });
+
+export default PhoneNumber;

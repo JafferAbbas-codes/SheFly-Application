@@ -1,12 +1,13 @@
 import React from 'react';
 //import { AuthProvider } from './AuthProvider.android';
 import Routes from './Routes';
+import {Provider} from 'react-redux';
 
-const Providers = () => {
+const Providers = ({store}) => {
   return (
-    // <AuthProvider>
-    <Routes />
-    // </AuthProvider>
+    <Provider store={store}>
+      <Routes />
+    </Provider>
   );
 };
 

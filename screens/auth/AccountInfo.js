@@ -18,7 +18,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function EnterAccount() {
+const AccountInfo = (props) => {
   // const [name, onChangeName] = useState('');
   // const [email, onChangeEmail] = useState('');
   // const [pass, onChangePass] = useState('');
@@ -146,7 +146,10 @@ export default function EnterAccount() {
                   <Checkbox
                     value={isSelected}
                     onValueChange={setSelection}
-                    onClick={this.handleClick}
+                    onPress={
+                      () => console.log('pressed')
+                      // this.handleClick
+                    }
                   />
                   <Text>
                     I confirm that the above information is right and that i
@@ -162,7 +165,7 @@ export default function EnterAccount() {
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -207,3 +210,5 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 });
+
+export default AccountInfo;

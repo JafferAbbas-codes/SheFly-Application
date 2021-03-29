@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Keyboard,
   ScrollView,
 } from 'react-native';
@@ -16,7 +17,7 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function SignIn() {
+const SignIn = (props) => {
   const [name, onChangeName] = useState('');
   const [email, onChangeEmail] = useState('');
   const [pass, onChangePass] = useState('');
@@ -31,6 +32,9 @@ export default function SignIn() {
       .required('No password provided.')
       .min(8, 'Password is too short - should be 8 chars minimum.'),
   });
+  const signUpPressHandler = () => {
+    props.navigation.navigate('PhoneNumber');
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -96,7 +100,9 @@ export default function SignIn() {
                 </View>
                 <FlatButton text="Login" />
                 <Text style={{marginTop: 30}}>Already have an account?</Text>
-                <Text>Sign Up</Text>
+                <TouchableOpacity onPress={signUpPressHandler}>
+                  <Text>Sign Up</Text>
+                </TouchableOpacity>
               </View>
             )}
           </Formik>
@@ -104,7 +110,7 @@ export default function SignIn() {
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -144,3 +150,5 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 });
+
+export default SignIn;

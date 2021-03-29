@@ -1,15 +1,14 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-// import auth from '@react-native-firebase/auth';
-// import {AuthContext} from './AuthProvider.android';
 
 import AuthStack from './AuthStack.android';
 import AppStack from './AppStack';
 
-// import LottieView from 'lottie-react-native';
+import {connect} from 'react-redux';
 
-const Routes = () => {
+const Routes = (props) => {
+  console.log('props.user', props.user);
   // const {user, setUser, loading} = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState({id: '1', name: 'jaffer'});
@@ -57,4 +56,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Routes;
+const mapStateToProps = (state) => ({
+  user: state.userDetails,
+  loading: state.userDetails.loading,
+});
+
+export default connect(mapStateToProps)(Routes);

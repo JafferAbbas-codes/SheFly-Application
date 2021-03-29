@@ -4,7 +4,7 @@ const initialState = {
   user: null,
   isloggedIn: false,
   token: null,
-  isAdmin: false,
+  userType: false,
   loading: false,
 };
 
@@ -16,14 +16,14 @@ export default function (state = initialState, action) {
         user: action.payload.userCreated,
         token: action.payload.token,
         isloggedIn: true,
-        isAdmin: action.payload.userCreated.isAdmin,
+        userType: action.payload.userCreated.userType,
       };
     case SIGNIN_USER:
       console.log('action.payload', action.payload);
       return {
         ...state,
         user: action.payload.userExist,
-        isAdmin: action.payload.isAdmin,
+        userType: action.payload.userType,
         token: action.payload.token,
         isloggedIn: true,
       };
@@ -33,7 +33,7 @@ export default function (state = initialState, action) {
         user: null,
         isloggedIn: false,
         token: null,
-        isAdmin: false,
+        userType: undefined,
       };
     case SET_LOADING:
       return {

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {TouchableOpacity} from 'react-native';
 import {
   StyleSheet,
   View,
@@ -10,7 +11,10 @@ import {
   ScrollView,
 } from 'react-native';
 
-export default function wantTo() {
+const AccountType = (props) => {
+  const pressHandler = () => {
+    props.navigation.navigate('AccountInfo');
+  };
   return (
     <View
       style={{
@@ -29,21 +33,24 @@ export default function wantTo() {
         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 22}}>
           I want to
         </Text>
-        <View style={styles.option}>
-          <Text style={{fontSize: 16}}>Hire someone for work</Text>
-        </View>
+        <TouchableOpacity onPress={pressHandler}>
+          <View style={styles.option}>
+            <Text style={{fontSize: 16}}>Hire someone for work</Text>
+          </View>
+        </TouchableOpacity>
+
         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
           OR
         </Text>
-        <View style={styles.option}>
-          <Text style={{marginHorizontal: 15, fontSize: 16}}>
-            Work for someone
-          </Text>
-        </View>
+        <TouchableOpacity onPress={pressHandler}>
+          <View style={styles.option}>
+            <Text style={{fontSize: 16}}>Work for someone</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   option: {
     backgroundColor: 'white',
@@ -53,3 +60,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
+
+export default AccountType;

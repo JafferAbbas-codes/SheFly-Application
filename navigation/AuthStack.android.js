@@ -3,9 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SignIn from '../screens/auth/SignIn';
 import EnterCNIC from '../screens/auth/CNIC';
 import AccountType from '../screens/auth/AccountType';
-import EnterNumber from '../screens/auth/PhoneNumber';
 import AccountInfo from '../screens/auth/AccountInfo';
 import SellerBio from '../screens/auth/SellerBio';
+import PhoneNumber from '../screens/auth/PhoneNumber';
 // import { GoogleSignin } from '@react-native-community/google-signin';
 
 const Stack = createStackNavigator();
@@ -23,9 +23,9 @@ const AuthStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="PhoneNumber" component={PhoneNumber} />
       <Stack.Screen name="EnterCNIC" component={EnterCNIC} />
       <Stack.Screen name="AccountType" component={AccountType} />
-      <Stack.Screen name="EnterNumber" component={EnterNumber} />
       <Stack.Screen name="AccountInfo" component={AccountInfo} />
       <Stack.Screen name="SellerBio" component={SellerBio} />
     </Stack.Navigator>
