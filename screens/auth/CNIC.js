@@ -16,10 +16,17 @@ import {gStyles} from '../../styles/global';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const EnterCNIC = (props) => {
-  const [value, onChangeText] = React.useState('42');
+  const [cnic, setCNIC] = React.useState('');
+
+  const handleCNICChange = (inputValue) => {
+    setCNIC(inputValue);
+  };
 
   const nextPressHandler = () => {
-    props.navigation.navigate('AccountType');
+    props.navigation.navigate('AccountType', {
+      ...props.route.params,
+      cnic,
+    });
   };
   return (
     <TouchableWithoutFeedback
@@ -55,9 +62,9 @@ const EnterCNIC = (props) => {
                 backgroundColor: '#FEF8FF',
                 width: 330,
               }}
-              onChangeText={(text) => onChangeText(text)}
+              onChangeText={(text) => handleCNICChange(text)}
               keyboardType="numeric"
-              value={value}
+              value={cnic}
             />
           </View>
           <FlatButton text="Next" onPress={nextPressHandler} />

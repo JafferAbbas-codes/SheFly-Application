@@ -19,10 +19,15 @@ import * as yup from 'yup';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
-  // const [name, onChangeName] = useState('');
-  // const [email, onChangeEmail] = useState('');
-  // const [pass, onChangePass] = useState('');
-  // const [confirmpass, onChangeConf] = useState('');
+  console.log('props in AccountInfo', props);
+  const [accountInfo, setAccountInfo] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
+  const [confirmpass, setConfirmPass] = useState('');
   const changeNameHandler = (val) => {
     setText(val);
   };
@@ -39,9 +44,9 @@ const AccountInfo = (props) => {
       .string()
       .required()
       .oneOf([yup.ref('password'), null], 'Passwords must match'),
-    acceptTerms: yup
-      .bool()
-      .oneOf([true], 'Accept Terms & Conditions is required'),
+    // acceptTerms: yup
+    //   .bool()
+    //   .oneOf([false], 'Accept Terms & Conditions is required'),
   });
   return (
     <TouchableWithoutFeedback
@@ -58,16 +63,23 @@ const AccountInfo = (props) => {
           <Formik
             initialValues={{
               name: '',
-              email: '',
-              password: '',
-              passwordConfirmation: '',
-              acceptTerms: false,
+              email: email,
+              password: pass,
+              passwordConfirmation: confirmpass,
+              // acceptTerms: false,
             }}
             validationSchema={reviewSchema}
             onSubmit={(values, actions) => {
-              actions.resetForm();
+              console.log('form values', values);
+
+              setAccountInfo({
+                name: values.name,
+                email: values.email,
+                password: values.password,
+              });
+              // actions.resetForm();
             }}>
-            {(props) => (
+            {(propss) => (
               <View>
                 <View>
                   <Text
@@ -84,18 +96,33 @@ const AccountInfo = (props) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                   }}>
-                  <Text>Name</Text>
                   <View
                     style={{
+                      flexDirection: 'row',
+                      // backgroundColor: 'red',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text>Name</Text>
+                    {propss.errors.name && propss.touched.name ? (
+                      <Text style={{color: 'red'}}>{propss.errors.name}</Text>
+                    ) : null}
+                  </View>
+                  <View
+                    style={{
+                      // backgroundColor: 'yellow',
                       alignSelf: 'center',
                       marginHorizontal: 50,
                       fontSize: 25,
                     }}>
                     <TextInput
-                      style={styles.input}
-                      onChangeText={(text) => onChangeName(text)}
-                      value={props.values.name}
-                      onBlur={props.handleBlur('Name')}
+                      style={
+                        propss.errors.name && propss.touched.name
+                          ? styles.errorInput
+                          : styles.input
+                      }
+                      onChangeText={propss.handleChange('name')}
+                      value={propss.values.name}
+                      onBlur={propss.handleBlur('name')}
                     />
                   </View>
                   <Text>Email</Text>
@@ -108,9 +135,9 @@ const AccountInfo = (props) => {
                     <TextInput
                       placeholder={'ex abc@example.com'}
                       style={styles.input}
-                      onChangeText={(text) => onChangeEmail(text)}
-                      value={props.values.email}
-                      onBlur={props.handleBlur('Email')}
+                      onChangeText={propss.handleChange('email')}
+                      value={propss.values.email}
+                      onBlur={propss.handleBlur('email')}
                     />
                   </View>
                   <Text>Password</Text>
@@ -122,9 +149,9 @@ const AccountInfo = (props) => {
                     }}>
                     <TextInput
                       style={styles.input}
-                      onChangeText={(text) => onChangePass(text)}
-                      value={props.values.password}
-                      onBlur={props.handleBlur('Password')}
+                      onChangeText={propss.handleChange('password')}
+                      value={propss.values.password}
+                      onBlur={propss.handleBlur('password')}
                     />
                   </View>
                   <Text>Confirm Password</Text>
@@ -136,9 +163,9 @@ const AccountInfo = (props) => {
                     }}>
                     <TextInput
                       style={styles.input}
-                      onChangeText={(text) => onChangeConf(text)}
-                      value={props.values.passwordConfirmation}
-                      onBlur={props.handleBlur('')}
+                      onChangeText={propss.handleChange('passwordConfirmation')}
+                      value={propss.values.passwordConfirmation}
+                      onBlur={propss.handleBlur('passwordConfirmation')}
                     />
                   </View>
                 </View>
@@ -150,14 +177,14 @@ const AccountInfo = (props) => {
                       () => console.log('pressed')
                       // this.handleClick
                     }
+                    onClick={() => console.log('123', propss)}
                   />
                   <Text>
                     I confirm that the above information is right and that i
-                    agree to term and conditions and privacy policies of
-                    monfleek
+                    agree to term and conditions and privacy policies of She-Fly
                   </Text>
                 </View>
-                <FlatButton text="Join" />
+                <FlatButton text="Join" onPress={propss.handleSubmit} />
               </View>
             )}
           </Formik>
@@ -183,7 +210,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 35,
     backgroundColor: '#FEF8FF',
-    width: 330,
+    width: 302,
+  },
+  errorInput: {
+    height: 40,
+    borderColor: 'red',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 35,
+    backgroundColor: '#FEF8FF',
+    width: 302,
   },
   header: {
     paddingLeft: 35,

@@ -12,8 +12,19 @@ import {
 } from 'react-native';
 
 const AccountType = (props) => {
-  const pressHandler = () => {
-    props.navigation.navigate('AccountInfo');
+  const [userType, setUserType] = useState(null);
+  console.log('props', props);
+
+  const handleTypeSelect = (inputValue) => {
+    setUserType(inputValue);
+    pressHandler(inputValue);
+  };
+
+  const pressHandler = (inputValue) => {
+    props.navigation.navigate('AccountInfo', {
+      ...props.route.params,
+      userType: inputValue,
+    });
   };
   return (
     <View
@@ -33,7 +44,7 @@ const AccountType = (props) => {
         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 22}}>
           I want to
         </Text>
-        <TouchableOpacity onPress={pressHandler}>
+        <TouchableOpacity onPress={() => handleTypeSelect('buyer')}>
           <View style={styles.option}>
             <Text style={{fontSize: 16}}>Hire someone for work</Text>
           </View>
@@ -42,7 +53,7 @@ const AccountType = (props) => {
         <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
           OR
         </Text>
-        <TouchableOpacity onPress={pressHandler}>
+        <TouchableOpacity onPress={() => handleTypeSelect('seller')}>
           <View style={styles.option}>
             <Text style={{fontSize: 16}}>Work for someone</Text>
           </View>
