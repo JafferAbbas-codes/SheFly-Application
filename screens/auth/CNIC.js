@@ -15,8 +15,19 @@ import FlatButton from '../../shared/button.js';
 import {gStyles} from '../../styles/global';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function EnterCNIC() {
-  const [value, onChangeText] = React.useState('42|');
+const EnterCNIC = (props) => {
+  const [cnic, setCNIC] = React.useState('');
+
+  const handleCNICChange = (inputValue) => {
+    setCNIC(inputValue);
+  };
+
+  const nextPressHandler = () => {
+    props.navigation.navigate('AccountType', {
+      ...props.route.params,
+      cnic,
+    });
+  };
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -51,17 +62,17 @@ export default function EnterCNIC() {
                 backgroundColor: '#FEF8FF',
                 width: 330,
               }}
-              onChangeText={(text) => onChangeText(text)}
+              onChangeText={(text) => handleCNICChange(text)}
               keyboardType="numeric"
-              value={value}
+              value={cnic}
             />
           </View>
-          <FlatButton text="Next" />
+          <FlatButton text="Next" onPress={nextPressHandler} />
         </Card>
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -92,3 +103,5 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 });
+
+export default EnterCNIC;

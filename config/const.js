@@ -1,4 +1,4 @@
-export const URL = 'https://react-native-chat-app-server.herokuapp.com/';
+export const URL = 'https://she-fly-application-server.herokuapp.com/';
 export const loginRoute = 'auth/login/';
 export const signupRoute = 'auth/signup/';
 export const getAllUser = 'user/';
