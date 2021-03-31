@@ -15,22 +15,47 @@ import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import {connect, useDispatch} from 'react-redux';
+
+import {login, setLoading} from '../../redux/authActions';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const SignIn = (props) => {
-  const [name, onChangeName] = useState('');
-  const [email, onChangeEmail] = useState('');
-  const [pass, onChangePass] = useState('');
-  const [confirmpass, onChangeConf] = useState('');
+  const [error, setError] = useState({responseCode: 200, message: ''});
+  const [buttonLoading, setButtonLoading] = useState(false);
   const changeNameHandler = (val) => {
     setText(val);
   };
+  const loginFunction = async (body) => {
+    try {
+      // await props.setLoading(true);
+      setButtonLoading(true);
+      const result = await props.Login(body);
+      setButtonLoading(false);
+      // console.log("props.user is " , props.user)
+      // await props.setLoading(false);
+      // console.log('result', result);
+      if (result.error) {
+        console.log('result.error', result.error);
+        setError(result.error);
+        //do something here
+      }
+    } catch (error) {
+      console.log('error : ', error);
+    }
+  };
   const reviewSchema = yup.object({
-    email: yup.string().required(),
+    email: yup
+      .string()
+      .required('Email is a required field')
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        'Invalid Email',
+      ),
     password: yup
       .string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.'),
+      .required('Password is a required field')
+      .min(8, 'Password must be atleast 8 characters'),
   });
   const signUpPressHandler = () => {
     props.navigation.navigate('PhoneNumber');
@@ -48,9 +73,15 @@ const SignIn = (props) => {
             initialValues={{email: '', password: ''}}
             validationSchema={reviewSchema}
             onSubmit={(values, actions) => {
-              actions.resetForm();
+              loginFunction({
+                email: values.email,
+                password: values.password,
+              });
+
+              // console.log('form values', values);
+              // actions.resetForm();
             }}>
-            {(props) => (
+            {(propss) => (
               <View>
                 <View>
                   <Text
@@ -67,38 +98,98 @@ const SignIn = (props) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                   }}>
-                  <Text>Email</Text>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      placeholder={'ex abc@example.com'}
-                      style={styles.input}
-                      onChangeText={(text) => onChangeEmail(text)}
-                      value={props.values.email}
-                      onBlur={props.handleBlur('Email')}
-                    />
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Email</Text>
+                    </View>
+                    <View
+                      style={{
+                        // backgroundColor: 'yellow',
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          style={
+                            error.responseCode == 404 ||
+                            (propss.errors.email && propss.touched.email)
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange('email')}
+                          value={propss.values.email}
+                          onBlur={propss.handleBlur('email')}
+                        />
+                        <View style={{width: 215}}>
+                          <Text style={{color: 'red'}}>
+                            {error.responseCode == 404
+                              ? 'Email not found'
+                              : propss.errors.email && propss.touched.email
+                              ? propss.errors.email
+                              : ''}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
                   </View>
-                  <Text>Password</Text>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={(text) => onChangePass(text)}
-                      value={props.values.password}
-                      onBlur={props.handleBlur('Password')}
-                    />
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Password</Text>
+                    </View>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          style={
+                            error.responseCode == 400 ||
+                            (propss.errors.password && propss.touched.password)
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange('password')}
+                          value={propss.values.password}
+                          onBlur={propss.handleBlur('password')}
+                        />
+
+                        <View style={{width: 215}}>
+                          <Text
+                            style={{
+                              color: 'red',
+                            }}>
+                            {error.responseCode == 400
+                              ? error.message
+                              : propss.errors.password &&
+                                propss.touched.password
+                              ? propss.errors.password
+                              : ''}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
                   </View>
+
                   <Text style={{marginBottom: 30}}>Forget Password?</Text>
                 </View>
-                <FlatButton text="Login" />
+                <FlatButton
+                  text="Login"
+                  loading={buttonLoading}
+                  onPress={propss.handleSubmit}
+                />
                 <Text style={{marginTop: 30}}>Already have an account?</Text>
                 <TouchableOpacity onPress={signUpPressHandler}>
                   <Text>Sign Up</Text>
@@ -121,9 +212,18 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    marginBottom: 35,
+    // marginBottom: 35,
     backgroundColor: '#FEF8FF',
-    width: 330,
+    width: 302,
+  },
+  errorInput: {
+    height: 40,
+    borderColor: 'red',
+    borderWidth: 1,
+    borderRadius: 10,
+    // marginBottom: 35,
+    backgroundColor: '#FEF8FF',
+    width: 302,
   },
   header: {
     paddingLeft: 35,
@@ -150,5 +250,15 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 });
-
-export default SignIn;
+const mapStateToProps = (state) => ({
+  temp: state,
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoading: (body) => dispatch(setLoading(body)),
+    Login: (body) => dispatch(login(body)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
