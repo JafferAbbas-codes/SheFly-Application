@@ -33,42 +33,57 @@ const EnterCNIC = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView style={styles.back}>
-        <Header />
-        <Image
-          source={require('../../assets/step3.jpg')}
-          style={gStyles.stepImg}
-        />
-        <Card>
-          <View>
-            <Text style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
-              Enter NIC Number
-            </Text>
-            <Text>Enter 14 Digit National Identity</Text>
-            <Text style={{marginBottom: 40}}>Card Number</Text>
-          </View>
-          <View
-            style={{alignSelf: 'center', marginHorizontal: 50, fontSize: 25}}>
-            <TextInput
+      <ScrollView
+        style={styles.back}
+        contentContainerStyle={{justifyContent: 'space-between'}}>
+        {/* <View
+          style={{
+
+          }}> */}
+        <View>
+          <Header />
+          <Image
+            source={require('../../assets/step3.jpg')}
+            style={gStyles.stepImg}
+          />
+        </View>
+        <View style={{justifyContent: 'flex-end'}}>
+          <Card style={{}}>
+            <View>
+              <Text
+                style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
+                Enter NIC Number
+              </Text>
+              <Text>Enter 14 Digit National Identity Card Number</Text>
+            </View>
+            <View
               style={{
-                height: 40,
-                fontSize: 20,
-                borderColor: 'gray',
-                borderWidth: 1,
-                borderRadius: 10,
-                marginBottom: 50,
-                marginTop: 15,
-                paddingLeft: 15,
-                backgroundColor: '#FEF8FF',
-                width: 330,
-              }}
-              onChangeText={(text) => handleCNICChange(text)}
-              keyboardType="numeric"
-              value={cnic}
-            />
-          </View>
-          <FlatButton text="Next" onPress={nextPressHandler} />
-        </Card>
+                alignSelf: 'center',
+                marginHorizontal: 50,
+                fontSize: 25,
+              }}>
+              <TextInput
+                style={{
+                  height: 40,
+                  fontSize: 20,
+                  borderColor: 'gray',
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginBottom: 50,
+                  marginTop: 15,
+                  paddingLeft: 15,
+                  backgroundColor: '#FEF8FF',
+                  width: 330,
+                }}
+                onChangeText={(text) => handleCNICChange(text)}
+                keyboardType="numeric"
+                value={cnic}
+              />
+            </View>
+            <FlatButton text="Next" onPress={nextPressHandler} />
+          </Card>
+        </View>
+        {/* </View> */}
       </ScrollView>
     </TouchableWithoutFeedback>
   );
@@ -77,6 +92,9 @@ const EnterCNIC = (props) => {
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
+    // backgroundColor: 'yellow',
+    flexDirection: 'column',
+    // justifyContent: 'space-between',
   },
   header: {
     paddingLeft: 35,

@@ -17,32 +17,72 @@ import {gStyles} from '../../styles/global';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
+import {signup, setLoading} from '../../redux/authActions';
+import {connect} from 'react-redux';
+
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
-  console.log('props in AccountInfo', props);
-  const [accountInfo, setAccountInfo] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  const [confirmpass, setConfirmPass] = useState('');
-  const changeNameHandler = (val) => {
-    setText(val);
+  console.log('props', props);
+  // const [accountInfo, setAccountInfo] = useState({
+  //   name: '',
+  //   email: '',
+  //   password: '',
+  // });
+  // const [email, setEmail] = useState('');
+  // const [pass, setPass] = useState('');
+  // const [confirmpass, setConfirmPass] = useState('');
+  const [isSelected, setSelection] = useState(false);
+
+  const handleSubmit = (values) => {
+    console.log(
+      'props in AccountInfo',
+      Object.assign({isActivated: true}, values, props.route.params),
+    );
+    signupFunction(
+      Object.assign({isActivated: true}, values, props.route.params),
+    );
+    console.log('values');
   };
 
-  const [isSelected, setSelection] = useState(false);
+  const signupFunction = async (body) => {
+    try {
+      await props.setLoading(true);
+      const result = await props.signup(body);
+      await props.setLoading(false);
+      console.log('result', result);
+      if (result.error) {
+        console.log('result.error', result.error);
+        //do something here
+      }
+    } catch (error) {
+      console.log('error d: ', error);
+    }
+  };
+
+  const navigateToSampleScreen = () => {
+    // props.navigation.goBack();
+    props.navigation.navigate('SellerBio');
+  };
+
   const reviewSchema = yup.object({
-    name: yup.string().required().min(4),
-    email: yup.string().required(),
+    name: yup
+      .string()
+      .required('Name is a required field')
+      .min(2, 'Name must be atleast 2 characters'),
+    email: yup
+      .string()
+      .required('Email is a required field')
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        'Invalid Email',
+      ),
     password: yup
       .string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.'),
+      .required('Password is a required field')
+      .min(8, 'Password must be atleast 8 characters'),
     passwordConfirmation: yup
       .string()
-      .required()
+      .required('Confirm password is a required field')
       .oneOf([yup.ref('password'), null], 'Passwords must match'),
     // acceptTerms: yup
     //   .bool()
@@ -63,20 +103,24 @@ const AccountInfo = (props) => {
           <Formik
             initialValues={{
               name: '',
-              email: email,
-              password: pass,
-              passwordConfirmation: confirmpass,
+              email: '',
+              password: '',
+              passwordConfirmation: '',
               // acceptTerms: false,
             }}
             validationSchema={reviewSchema}
             onSubmit={(values, actions) => {
-              console.log('form values', values);
+              if (props.route.params.userType == 'seller') {
+                navigateToSampleScreen();
+              } else {
+                handleSubmit({
+                  name: values.name,
+                  email: values.email,
+                  password: values.password,
+                });
+              }
 
-              setAccountInfo({
-                name: values.name,
-                email: values.email,
-                password: values.password,
-              });
+              // console.log('form values', values);
               // actions.resetForm();
             }}>
             {(propss) => (
@@ -96,77 +140,172 @@ const AccountInfo = (props) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      // backgroundColor: 'red',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text>Name</Text>
-                    {propss.errors.name && propss.touched.name ? (
-                      <Text style={{color: 'red'}}>{propss.errors.name}</Text>
-                    ) : null}
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Name</Text>
+                    </View>
+                    <View
+                      style={{
+                        // backgroundColor: 'yellow',
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          style={
+                            propss.errors.name && propss.touched.name
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange('name')}
+                          value={propss.values.name}
+                          onBlur={propss.handleBlur('name')}
+                        />
+                        {/* {propss.errors.name && propss.touched.name ? ( */}
+                        <View style={{width: 215}}>
+                          <Text style={{color: 'red'}}>
+                            {propss.errors.name && propss.touched.name
+                              ? propss.errors.name
+                              : ''}
+                          </Text>
+                        </View>
+                        {/* ) : null} */}
+                      </View>
+                    </View>
                   </View>
-                  <View
-                    style={{
-                      // backgroundColor: 'yellow',
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      style={
-                        propss.errors.name && propss.touched.name
-                          ? styles.errorInput
-                          : styles.input
-                      }
-                      onChangeText={propss.handleChange('name')}
-                      value={propss.values.name}
-                      onBlur={propss.handleBlur('name')}
-                    />
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Email</Text>
+                    </View>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          placeholder={'ex abc@example.com'}
+                          style={
+                            propss.errors.email && propss.touched.email
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange('email')}
+                          value={propss.values.email}
+                          onBlur={propss.handleBlur('email')}
+                        />
+                        {/* {propss.errors.email && propss.touched.email ? ( */}
+                        <View style={{width: 215}}>
+                          <Text style={{color: 'red'}}>
+                            {propss.errors.email && propss.touched.email
+                              ? propss.errors.email
+                              : ''}
+                          </Text>
+                        </View>
+                        {/* ) : null} */}
+                      </View>
+                    </View>
                   </View>
-                  <Text>Email</Text>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      placeholder={'ex abc@example.com'}
-                      style={styles.input}
-                      onChangeText={propss.handleChange('email')}
-                      value={propss.values.email}
-                      onBlur={propss.handleBlur('email')}
-                    />
+
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Password</Text>
+                    </View>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          style={
+                            propss.errors.password && propss.touched.password
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange('password')}
+                          value={propss.values.password}
+                          onBlur={propss.handleBlur('password')}
+                        />
+
+                        {/* {propss.errors.password && propss.touched.password ? ( */}
+                        <View style={{width: 215}}>
+                          <Text
+                            style={{
+                              color: 'red',
+                            }}>
+                            {propss.errors.password && propss.touched.password
+                              ? propss.errors.password
+                              : ''}
+                          </Text>
+                        </View>
+                        {/* ) : null} */}
+                      </View>
+                    </View>
                   </View>
-                  <Text>Password</Text>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={propss.handleChange('password')}
-                      value={propss.values.password}
-                      onBlur={propss.handleBlur('password')}
-                    />
-                  </View>
-                  <Text>Confirm Password</Text>
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
-                      fontSize: 25,
-                    }}>
-                    <TextInput
-                      style={styles.input}
-                      onChangeText={propss.handleChange('passwordConfirmation')}
-                      value={propss.values.passwordConfirmation}
-                      onBlur={propss.handleBlur('passwordConfirmation')}
-                    />
+                  <View style={{marginBottom: 7}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // backgroundColor: 'red',
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text>Confirm Password</Text>
+                    </View>
+                    <View
+                      style={{
+                        alignSelf: 'center',
+                        marginHorizontal: 50,
+                        fontSize: 25,
+                      }}>
+                      <View>
+                        <TextInput
+                          style={
+                            propss.errors.passwordConfirmation &&
+                            propss.touched.passwordConfirmation
+                              ? styles.errorInput
+                              : styles.input
+                          }
+                          onChangeText={propss.handleChange(
+                            'passwordConfirmation',
+                          )}
+                          value={propss.values.passwordConfirmation}
+                          onBlur={propss.handleBlur('passwordConfirmation')}
+                        />
+                        {/* {propss.errors.passwordConfirmation &&
+                        propss.touched.passwordConfirmation ? ( */}
+                        <View style={{width: 215}}>
+                          <Text
+                            style={{
+                              color: 'red',
+                            }}>
+                            {propss.errors.passwordConfirmation &&
+                            propss.touched.passwordConfirmation
+                              ? propss.errors.passwordConfirmation
+                              : ''}
+                          </Text>
+                        </View>
+                        {/* ) : null} */}
+                      </View>
+                    </View>
                   </View>
                 </View>
                 <View style={styles.checkbox}>
@@ -174,7 +313,12 @@ const AccountInfo = (props) => {
                     value={isSelected}
                     onValueChange={setSelection}
                     onPress={
-                      () => console.log('pressed')
+                      () =>
+                        console.log(
+                          'pressed',
+                          propss.errors.password,
+                          'pressed',
+                        )
                       // this.handleClick
                     }
                     onClick={() => console.log('123', propss)}
@@ -208,7 +352,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    marginBottom: 35,
+    // marginBottom: 35,
     backgroundColor: '#FEF8FF',
     width: 302,
   },
@@ -217,7 +361,7 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 1,
     borderRadius: 10,
-    marginBottom: 35,
+    // marginBottom: 35,
     backgroundColor: '#FEF8FF',
     width: 302,
   },
@@ -247,4 +391,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountInfo;
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoading: (body) => dispatch(setLoading(body)),
+    signup: (body) => dispatch(signup(body)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);

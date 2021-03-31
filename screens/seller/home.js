@@ -17,7 +17,11 @@ import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function getStarted() {
+
+import {logout} from '../../redux/authActions';
+import {connect} from 'react-redux';
+
+const Home = (props) => {
   // const [value, onChangeText] = React.useState('42|');
   const [Servises, setServises] = useState([
     {text: 'Cooking', key: '1'},
@@ -153,15 +157,18 @@ export default function getStarted() {
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
-              }}>
-              Popular Services
-            </Text>
+            <TouchableWithoutFeedback onPress={props.logout}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  marginBottom: 15,
+                  width: 200,
+                }}>
+                Popular Services
+              </Text>
+            </TouchableWithoutFeedback>
+
             <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
               see all
             </Text>
@@ -202,7 +209,7 @@ export default function getStarted() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -243,3 +250,14 @@ const styles = StyleSheet.create({
   },
   headerTitle: {},
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

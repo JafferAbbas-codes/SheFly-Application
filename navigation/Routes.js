@@ -10,15 +10,15 @@ import {connect} from 'react-redux';
 const Routes = (props) => {
   console.log('props.user', props.user);
   // const {user, setUser, loading} = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState({id: '1', name: 'jaffer'});
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   const [initializing, setInitializing] = useState(true);
-  console.log('loading in routes', loading);
+  // console.log('loading in routes', props.loading);
   const onAuthStateChanged = (user) => {
     console.log('user is', user);
-    setUser(user);
+    // setUser(user);
     if (initializing) setInitializing(false);
   };
 
@@ -31,11 +31,11 @@ const Routes = (props) => {
 
   return (
     <NavigationContainer>
-      {loading ? (
+      {props.loading ? (
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="yellow" />
         </View>
-      ) : user ? (
+      ) : props.user.isloggedIn ? (
         <AppStack />
       ) : (
         <AuthStack />
