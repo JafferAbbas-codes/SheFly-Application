@@ -12,7 +12,7 @@ import {
 import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
-import {gStyles} from '../../styles/global';
+import { gStyles } from '../../styles/global';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const EnterCNIC = (props) => {
@@ -35,7 +35,7 @@ const EnterCNIC = (props) => {
       }}>
       <ScrollView
         style={styles.back}
-        contentContainerStyle={{justifyContent: 'space-between'}}>
+        contentContainerStyle={{ justifyContent: 'space-between' }}>
         {/* <View
           style={{
 
@@ -43,15 +43,15 @@ const EnterCNIC = (props) => {
         <View>
           <Header />
           <Image
-            source={require('../../assets/step3.jpg')}
+            source={require('../../assets/stepper2.png')}
             style={gStyles.stepImg}
           />
         </View>
-        <View style={{justifyContent: 'flex-end'}}>
+        <View style={{ justifyContent: 'flex-end' }}>
           <Card style={{}}>
             <View>
               <Text
-                style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
+                style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 15 }}>
                 Enter NIC Number
               </Text>
               <Text>Enter 14 Digit National Identity Card Number</Text>

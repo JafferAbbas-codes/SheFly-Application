@@ -1,10 +1,11 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 export const gStyles = StyleSheet.create({
   stepImg: {
     backgroundColor: '#B0389F',
     alignSelf: 'center',
     marginVertical: 40,
-    // width: 300,
+    width: 239,
+    height: 20
   },
 });
 export const images = {

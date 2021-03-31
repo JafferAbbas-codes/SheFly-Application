@@ -9,7 +9,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {gStyles} from '../../styles/global';
+import { gStyles } from '../../styles/global';
 import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
@@ -41,14 +41,14 @@ const PhoneNumber = (props) => {
         />
         <Card>
           <View>
-            <Text style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 15 }}>
               Let's Get Started
             </Text>
-            <Text style={{marginBottom: 40}}>
+            <Text style={{ marginBottom: 40 }}>
               Enter your phone number to begin
             </Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
               source={require('../../assets/flag-400.jpg')}
               style={styles.headerImage}
