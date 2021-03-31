@@ -23,9 +23,9 @@ export const login = (body) => async (dispatch) => {
 
 export const signup = (body) => async (dispatch) => {
   try {
-    console.log('in signup', body);
+    console.log('in authActions in function', body);
     let response = await axios.post(`${URL}${signupRoute}`, body);
-    console.log('response', response);
+    console.log('in authActions got response', response);
 
     await dispatch({
       type: SIGNUP_USER,

@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
         token: action.payload.token,
         isloggedIn: true,
         userType: action.payload.userCreated.userType,
+        loading: false,
       };
     case SIGNIN_USER:
       console.log('action.payload', action.payload);
@@ -26,6 +27,7 @@ export default function (state = initialState, action) {
         userType: action.payload.userType,
         token: action.payload.token,
         isloggedIn: true,
+        loading: false,
       };
     case CLEAR_USER:
       return {
