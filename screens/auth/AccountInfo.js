@@ -32,6 +32,7 @@ const AccountInfo = (props) => {
   // const [pass, setPass] = useState('');
   // const [confirmpass, setConfirmPass] = useState('');
   const [isSelected, setSelection] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const handleSubmit = (values) => {
     console.log(
@@ -46,9 +47,11 @@ const AccountInfo = (props) => {
 
   const signupFunction = async (body) => {
     try {
-      await props.setLoading(true);
+      // await props.setLoading(true);
+      setButtonLoading(true);
       const result = await props.signup(body);
-      await props.setLoading(false);
+      setButtonLoading(false);
+      // await props.setLoading(false);
       console.log('result', result);
       if (result.error) {
         console.log('result.error', result.error);
@@ -179,6 +182,7 @@ const AccountInfo = (props) => {
                       </View>
                     </View>
                   </View>
+
                   <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
@@ -261,6 +265,7 @@ const AccountInfo = (props) => {
                       </View>
                     </View>
                   </View>
+
                   <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
@@ -328,7 +333,11 @@ const AccountInfo = (props) => {
                     agree to term and conditions and privacy policies of She-Fly
                   </Text>
                 </View>
-                <FlatButton text="Join" onPress={propss.handleSubmit} />
+                <FlatButton
+                  text="Join"
+                  loading={buttonLoading}
+                  onPress={propss.handleSubmit}
+                />
               </View>
             )}
           </Formik>
