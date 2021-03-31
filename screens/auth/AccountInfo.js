@@ -22,6 +22,7 @@ import {connect} from 'react-redux';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
+  console.log('props', props);
   // const [accountInfo, setAccountInfo] = useState({
   //   name: '',
   //   email: '',
@@ -109,7 +110,7 @@ const AccountInfo = (props) => {
             }}
             validationSchema={reviewSchema}
             onSubmit={(values, actions) => {
-              if (props.userType == 'seller') {
+              if (props.route.params.userType == 'seller') {
                 navigateToSampleScreen();
               } else {
                 handleSubmit({
