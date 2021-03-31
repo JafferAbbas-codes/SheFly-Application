@@ -36,7 +36,7 @@ const PhoneNumber = (props) => {
       <ScrollView style={styles.back}>
         <Header />
         <Image
-          source={require('../../assets/step1.jpg')}
+          source={require('../../assets/stepper1.png')}
           style={gStyles.stepImg}
         />
         <Card>
