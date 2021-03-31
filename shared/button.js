@@ -1,11 +1,24 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 
-export default function FlatButton({text, onPress}) {
+export default function FlatButton(props) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={props.onPress}>
       <View style={styles.button}>
-        <Text style={styles.buttonText}>{text}</Text>
+        <Text style={styles.buttonText}>
+          {props.loading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            props.text
+          )}
+          {/* {props.text} */}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -13,6 +26,8 @@ export default function FlatButton({text, onPress}) {
 
 const styles = StyleSheet.create({
   button: {
+    height: 50,
+    // height: 46,
     borderRadius: 20,
     paddingVertical: 14,
     marginHorizontal: 70,
@@ -23,7 +38,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
+    // flexDirection: 'row',
+    // alignContent: 'center',
+    // justifyContent: 'center',
   },
 });
