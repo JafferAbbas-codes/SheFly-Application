@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -13,12 +13,12 @@ import Checkbox from 'react-native-check-box';
 import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
-import {gStyles} from '../../styles/global';
-import {Formik} from 'formik';
+import { gStyles } from '../../styles/global';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 
-import {signup, setLoading} from '../../redux/authActions';
-import {connect} from 'react-redux';
+import { signup, setLoading } from '../../redux/authActions';
+import { connect } from 'react-redux';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
@@ -37,10 +37,10 @@ const AccountInfo = (props) => {
   const handleSubmit = (values) => {
     console.log(
       'props in AccountInfo',
-      Object.assign({isActivated: true}, values, props.route.params),
+      Object.assign({ isActivated: true }, values, props.route.params),
     );
     signupFunction(
-      Object.assign({isActivated: true}, values, props.route.params),
+      Object.assign({ isActivated: true }, values, props.route.params),
     );
     console.log('values');
   };
@@ -99,7 +99,7 @@ const AccountInfo = (props) => {
       <ScrollView style={styles.back}>
         <Header />
         <Image
-          source={require('../../assets/step4.jpg')}
+          source={require('../../assets/stepper3.png')}
           style={gStyles.stepImg}
         />
         <Card>
@@ -143,7 +143,7 @@ const AccountInfo = (props) => {
                     flexDirection: 'column',
                     alignContent: 'space-around',
                   }}>
-                  <View style={{marginBottom: 7}}>
+                  <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -171,8 +171,8 @@ const AccountInfo = (props) => {
                           onBlur={propss.handleBlur('name')}
                         />
                         {/* {propss.errors.name && propss.touched.name ? ( */}
-                        <View style={{width: 215}}>
-                          <Text style={{color: 'red'}}>
+                        <View style={{ width: 215 }}>
+                          <Text style={{ color: 'red' }}>
                             {propss.errors.name && propss.touched.name
                               ? propss.errors.name
                               : ''}
@@ -183,7 +183,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{marginBottom: 7}}>
+                  <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -211,8 +211,8 @@ const AccountInfo = (props) => {
                           onBlur={propss.handleBlur('email')}
                         />
                         {/* {propss.errors.email && propss.touched.email ? ( */}
-                        <View style={{width: 215}}>
-                          <Text style={{color: 'red'}}>
+                        <View style={{ width: 215 }}>
+                          <Text style={{ color: 'red' }}>
                             {propss.errors.email && propss.touched.email
                               ? propss.errors.email
                               : ''}
@@ -223,7 +223,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{marginBottom: 7}}>
+                  <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -251,7 +251,7 @@ const AccountInfo = (props) => {
                         />
 
                         {/* {propss.errors.password && propss.touched.password ? ( */}
-                        <View style={{width: 215}}>
+                        <View style={{ width: 215 }}>
                           <Text
                             style={{
                               color: 'red',
@@ -266,7 +266,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{marginBottom: 7}}>
+                  <View style={{ marginBottom: 7 }}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -285,7 +285,7 @@ const AccountInfo = (props) => {
                         <TextInput
                           style={
                             propss.errors.passwordConfirmation &&
-                            propss.touched.passwordConfirmation
+                              propss.touched.passwordConfirmation
                               ? styles.errorInput
                               : styles.input
                           }
@@ -297,13 +297,13 @@ const AccountInfo = (props) => {
                         />
                         {/* {propss.errors.passwordConfirmation &&
                         propss.touched.passwordConfirmation ? ( */}
-                        <View style={{width: 215}}>
+                        <View style={{ width: 215 }}>
                           <Text
                             style={{
                               color: 'red',
                             }}>
                             {propss.errors.passwordConfirmation &&
-                            propss.touched.passwordConfirmation
+                              propss.touched.passwordConfirmation
                               ? propss.errors.passwordConfirmation
                               : ''}
                           </Text>
