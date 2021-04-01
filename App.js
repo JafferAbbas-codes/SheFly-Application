@@ -1,5 +1,5 @@
 import React from 'react';
-import {store} from './redux/configureStore.js';
+import { store } from './redux/configureStore.js';
 // import {StyleSheet, View, Text} from 'react-native';
 // import Navigator from './routes/homeStack';
 // import EnterCode from './components/entercode';
@@ -18,6 +18,7 @@ import {store} from './redux/configureStore.js';
 // import JobsinProgress from './components/jobsinprogress';
 // import Bids from './components/bids';
 // import BidDetails from './components/biddetails';
+// import ServiceSeller from './screens/Buyer/ServiceSeller';
 
 import Providers from './navigation';
 
@@ -40,6 +41,7 @@ export default function App() {
   //   // <JobsinProgress />
   //   // <Bids />
   //   <BidDetails />
+  // <ServiceSeller />
   // );
   return <Providers store={store} />;
 }
