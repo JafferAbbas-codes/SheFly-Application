@@ -34,7 +34,7 @@ export default function getStarted() {
             style={{
                 height: 120,
                 borderRadius: 20,
-                margin: 10.5,
+                margin: 10,
                 flex: 1,
                 overflow: 'hidden',
             }}>
