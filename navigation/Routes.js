@@ -8,7 +8,7 @@ import AppStack from './AppStack';
 import {connect} from 'react-redux';
 
 const Routes = (props) => {
-  console.log('props.user', props.user);
+  console.log('props.user in routes', props);
   // const {user, setUser, loading} = useContext(AuthContext);
   // const [loading, setLoading] = useState(false);
   // const [user, setUser] = useState({id: '1', name: 'jaffer'});
@@ -35,8 +35,8 @@ const Routes = (props) => {
         <View style={[styles.container, styles.horizontal]}>
           <ActivityIndicator size="large" color="yellow" />
         </View>
-      ) : props.user.isloggedIn ? (
-        <AppStack />
+      ) : props.isloggedIn ? (
+        <AppStack user={props.user} />
       ) : (
         <AuthStack />
       )}
@@ -57,8 +57,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  user: state.userDetails,
+  user: state.userDetails.user,
   loading: state.userDetails.loading,
+  isloggedIn: state.userDetails.isloggedIn,
 });
 
 export default connect(mapStateToProps)(Routes);

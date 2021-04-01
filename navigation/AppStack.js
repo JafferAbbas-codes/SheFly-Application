@@ -1,4 +1,5 @@
 import React from 'react';
+import {Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -7,7 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Home from '../screens/seller/home';
 import Profile from '../screens/seller/profile';
-
+import BuyerStack from './BuyerStack';
 // import {DrawerContent} from '../screens/DrawerContent';
 
 import Icon from 'react-native-vector-icons';
@@ -16,80 +17,15 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
-const HomeStackScreen = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Profile" component={Profile} />
-    </Stack.Navigator>
+const AppStack = (props) => {
+  console.log('props in appstack', props);
+  return props.user.userType == 'buyer' ? (
+    <BuyerStack />
+  ) : props.user.userType == 'seller' ? (
+    <Text>SellerStack not ready</Text>
+  ) : (
+    <Text>AdminStack not ready</Text>
   );
 };
 
-// const AppStack = () => {
-//   return (
-//     <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
-//       <Drawer.Screen name="Welcome to the App" component={MainBottomTabStack} />
-//       {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
-//     </Drawer.Navigator>
-//   );
-// };
-
-// const MainBottomTabStack = () => {
-//   return (
-//     <Tab.Navigator
-//       initialRouteName="Home"
-//       activeColor="#fff"
-//       style={{backgroundColor: 'tomato'}}>
-//       <Tab.Screen
-//         name="Home"
-//         component={HomeStackScreen}
-//         options={{
-//           tabBarLabel: 'Home',
-//           tabBarColor: '#FF9900',
-//           tabBarIcon: ({color}) => (
-//             <MaterialCommunityIcons name="home" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Notifications"
-//         component={Notifications}
-//         options={{
-//           tabBarLabel: 'Updates',
-//           tabBarColor: '#FF6699',
-//           tabBarIcon: ({color}) => (
-//             <MaterialCommunityIcons name="bell" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Profile"
-//         component={Profile}
-//         options={{
-//           tabBarLabel: 'Profile',
-//           tabBarColor: '#CC33FF',
-//           tabBarIcon: ({color}) => (
-//             <MaterialCommunityIcons name="account" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//       <Tab.Screen
-//         name="Explore"
-//         component={Explorer}
-//         options={{
-//           tabBarLabel: 'Explore',
-//           tabBarColor: '#CC0000',
-//           tabBarIcon: ({color}) => (
-//             <MaterialIcons name="explore" color={color} size={26} />
-//           ),
-//         }}
-//       />
-//     </Tab.Navigator>
-//   );
-// };
-
-export default HomeStackScreen;
-// export default AppStack;
+export default AppStack;
