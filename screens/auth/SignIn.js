@@ -66,139 +66,146 @@ const SignIn = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView style={styles.back}>
+      <View style={styles.back}>
         <Header />
-        <Card>
-          <Formik
-            initialValues={{email: '', password: ''}}
-            validationSchema={reviewSchema}
-            onSubmit={(values, actions) => {
-              loginFunction({
-                email: values.email,
-                password: values.password,
-              });
+        <ScrollView>
+          <Card>
+            <Formik
+              initialValues={{email: '', password: ''}}
+              validationSchema={reviewSchema}
+              onSubmit={(values, actions) => {
+                loginFunction({
+                  email: values.email,
+                  password: values.password,
+                });
 
-              // console.log('form values', values);
-              // actions.resetForm();
-            }}>
-            {(propss) => (
-              <View>
+                // console.log('form values', values);
+                // actions.resetForm();
+              }}>
+              {(propss) => (
                 <View>
-                  <Text
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 25,
+                        marginBottom: 15,
+                      }}>
+                      Welcome Back
+                    </Text>
+                  </View>
+                  <View
                     style={{
-                      fontWeight: 'bold',
-                      fontSize: 25,
-                      marginBottom: 15,
+                      flexDirection: 'column',
+                      alignContent: 'space-around',
                     }}>
-                    Welcome Back
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'column',
-                    alignContent: 'space-around',
-                  }}>
-                  <View style={{marginBottom: 7}}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        // backgroundColor: 'red',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text>Email</Text>
-                    </View>
-                    <View
-                      style={{
-                        // backgroundColor: 'yellow',
-                        alignSelf: 'center',
-                        marginHorizontal: 50,
-                        fontSize: 25,
-                      }}>
-                      <View>
-                        <TextInput
-                          style={
-                            error.responseCode == 404 ||
-                            (propss.errors.email && propss.touched.email)
-                              ? styles.errorInput
-                              : styles.input
-                          }
-                          onChangeText={propss.handleChange('email')}
-                          value={propss.values.email}
-                          onBlur={propss.handleBlur('email')}
-                        />
-                        <View style={{width: 215}}>
-                          <Text style={{color: 'red'}}>
-                            {error.responseCode == 404
-                              ? 'Email not found'
-                              : propss.errors.email && propss.touched.email
-                              ? propss.errors.email
-                              : ''}
-                          </Text>
+                    <View style={{marginBottom: 7}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          // backgroundColor: 'red',
+                          justifyContent: 'space-between',
+                        }}>
+                        <Text>Email</Text>
+                      </View>
+                      <View
+                        style={{
+                          // backgroundColor: 'yellow',
+                          alignSelf: 'center',
+                          marginHorizontal: 50,
+                          fontSize: 25,
+                        }}>
+                        <View>
+                          <TextInput
+                            style={
+                              error.responseCode == 404 ||
+                              (propss.errors.email && propss.touched.email)
+                                ? styles.errorInput
+                                : styles.input
+                            }
+                            onChangeText={propss.handleChange('email')}
+                            value={propss.values.email}
+                            onBlur={propss.handleBlur('email')}
+                          />
+                          <View style={{width: 215}}>
+                            <Text style={{color: 'red'}}>
+                              {error.responseCode == 404
+                                ? 'Email not found'
+                                : propss.errors.email && propss.touched.email
+                                ? propss.errors.email
+                                : ''}
+                            </Text>
+                          </View>
                         </View>
                       </View>
                     </View>
-                  </View>
-                  <View style={{marginBottom: 7}}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        // backgroundColor: 'red',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text>Password</Text>
-                    </View>
-                    <View
-                      style={{
-                        alignSelf: 'center',
-                        marginHorizontal: 50,
-                        fontSize: 25,
-                      }}>
-                      <View>
-                        <TextInput
-                          style={
-                            error.responseCode == 400 ||
-                            (propss.errors.password && propss.touched.password)
-                              ? styles.errorInput
-                              : styles.input
-                          }
-                          onChangeText={propss.handleChange('password')}
-                          value={propss.values.password}
-                          onBlur={propss.handleBlur('password')}
-                        />
+                    <View style={{marginBottom: 7}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          // backgroundColor: 'red',
+                          justifyContent: 'space-between',
+                        }}>
+                        <Text>Password</Text>
+                      </View>
+                      <View
+                        style={{
+                          alignSelf: 'center',
+                          marginHorizontal: 50,
+                          fontSize: 25,
+                        }}>
+                        <View>
+                          <TextInput
+                            style={
+                              error.responseCode == 400 ||
+                              (propss.errors.password &&
+                                propss.touched.password)
+                                ? styles.errorInput
+                                : styles.input
+                            }
+                            type="password"
+                            // placeholder="********"
+                            secureTextEntry={true}
+                            autoCompleteType="password"
+                            onChangeText={propss.handleChange('password')}
+                            value={propss.values.password}
+                            onBlur={propss.handleBlur('password')}
+                          />
 
-                        <View style={{width: 215}}>
-                          <Text
-                            style={{
-                              color: 'red',
-                            }}>
-                            {error.responseCode == 400
-                              ? error.message
-                              : propss.errors.password &&
-                                propss.touched.password
-                              ? propss.errors.password
-                              : ''}
-                          </Text>
+                          <View style={{width: 215}}>
+                            <Text
+                              style={{
+                                color: 'red',
+                              }}>
+                              {error.responseCode == 400
+                                ? error.message
+                                : propss.errors.password &&
+                                  propss.touched.password
+                                ? propss.errors.password
+                                : ''}
+                            </Text>
+                          </View>
                         </View>
                       </View>
                     </View>
-                  </View>
 
-                  <Text style={{marginBottom: 30}}>Forget Password?</Text>
+                    <Text style={{marginBottom: 30}}>Forget Password?</Text>
+                  </View>
+                  <FlatButton
+                    text="Login"
+                    loading={buttonLoading}
+                    onPress={propss.handleSubmit}
+                  />
+                  <Text style={{marginTop: 30}}>Don't have an account?</Text>
+                  <TouchableOpacity onPress={signUpPressHandler}>
+                    <Text>Sign Up</Text>
+                  </TouchableOpacity>
                 </View>
-                <FlatButton
-                  text="Login"
-                  loading={buttonLoading}
-                  onPress={propss.handleSubmit}
-                />
-                <Text style={{marginTop: 30}}>Already have an account?</Text>
-                <TouchableOpacity onPress={signUpPressHandler}>
-                  <Text>Sign Up</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </Formik>
-        </Card>
-      </ScrollView>
+              )}
+            </Formik>
+          </Card>
+        </ScrollView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -215,6 +222,9 @@ const styles = StyleSheet.create({
     // marginBottom: 35,
     backgroundColor: '#FEF8FF',
     width: 302,
+    padding: 10,
+    // paddingVertical: 0,
+    fontSize: 16,
   },
   errorInput: {
     height: 40,
@@ -224,6 +234,9 @@ const styles = StyleSheet.create({
     // marginBottom: 35,
     backgroundColor: '#FEF8FF',
     width: 302,
+    padding: 10,
+    // paddingVertical: 0,
+    fontSize: 16,
   },
   header: {
     paddingLeft: 35,
