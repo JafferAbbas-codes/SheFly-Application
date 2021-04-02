@@ -4,9 +4,11 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/buyer/Home';
 import AllServices from '../screens/buyer/allServices';
+import Messaging from '../screens/buyer/Messaging';
 // import About from '../screens/About';
 // import Notifications from '../screens/Notifications';
 // import Profile from '../screens/Profile';
@@ -46,6 +48,17 @@ const MainBottomTabStack = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name="ChatStackScreen"
+        component={ChatStackScreen}
+        options={{
+          tabBarLabel: 'Chats',
+          tabBarColor: '#CC0000',
+          tabBarIcon: ({color}) => (
+            <Ionicons name="chatbox-ellipses-outline" color={color} size={26} />
+          ),
+        }}
+      />
       {/* <Tab.Screen
           name="Notifications"
           component={Notifications}
@@ -68,17 +81,7 @@ const MainBottomTabStack = () => {
             ),
           }}
         />
-        <Tab.Screen
-          name="ChatStackScreen"
-          component={ChatStackScreen}
-          options={{
-            tabBarLabel: 'Users',
-            tabBarColor: '#CC0000',
-            tabBarIcon: ({color}) => (
-              <MaterialIcons name="explore" color={color} size={26} />
-            ),
-          }}
-        /> */}
+        */}
     </Tab.Navigator>
   );
 };
@@ -94,16 +97,16 @@ const HomeStackScreen = () => {
     </Stack.Navigator>
   );
 };
-//   const ChatStackScreen = () => {
-//     return (
-//       <Stack.Navigator
-//         screenOptions={{
-//           headerShown: false,
-//         }}>
-//         <Stack.Screen name="Users" component={Users} />
-//         <Stack.Screen name="Explorer" component={Explorer} />
-//       </Stack.Navigator>
-//     );
-//   };
+const ChatStackScreen = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Messaging" component={Messaging} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
 
 export default BuyerStack;

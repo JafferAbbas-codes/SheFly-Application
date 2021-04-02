@@ -53,14 +53,22 @@ const items = [
 ];
 
 export default class MultiSelectExample extends Component {
-  state = {
-    selectedItems: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItems: [],
+      bio: [],
+    };
+  }
+  // state = {
+  //   selectedItems: [],
+  //   bio: [],
+  // };
   onSelectedItemsChange = (selectedItems) => {
     this.setState({selectedItems});
   };
   render() {
-    const {selectedItems} = this.state;
+    // const {selectedItems} = this.state;
     return (
       <View
         style={{
@@ -75,7 +83,12 @@ export default class MultiSelectExample extends Component {
             Write a short bio
           </Text>
           <View style={styles.option}>
-            <TextInput style={{fontSize: 16}} />
+            <TextInput
+              style={{fontSize: 18}}
+              value={this.state.bio}
+              multiline={true}
+              onChangeText={(text) => this.setState({bio: text})}
+            />
           </View>
           <Text style={{fontWeight: 'bold', fontSize: 22}}>Select Skills</Text>
           <View style={styles.container}>
@@ -86,7 +99,7 @@ export default class MultiSelectExample extends Component {
                 uniqueKey="id"
                 // ref={(component => this.multiSelect(component))}
                 onSelectedItemsChange={this.onSelectedItemsChange}
-                selectedItems={selectedItems}
+                selectedItems={this.state.selectedItems}
                 selectText="   Pick Items"
                 searchInputPlaceholderText="Search Items..."
                 onChangeInput={(text) => console.log(text)}
@@ -123,6 +136,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 130,
     borderRadius: 20,
+    padding: 10,
   },
   multisel: {
     marginVertical: 40,
