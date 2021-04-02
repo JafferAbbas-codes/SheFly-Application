@@ -1,6 +1,6 @@
 import {SIGNIN_USER, SIGNUP_USER, CLEAR_USER, SET_LOADING} from './ActionTypes';
 import axios from 'axios';
-import {URL, loginRoute, signupRoute} from '../config/const';
+import {URL, loginRoute, signupRoute, verifyCNIC} from '../config/const';
 
 export const login = (body) => async (dispatch) => {
   try {
@@ -36,6 +36,26 @@ export const signup = (body) => async (dispatch) => {
   } catch (error) {
     if (error?.response?.data?.result) {
       console.log('error123 signin : ', error.response.data);
+      return {error: error.response.data.result};
+    }
+  }
+};
+
+export const verifyCNIC = (body) => async (dispatch) => {
+  try {
+    console.log('in authActions in verifyCNIC', body);
+    let response = await axios.post(`${URL}${verifyCNIC}`, body);
+    console.log('in authActions got response verifyCNIC', response);
+
+    // await dispatch({
+    //   type: VERIFY_CNIC,
+    //   payload: response.data.result,
+    // });
+
+    return response.data.result;
+  } catch (error) {
+    if (error?.response?.data?.result) {
+      console.log('error123 verifyCNIC : ', error.response.data);
       return {error: error.response.data.result};
     }
   }
