@@ -13,14 +13,43 @@ import Header from '../../shared/header';
 import Card from '../../shared/card';
 import FlatButton from '../../shared/button.js';
 import { gStyles } from '../../styles/global';
+import { ActivityIndicator } from 'react-native';
+import { verifyCNIC } from '../../redux/authActions';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const EnterCNIC = (props) => {
   const [cnic, setCNIC] = React.useState('');
+  const [loading, setLoading] = React.useState({ status: false, message: "" });
+  const [error, setError] = React.useState({ status: false, message: "" })
 
   const handleCNICChange = (inputValue) => {
+    setError({ status: false, message: "" })
     setCNIC(inputValue);
   };
+
+  const onNextClick = () => {
+    setLoading({ status: true, message: "Sending Request" });
+    setTimeout(() => setLoading({ status: true, message: "Verifying CNIC" }), 700)
+    setTimeout(() => apiCallVerifyCNIC(), 1300)
+  }
+  const apiCallVerifyCNIC = async () => {
+    try {
+      const result = await verifyCNIC({ cnic });
+      setLoading(false);
+      console.log('result', result);
+      setLoading({ status: false, message: "Sending Request" });
+      if (result.error) {
+        console.log('result.error', result.error);
+        setError({ status: true, message: result.error.message })
+        //do something 
+      } else {
+        nextPressHandler()
+      }
+
+    } catch (error) {
+      console.log('error d: ', error);
+    }
+  }
 
   const nextPressHandler = () => {
     props.navigation.navigate('AccountType', {
@@ -65,11 +94,11 @@ const EnterCNIC = (props) => {
               <TextInput
                 style={{
                   height: 40,
-                  fontSize: 20,
+                  fontSize: 18,
                   borderColor: 'gray',
                   borderWidth: 1,
                   borderRadius: 10,
-                  marginBottom: 50,
+                  // marginBottom: 50,
                   marginTop: 15,
                   paddingLeft: 15,
                   backgroundColor: '#FEF8FF',
@@ -78,9 +107,23 @@ const EnterCNIC = (props) => {
                 onChangeText={(text) => handleCNICChange(text)}
                 keyboardType="numeric"
                 value={cnic}
+                disabled={loading.status}
               />
+              {/* loader */}
+
+              {error.status ?
+                <View style={{ marginBottom: 20, marginTop: 5, alignItems: 'flex-start', flexDirection: 'row' }}><Text>{error.message}</Text></View>
+                : loading.status ?
+                  <View style={{ marginBottom: 20, marginTop: 5, alignItems: 'flex-start', flexDirection: 'row' }}>
+                    <ActivityIndicator size='small' color="#B0389F" />
+                    <Text>  {loading.message}</Text>
+                  </View >
+                  : <View style={{ marginBottom: 20, marginTop: 5, alignItems: 'flex-start', flexDirection: 'row' }}><Text>{" "}</Text></View>}
             </View>
-            <FlatButton text="Next" onPress={nextPressHandler} />
+            <FlatButton text="Next" onPress={
+              // nextPressHandler
+              onNextClick
+            } />
           </Card>
         </View>
         {/* </View> */}
