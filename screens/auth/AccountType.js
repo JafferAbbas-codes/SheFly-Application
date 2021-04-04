@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Alert
 } from 'react-native';
 
 const AccountType = (props) => {
@@ -19,6 +20,26 @@ const AccountType = (props) => {
     setUserType(inputValue);
     pressHandler(inputValue);
   };
+
+  useEffect(() => {
+    if (props.route.params.cnic % 2 != 0) {
+      Alert.alert(
+        "Important Notice",
+        "Male users cannot provide services on She-Fly platform(s), however, they can hire someone for work.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "Continue", onPress: () => console.log("OK Pressed"), color: 'green' }
+        ],
+        {
+          cancelable: true,
+        }
+      );
+    }
+  }, [])
 
   const pressHandler = (inputValue) => {
     props.navigation.navigate('AccountInfo', {
@@ -41,23 +62,30 @@ const AccountType = (props) => {
           alignSelf: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 22}}>
+        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 22 }}>
           I want to
         </Text>
         <TouchableOpacity onPress={() => handleTypeSelect('buyer')}>
           <View style={styles.option}>
-            <Text style={{fontSize: 16}}>Hire someone for work</Text>
+            <Text style={{ fontSize: 16 }}>Hire someone</Text>
           </View>
         </TouchableOpacity>
 
-        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
+        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>
           OR
         </Text>
-        <TouchableOpacity onPress={() => handleTypeSelect('seller')}>
-          <View style={styles.option}>
-            <Text style={{fontSize: 16}}>Work for someone</Text>
-          </View>
-        </TouchableOpacity>
+        {
+          props.route.params.cnic % 2 == 0 ?
+            (<TouchableOpacity onPress={() => handleTypeSelect('seller')}>
+              <View style={styles.option}>
+                <Text style={{ fontSize: 16 }}>Work for someone</Text>
+              </View>
+            </TouchableOpacity>) :
+            (<TouchableWithoutFeedback >
+              <View style={styles.disabled}>
+                <Text style={{ fontSize: 16, textDecorationLine: 'line-through' }}>Work for someone</Text>
+              </View>
+            </TouchableWithoutFeedback>)}
       </View>
     </View>
   );
@@ -69,6 +97,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 70,
     paddingVertical: 30,
     borderRadius: 20,
+  },
+  disabled: {
+    backgroundColor: '#A9A9A9',
+    marginVertical: 20,
+    paddingHorizontal: 70,
+    paddingVertical: 30,
+    borderRadius: 20,
+
   },
 });
 

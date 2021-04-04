@@ -15,6 +15,7 @@ import FlatButton from '../../shared/button.js';
 import { gStyles } from '../../styles/global';
 import { ActivityIndicator } from 'react-native';
 import { verifyCNIC } from '../../redux/authActions';
+import Stepper from '../../shared/stepper';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const EnterCNIC = (props) => {
@@ -28,9 +29,14 @@ const EnterCNIC = (props) => {
   };
 
   const onNextClick = () => {
-    setLoading({ status: true, message: "Sending Request" });
-    setTimeout(() => setLoading({ status: true, message: "Verifying CNIC" }), 700)
-    setTimeout(() => apiCallVerifyCNIC(), 1300)
+    if (cnic.length == 13) {
+      setLoading({ status: true, message: "Sending Request" });
+      setTimeout(() => setLoading({ status: true, message: "Verifying CNIC" }), 700)
+      setTimeout(() => apiCallVerifyCNIC(), 1300)
+    } else {
+      setError({ status: true, message: "Invalid CNIC number" })
+    }
+
   }
   const apiCallVerifyCNIC = async () => {
     try {
@@ -71,10 +77,11 @@ const EnterCNIC = (props) => {
           }}> */}
         <View>
           <Header />
-          <Image
+          < Stepper step={2} />
+          {/* <Image
             source={require('../../assets/stepper2.png')}
             style={gStyles.stepImg}
-          />
+          /> */}
         </View>
         <View style={{ justifyContent: 'flex-end' }}>
           <Card style={{}}>
@@ -83,36 +90,33 @@ const EnterCNIC = (props) => {
                 style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 15 }}>
                 Enter NIC Number
               </Text>
-              <Text>Enter 14 Digit National Identity Card Number</Text>
+              <Text style={{ marginBottom: 30 }}>Enter 13 Digit National Identity Card Number</Text>
             </View>
             <View
               style={{
-                alignSelf: 'center',
-                marginHorizontal: 50,
+                // alignSelf: 'center',
+                // marginHorizontal: 50,
                 fontSize: 25,
+                marginBottom: 30,
               }}>
               <TextInput
-                style={{
-                  height: 40,
-                  fontSize: 18,
-                  borderColor: 'gray',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  // marginBottom: 50,
-                  marginTop: 15,
-                  paddingLeft: 15,
-                  backgroundColor: '#FEF8FF',
-                  width: 330,
-                }}
+                style={
+                  error.status
+                    ? styles.errorInput
+                    : styles.input
+                }
                 onChangeText={(text) => handleCNICChange(text)}
                 keyboardType="numeric"
                 value={cnic}
                 disabled={loading.status}
+                placeholder='eg. 4210112345678'
               />
               {/* loader */}
 
               {error.status ?
-                <View style={{ marginBottom: 20, marginTop: 5, alignItems: 'flex-start', flexDirection: 'row' }}><Text>{error.message}</Text></View>
+                <View style={{ marginBottom: 20, marginTop: 5, color: 'red', alignItems: 'flex-start', flexDirection: 'row' }}><Text style={{
+                  color: 'red',
+                }}>{error.message}</Text></View>
                 : loading.status ?
                   <View style={{ marginBottom: 20, marginTop: 5, alignItems: 'flex-start', flexDirection: 'row' }}>
                     <ActivityIndicator size='small' color="#B0389F" />
@@ -163,6 +167,30 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 7,
   },
+  errorInput: {
+    height: 40,
+    borderColor: 'red',
+    borderWidth: 1,
+    borderRadius: 10,
+    // marginBottom: 55,
+    backgroundColor: '#FEF8FF',
+    // width: 250,
+    padding: 10,
+    // paddingVertical: 0,
+    fontSize: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    // marginBottom: 50,
+    backgroundColor: '#FEF8FF',
+    alignSelf: 'stretch',
+    // width: width,
+    fontSize: 16,
+    padding: 10,
+  }
 });
 
 export default EnterCNIC;
