@@ -1,9 +1,14 @@
 import React from 'react';
-import {images} from '../styles/global';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import { images } from '../styles/global';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Dimensions } from "react-native";
+
+var width = Dimensions.get('window').width; //full width
+var height = Dimensions.get('window').height; //full height
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function Header() {
+  console.log("dimension", width, height)
   return (
     <View style={styles.header}>
       <Image
@@ -16,31 +21,25 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'column',
+    // flexDirection: 'column',
+    width: width,
+    height: height * 0.3,
+    // flex: 1,
+    bottom: 0,
     alignItems: 'center',
-    alignContent: 'space-between',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-  },
-  HeaderText: {
-    fontSize: 18,
-    color: 'white',
-    letterSpacing: 1,
-    marginBottom: 80,
-  },
-  icon: {
-    position: 'absolute',
-    left: 16,
-  },
-  headerTitle: {
-    flexDirection: 'row',
+    // alignContent: 'space-between',
+    // alignSelf: 'center',
+    justifyContent: 'flex-end',
+    // backgroundColor: "blue"
   },
   headerImage: {
     // width: 150,
     // height: 150,
-    width: 108,
-    height: 152.88,
-    marginHorizontal: 10,
-    marginTop: 100,
+    // marginBottom: 0,
+    // backgroundColor: 'red',
+    width: 0.3055 * width,//120,//108//1
+    height: 0.2191 * height,//169.86,//152.88//1.4155
+    // marginHorizontal: 10,
+    // marginTop: 100,
   },
 });
