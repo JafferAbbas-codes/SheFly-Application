@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Image, ImageBackground} from 'react-native';
-import Header from '../shared/profilehead';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
+import Header from '../../shared/profilehead';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {SearchBar} from 'react-native-elements';
-import Card from '../shared/card';
+import { SearchBar } from 'react-native-elements';
+import Card from '../../shared/card';
 
 export default function profileHead() {
   return (
     <View style={styles.back}>
       <Header />
       <Card>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <View
             style={{
               flexDirection: 'column',
@@ -93,12 +93,12 @@ export default function profileHead() {
             </Text>
           </View>
         </View>
-        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+        <Text style={{ fontWeight: 'bold', fontSize: 25, margin: 10 }}>
           Expertise
         </Text>
-        <View style={{flexDirection: 'row', height: 100}}>
+        <View style={{ flexDirection: 'row', height: 100 }}>
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               flexDirection: 'column',
               borderRadius: 20,
@@ -120,7 +120,7 @@ export default function profileHead() {
             </Text>
           </ImageBackground>
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               flexDirection: 'column',
               borderRadius: 20,
@@ -142,7 +142,7 @@ export default function profileHead() {
             </Text>
           </ImageBackground>
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               flexDirection: 'column',
               borderRadius: 20,
@@ -165,12 +165,12 @@ export default function profileHead() {
           </ImageBackground>
         </View>
 
-        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+        <Text style={{ fontWeight: 'bold', fontSize: 25, margin: 10 }}>
           Samples
         </Text>
-        <View style={{flexDirection: 'row', height: 100}}>
+        <View style={{ flexDirection: 'row', height: 100 }}>
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               flexDirection: 'column',
               borderRadius: 20,
@@ -182,7 +182,7 @@ export default function profileHead() {
             }}
           />
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               flexDirection: 'column',
               borderRadius: 20,
@@ -194,7 +194,7 @@ export default function profileHead() {
             }}
           />
           <ImageBackground
-            source={require('../assets/i.jpg')}
+            source={require('../../assets/i.jpg')}
             style={{
               borderRadius: 20,
               width: 100,
