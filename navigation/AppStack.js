@@ -6,9 +6,11 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import Home from '../screens/seller/home';
+import Home from '../screens/seller/Home';
 import Profile from '../screens/seller/profile';
 import BuyerStack from './BuyerStack';
+import SellerStack from './SellerStack';
+
 // import {DrawerContent} from '../screens/DrawerContent';
 
 import Icon from 'react-native-vector-icons';
@@ -22,7 +24,7 @@ const AppStack = (props) => {
   return props.user.userType == 'buyer' ? (
     <BuyerStack />
   ) : props.user.userType == 'seller' ? (
-    <Text>SellerStack not ready</Text>
+    <SellerStack />
   ) : (
     <Text>AdminStack not ready</Text>
   );
