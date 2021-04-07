@@ -20,6 +20,7 @@ import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {URL, getAllServicesRoute, getAllUsers} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
+import {TouchableOpacity} from 'react-native';
 
 const Home = (props) => {
   // const [value, onChangeText] = React.useState('42|');
@@ -73,6 +74,13 @@ const Home = (props) => {
         return {error: error.response.data.result};
       }
     }
+  };
+
+  const seeAllServicesPressHandler = () => {
+    props.navigation.navigate('AllServices', {
+      ...props.route.params,
+      getAllServices,
+    });
   };
 
   const getAllSellers = async () => {
@@ -213,9 +221,11 @@ const Home = (props) => {
               }}>
               Popular Services
             </Text>
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
-            </Text>
+            <TouchableOpacity
+              onPress={seeAllServicesPressHandler}
+              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              <Text>see all</Text>
+            </TouchableOpacity>
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
