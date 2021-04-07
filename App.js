@@ -28,40 +28,42 @@ import BidDetails from './screens/seller/biddetails';
 // import BuyerHome from './screens/buyer/Home';
 // import BuyerRequests from './screens/buyer/BuyerRequests';
 import RequestDetails from './screens/buyer/RequestDetails';
+import BidsOnBuyerRequests from './screens/buyer/BidsOnBuyerRequests';
 
 import Providers from './navigation';
 // import BuyerRequests from './screens/buyer/BuyerRequests.js';
 
 export default function App() {
-  // return (
-  // <EnterAccount/>
-  // <GetStart/>
-  // <Navigator />
-  // <EnterCode />
-  // <EnterNic/>
-  // <Welcomeback/>
-  // <WantTo/>
-  // <Bio/>
-  // <Home/>
-  // <Services/>
-  // <AvailableJobs/>
-  // <Profile />
-  // <JobsDone />
-  // <BookingDetails />
-  // <JobsinProgress />
-  // <Bids />
-  // <BidDetails />
-  // <BuyerHome />
-  // <AllServices />
-  // <BidAccepted />
-  // <DrawerContent />
-  // < feedback />
-  // <SellerProfileforBuyer />
-  // <BuyerRequests />
-  // <BidDetails />
-  // <RequestDetails />
-  // );
-  return <Providers store={store} />;
+  return (
+    // <EnterAccount/>
+    // <GetStart/>
+    // <Navigator />
+    // <EnterCode />
+    // <EnterNic/>
+    // <Welcomeback/>
+    // <WantTo/>
+    // <Bio/>
+    // <Home/>
+    // <Services/>
+    // <AvailableJobs/>
+    // <Profile />
+    // <JobsDone />
+    // <BookingDetails />
+    // <JobsinProgress />
+    // <Bids />
+    // <BidDetails />
+    // <BuyerHome />
+    // <AllServices />
+    // <BidAccepted />
+    // <DrawerContent />
+    // < feedback />
+    // <SellerProfileforBuyer />
+    // <BuyerRequests />
+    // <BidDetails />
+    // <RequestDetails />
+    <BidsOnBuyerRequests />
+  );
+  // return <Providers store={store} />;
 }
 
 // const styles = StyleSheet.create({});
