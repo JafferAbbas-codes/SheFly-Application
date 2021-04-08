@@ -6,10 +6,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from '../screens/seller/home';
-import AllServices from '../screens/buyer/allServices';
-import Messaging from '../screens/buyer/Messaging';
+import Home from '../screens/buyer/Home';
+import AllServices from '../screens/seller/AllServices';
+import Messaging from '../screens/seller/Messaging';
 import DrawerContent from '../screens/seller/DrawerContent';
+import Availablejobs from '../screens/seller/Availablejobs';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -54,18 +55,18 @@ const MainBottomTabStack = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name="AvailableJobsStackScreen"
+        component={AvailableJobsStackScreen}
+        options={{
+          tabBarLabel: 'Updates',
+          tabBarColor: '#FF6699',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="bell" color={color} size={26} />
+          ),
+        }}
+      />
       {/* <Tab.Screen
-          name="Notifications"
-          component={Notifications}
-          options={{
-            tabBarLabel: 'Updates',
-            tabBarColor: '#FF6699',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="bell" color={color} size={26} />
-            ),
-          }}
-        />
-        <Tab.Screen
           name="Profile"
           component={Profile}
           options={{
@@ -75,8 +76,7 @@ const MainBottomTabStack = () => {
               <MaterialCommunityIcons name="account" color={color} size={26} />
             ),
           }}
-        />
-        */}
+        /> */}
     </Tab.Navigator>
   );
 };
@@ -103,5 +103,27 @@ const ChatStackScreen = () => {
     </Stack.Navigator>
   );
 };
+const AvailableJobsStackScreen = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Availablejobs" component={Availablejobs} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
+// const ProfileStackScreen = () => {
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}>
+//       <Stack.Screen name="Messaging" component={Messaging} />
+//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+//     </Stack.Navigator>
+//   );
+// };
 
 export default SellerStack;

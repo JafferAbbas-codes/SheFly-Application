@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/buyer/Home';
-import AllServices from '../screens/buyer/allServices';
+import AllServices from '../screens/buyer/AllServices';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
 import Messaging from '../screens/buyer/Messaging';
 // import About from '../screens/About';
@@ -110,5 +110,28 @@ const ChatStackScreen = () => {
     </Stack.Navigator>
   );
 };
+
+// const YourRequestsStackScreen = () => {
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}>
+//       <Stack.Screen name="Messaging" component={Messaging} />
+//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+//     </Stack.Navigator>
+//   );
+// };
+// const ProfileStackScreen = () => {
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{
+//         headerShown: false,
+//       }}>
+//       <Stack.Screen name="Messaging" component={Messaging} />
+//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+//     </Stack.Navigator>
+//   );
+// };
 
 export default BuyerStack;
