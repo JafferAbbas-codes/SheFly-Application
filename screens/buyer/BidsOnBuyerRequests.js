@@ -69,6 +69,18 @@ export default function BidsOnBuyerRequests() {
       //   user: 'Salman',
       key: '4',
     },
+    {
+      bookingno: '156843',
+      //   status: 'completed',
+      seller: 'Tehreem',
+      description:
+        'I will reach your home at 12:00 pm. Please be ready with your designs. ',
+      budget: '4000',
+      //   date: '6-06-2021',
+      //   service: 'Cooking',
+      //   user: 'Salman',
+      key: '5',
+    },
   ]);
   const renderItem = ({item}) => (
     <Item
@@ -126,7 +138,7 @@ export default function BidsOnBuyerRequests() {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginTop: 5,
+          paddingTop: 5,
           paddingHorizontal: 8,
         }}>
         <Text style={{fontSize: 15}}>
@@ -224,7 +236,7 @@ export default function BidsOnBuyerRequests() {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            margin: 15,
+            padding: 15,
           }}>
           <Text
             style={{
@@ -232,19 +244,21 @@ export default function BidsOnBuyerRequests() {
               fontWeight: 'bold',
               fontSize: 30,
               justifyContent: 'space-between',
-              margin: 25,
+              padding: 25,
             }}>
             Bids
           </Text>
         </View>
         <MainCard>
-          <ScrollView style={styles.container}>
-            <FlatList
-              data={Services}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
-            />
+          <ScrollView>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                data={Services}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.key}
+                style={{borderRadius: 20}}
+              />
+            </SafeAreaView>
           </ScrollView>
         </MainCard>
       </View>
@@ -259,7 +273,7 @@ const styles = StyleSheet.create({
   headerImage: {
     width: 50,
     height: 50,
-    margin: 10,
+    padding: 10,
     borderRadius: 50,
   },
   container: {

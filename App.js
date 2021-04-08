@@ -29,6 +29,8 @@ import BidDetails from './screens/seller/biddetails';
 // import BuyerRequests from './screens/buyer/BuyerRequests';
 import RequestDetails from './screens/buyer/RequestDetails';
 import BidsOnBuyerRequests from './screens/buyer/BidsOnBuyerRequests';
+import OfferSent from './screens/buyer/OfferSent';
+import EditProfileBuyer from './screens/buyer/EditProfile';
 
 import Providers from './navigation';
 // import BuyerRequests from './screens/buyer/BuyerRequests.js';
@@ -61,7 +63,9 @@ export default function App() {
   // <BuyerRequests />
   // <BidDetails />
   // <RequestDetails />
-  // <BidsOnBuyerRequests />
+  <BidsOnBuyerRequests />;
+  // <OfferSent />
+  // <EditProfileBuyer />
   // );
   return <Providers store={store} />;
 }

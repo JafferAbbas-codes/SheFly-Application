@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/buyer/Home';
 import AllServices from '../screens/buyer/allServices';
+import ServiceSeller from '../screens/buyer/ServiceSeller';
 import Messaging from '../screens/buyer/Messaging';
 // import About from '../screens/About';
 // import Notifications from '../screens/Notifications';
@@ -94,6 +95,7 @@ const HomeStackScreen = () => {
       }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AllServices" component={AllServices} />
+      <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
     </Stack.Navigator>
   );
 };

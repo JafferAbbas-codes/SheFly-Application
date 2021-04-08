@@ -19,7 +19,8 @@ import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {URL, getAllServicesRoute, getAllUsers} from '../../config/const';
+import {URL, getAllServicesRoute} from '../../config/const';
+import {TouchableOpacity} from 'react-native';
 
 const AllServices = (props) => {
   // const [value, onChangeText] = React.useState('42|');
@@ -32,34 +33,44 @@ const AllServices = (props) => {
     // { text: 'Teaching', key: '6' },
   ]);
   const renderItem = (item) => <Item item={item.item} />;
+
   const Item = ({item}) => (
-    <ImageBackground
-      //   source={require('../../assets/i.jpg')}
-      source={{
-        uri: item.image,
-      }}
-      style={{
-        height: 120,
-        borderRadius: 20,
-        margin: 10,
-        flex: 1,
-        overflow: 'hidden',
-      }}>
-      {console.log('item in Item', item)}
-      <Text
+    <TouchableOpacity onPress={() => console.log('on click', item._id)}>
+      <ImageBackground
+        //   source={require('../../assets/i.jpg')}
+        source={{
+          uri: item.image,
+        }}
         style={{
-          fontSize: 25,
-          color: 'white',
-          fontWeight: 'bold',
-          width: 120,
-          textAlign: 'center',
-          textAlignVertical: 'center',
           height: 120,
+          borderRadius: 20,
+          margin: 10,
+          flex: 1,
+          overflow: 'hidden',
         }}>
-        {item.name}
-      </Text>
-    </ImageBackground>
+        {console.log('item in Item', item)}
+        <Text
+          style={{
+            fontSize: 25,
+            color: 'white',
+            fontWeight: 'bold',
+            width: 120,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            height: 120,
+          }}>
+          {item.name}
+        </Text>
+      </ImageBackground>
+    </TouchableOpacity>
   );
+
+  const OnPressService = (id) => {
+    props.navigation.navigate('ServiceSeller', {
+      ...props.route.params,
+      id,
+    });
+  };
 
   const getAllServices = async () => {
     try {
@@ -84,12 +95,12 @@ const AllServices = (props) => {
   }, []);
 
   return (
-    <TouchableWithoutFeedback
+    <View
       onPress={() => {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
-        {console.log(Services)}
+        {console.log('in return', Services)}
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
@@ -114,7 +125,7 @@ const AllServices = (props) => {
           </SafeAreaView>
         </Card>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
