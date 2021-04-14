@@ -12,12 +12,12 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {URL, getAllServicesRoute, getAllUsers} from '../../config/const';
+import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
@@ -31,32 +31,41 @@ const Home = (props) => {
   ]);
   const renderItem = (item) => <Item item={item.item} />;
   const Item = ({item}) => (
-    <ImageBackground
-      // source={require('../../assets/i.jpg')}
-      source={{
-        uri: item.image,
-      }}
-      style={{
-        width: 120,
-        height: 120,
-        borderRadius: 20,
-        marginHorizontal: 5,
-        overflow: 'hidden',
-      }}>
-      {console.log('item in Item', item)}
-      <Text
+    <TouchableOpacity
+      onPress={
+        () => {
+          OnPressService(item._id, item.name);
+        }
+        // console.log('on click', item._id),
+      }>
+      {/* {console.log('To test')} */}
+      <ImageBackground
+        // source={require('../../assets/i.jpg')}
+        source={{
+          uri: item.image,
+        }}
         style={{
-          fontSize: 25,
-          color: 'white',
-          fontWeight: 'bold',
           width: 120,
-          textAlign: 'center',
-          textAlignVertical: 'center',
           height: 120,
+          borderRadius: 20,
+          marginHorizontal: 5,
+          overflow: 'hidden',
         }}>
-        {item.name}
-      </Text>
-    </ImageBackground>
+        {console.log('item in Item', item)}
+        <Text
+          style={{
+            fontSize: 25,
+            color: 'white',
+            fontWeight: 'bold',
+            width: 120,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            height: 120,
+          }}>
+          {item.name}
+        </Text>
+      </ImageBackground>
+    </TouchableOpacity>
   );
   const getAllServices = async () => {
     try {
@@ -83,16 +92,36 @@ const Home = (props) => {
     });
   };
 
+  const seeAllSellersPressHandler = () => {
+    props.navigation.navigate('AvailableSellers', {
+      ...props.route.params,
+      getAllSellers,
+    });
+  };
+
+  const OnPressService = (index) => {
+    props.navigation.navigate('SellerProfileForBuyer', {
+      ...props.route.params,
+      index,
+    });
+  };
+
+  const OnPressSeller = (id) => {
+    props.navigation.navigate('ServiceSeller', {
+      ...props.route.params,
+      id,
+      name,
+    });
+  };
+
   const getAllSellers = async () => {
     try {
-      let response = await axios.get(`${URL}${getAllUsers}`, {
+      let response = await axios.get(`${URL}${getUserByType}seller`, {
         headers: {
           Authorization: `Bearer ${props.token}`,
         },
       });
-      let seller = response.data.result.filter(
-        (user) => user.userType == 'seller' && user.isActivated,
-      );
+      let seller = response.data.result;
       console.log('response of users', seller);
       setAvailableSellers(seller);
       return response.data.result;
@@ -136,72 +165,80 @@ const Home = (props) => {
     //   _id: '3',
     // },
   ]);
-  const renderAvailableSellers = ({item}) => (
-    // console.log('item in ItemRecom seller', item);
+  const renderAvailableSellers = (props) => (
+    // console.log('item in ItemRecom seller', props);
     <ItemRecom
-      name={item.name}
-      profileImage={item.profileImage}
-      bio={item.bio}
-      rating={item.rating}
-      title={item.title}
-      _id={item._id}
+      name={props.item.name}
+      profileImage={props.item.profileImage}
+      bio={props.item.bio}
+      rating={props.item.rating}
+      title={props.item.title}
+      _id={props.item._id}
+      index={props.index}
     />
   );
-  const ItemRecom = ({name, profileImage, bio, rating, title, _id}) => (
-    <View
-      style={{
-        height: 150,
-        // width: 300,
-        borderRadius: 25,
-        backgroundColor: 'white',
-        marginHorizontal: 5,
+
+  const ItemRecom = ({name, profileImage, bio, rating, title, _id, index}) => (
+    <TouchableOpacity
+      onPress={() => {
+        OnPressService(index);
+        // console.log('on click in seller box', _id);
       }}>
-      <View style={{height: 75, width: 300, flexDirection: 'row'}}>
-        <Image source={{uri: profileImage}} style={styles.headerImage} />
-        <View>
-          <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
-            {name}
-          </Text>
-          <Text style={{fontSize: 10, color: '#C0C0C0', fontWeight: 'bold'}}>
-            {title}
-          </Text>
-          <Text style={{fontSize: 10, color: '#FFB266'}}>
-            <MaterialIcons
-              name="star"
-              size={10}
-              /*onPress={openMenu}*/ style={styles.icon}
-            />
-            {' ' + rating}
-          </Text>
-        </View>
-        <View>
-          <MaterialIcons
-            name="comment"
-            size={22}
-            style={styles.icon}
-            style={{
-              margin: 22,
-              paddingLeft: 5,
-              paddingRight: 5,
-              paddingBottom: 4,
-              paddingTop: 1,
-              backgroundColor: '#BC53AE',
-              color: 'white',
-              borderRadius: 8,
-            }}
-          />
-        </View>
-      </View>
-      <Text
+      <View
         style={{
-          fontSize: 15,
-          textAlignVertical: 'center',
-          margin: 10,
-          marginTop: 0,
+          height: 150,
+          // width: 300,
+          borderRadius: 25,
+          backgroundColor: 'white',
+          marginHorizontal: 5,
         }}>
-        {bio}
-      </Text>
-    </View>
+        <View style={{height: 75, width: 300, flexDirection: 'row'}}>
+          <Image source={{uri: profileImage}} style={styles.headerImage} />
+          <View>
+            <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
+              {name}
+            </Text>
+            <Text style={{fontSize: 10, color: '#C0C0C0', fontWeight: 'bold'}}>
+              {title}
+            </Text>
+            <Text style={{fontSize: 10, color: '#FFB266'}}>
+              <MaterialIcons
+                name="star"
+                size={10}
+                /*onPress={openMenu}*/ style={styles.icon}
+              />
+              {' ' + rating}
+            </Text>
+          </View>
+          <View>
+            <MaterialIcons
+              name="comment"
+              size={22}
+              style={styles.icon}
+              style={{
+                margin: 22,
+                paddingLeft: 5,
+                paddingRight: 5,
+                paddingBottom: 4,
+                paddingTop: 1,
+                backgroundColor: '#BC53AE',
+                color: 'white',
+                borderRadius: 8,
+              }}
+            />
+          </View>
+        </View>
+        <Text
+          style={{
+            fontSize: 15,
+            textAlignVertical: 'center',
+            margin: 10,
+            marginTop: 0,
+          }}>
+          {bio}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
   return (
     <TouchableWithoutFeedback
@@ -246,9 +283,11 @@ const Home = (props) => {
               }}>
               Available Sellers
             </Text>
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
-            </Text>
+            <TouchableOpacity
+              onPress={seeAllSellersPressHandler}
+              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              <Text>see all</Text>
+            </TouchableOpacity>
           </View>
           <ScrollView style={styles.container}>
             <FlatList

@@ -9,7 +9,7 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import FlatButton from '../../shared/button.js';
+import FlatButton from '../../shared/Button.js';
 import MultiSelect from 'react-native-multiple-select';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
@@ -78,6 +78,7 @@ export default class MultiSelectExample extends Component {
           alignContent: 'center',
           alignContent: 'center',
         }}>
+        {/* {console.log('To Test')} */}
         <View style={{flexDirection: 'column', alignSelf: 'center'}}>
           <Text style={{fontWeight: 'bold', fontSize: 22}}>
             Write a short bio

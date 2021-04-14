@@ -10,6 +10,7 @@ export default function offerSent() {
         alignSelf: 'center',
         justifyContent: 'center',
       }}>
+      {/* {console.log('To test')} */}
       <MaterialIcons
         name="check-circle"
         size={180}

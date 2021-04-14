@@ -10,7 +10,7 @@ import {
 import {gStyles} from '../../styles/global.js';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import FlatButton from '../../shared/button.js';
+import FlatButton from '../../shared/Button.js';
 
 const reviewSchema = yup.object({
   name: yup.string().required().min(3),
@@ -32,6 +32,7 @@ export default function ReviewForm({addReview}) {
         }}>
         {(props) => (
           <View style={{margin: 25}}>
+            {/* {console.log('To test')} */}
             <TextInput
               style={gStyles.input}
               placeholder="Name"

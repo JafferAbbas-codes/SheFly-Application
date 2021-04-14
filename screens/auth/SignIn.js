@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,22 +9,22 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
-import Header from '../../shared/header';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
-import Stepper from '../../shared/stepper';
+import Header from '../../shared/Header';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
+import Stepper from '../../shared/Stepper';
 
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as yup from 'yup';
-import { connect, useDispatch } from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
 
-import { login, setLoading } from '../../redux/authActions';
+import {login, setLoading} from '../../redux/authActions';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const SignIn = (props) => {
-  const [error, setError] = useState({ responseCode: 200, message: '' });
+  const [error, setError] = useState({responseCode: 200, message: ''});
   const [buttonLoading, setButtonLoading] = useState(false);
   const changeNameHandler = (val) => {
     setText(val);
@@ -38,21 +38,21 @@ const SignIn = (props) => {
         console.log('result.error', result.error);
         setError(result.error);
         if (result.error.responseCode == 403) {
-          console.log("in Alert")
+          console.log('in Alert');
           Alert.alert(
-            "Ops!",
+            'Ops!',
             result.error.message,
             [
               {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
               },
-              { text: "OK", onPress: () => console.log("OK Pressed") }
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
             ],
             {
               cancelable: true,
-            }
+            },
           );
         }
 
@@ -84,17 +84,16 @@ const SignIn = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      {/* {console.log('To Test')} */}
       <View style={styles.back}>
         <Header />
-        < Stepper
+        <Stepper
         // step={1}
         />
         <ScrollView>
-          <Card
-            cardWithOutStepper={true}
-          >
+          <Card cardWithOutStepper={true}>
             <Formik
-              initialValues={{ email: '', password: '' }}
+              initialValues={{email: '', password: ''}}
               validationSchema={reviewSchema}
               onSubmit={(values, actions) => {
                 loginFunction({
@@ -122,7 +121,7 @@ const SignIn = (props) => {
                       flexDirection: 'column',
                       alignContent: 'space-around',
                     }}>
-                    <View style={{ marginBottom: 7 }}>
+                    <View style={{marginBottom: 7}}>
                       <View
                         style={{
                           flexDirection: 'row',
@@ -142,32 +141,30 @@ const SignIn = (props) => {
                           <TextInput
                             style={
                               error.responseCode == 404 ||
-                                (propss.errors.email && propss.touched.email)
+                              (propss.errors.email && propss.touched.email)
                                 ? styles.errorInput
                                 : styles.input
                             }
                             placeholder="example@gmail.com"
-
                             onChangeText={propss.handleChange('email')}
                             value={propss.values.email}
                             onBlur={propss.handleBlur('email')}
                           />
                           <View
                           // style={{ width: 215 }}
-
                           >
-                            <Text style={{ color: 'red' }}>
+                            <Text style={{color: 'red'}}>
                               {error.responseCode == 404
                                 ? 'Email not found'
                                 : propss.errors.email && propss.touched.email
-                                  ? propss.errors.email
-                                  : ''}
+                                ? propss.errors.email
+                                : ''}
                             </Text>
                           </View>
                         </View>
                       </View>
                     </View>
-                    <View style={{ marginBottom: 7 }}>
+                    <View style={{marginBottom: 7}}>
                       <View
                         style={{
                           flexDirection: 'row',
@@ -186,12 +183,11 @@ const SignIn = (props) => {
                           <TextInput
                             style={
                               error.responseCode == 400 ||
-                                (propss.errors.password &&
-                                  propss.touched.password)
+                              (propss.errors.password &&
+                                propss.touched.password)
                                 ? styles.errorInput
                                 : styles.input
                             }
-
                             type="password"
                             placeholder="********"
                             secureTextEntry={true}
@@ -212,24 +208,28 @@ const SignIn = (props) => {
                                 ? error.message
                                 : propss.errors.password &&
                                   propss.touched.password
-                                  ? propss.errors.password
-                                  : ''}
+                                ? propss.errors.password
+                                : ''}
                             </Text>
                           </View>
                         </View>
                       </View>
                     </View>
 
-                    <Text style={{ marginBottom: 25 }}>Forget Password?</Text>
+                    <Text style={{marginBottom: 25}}>Forget Password?</Text>
                   </View>
                   <FlatButton
                     text="Login"
                     loading={buttonLoading}
                     onPress={propss.handleSubmit}
                   />
-                  <Text style={{ marginTop: 30, textAlign: 'center', }}>Don't have an account?</Text>
+                  <Text style={{marginTop: 30, textAlign: 'center'}}>
+                    Don't have an account?
+                  </Text>
                   <TouchableOpacity onPress={signUpPressHandler}>
-                    <Text style={{ fontWeight: 'bold', textAlign: 'center', }}>Sign Up</Text>
+                    <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
+                      Sign Up
+                    </Text>
                   </TouchableOpacity>
                 </View>
               )}

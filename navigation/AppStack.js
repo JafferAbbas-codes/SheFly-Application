@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 // import Home from '../screens/seller/home';
-import Profile from '../screens/seller/profile';
+import Profile from '../screens/seller/Profile';
 import BuyerStack from './BuyerStack';
 import SellerStack from './SellerStack';
 

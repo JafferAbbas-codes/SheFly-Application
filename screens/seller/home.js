@@ -12,9 +12,9 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
@@ -109,6 +109,7 @@ const Home = (props) => {
         backgroundColor: 'white',
         marginHorizontal: 5,
       }}>
+      {/* {console.log('To test')} */}
       <View style={{height: 75, width: 300, flexDirection: 'row'}}>
         <Image
           source={require('../../assets/i.jpg')}

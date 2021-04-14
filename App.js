@@ -17,7 +17,7 @@ import {store} from './redux/configureStore.js';
 // import BookingDetails from './components/bookingdetails';
 // import JobsinProgress from './components/jobsinprogress';
 // import Bids from './components/bids';
-import BidDetails from './screens/seller/biddetails';
+// import BidDetails from './screens/seller/biddetails';
 // import AllServices from './screens/buyer/allServices';
 // import BidAccepted from './screens/buyer/bidaccepted';
 // import DrawerContent from './screens/buyer/DrawerContent';
@@ -27,10 +27,10 @@ import BidDetails from './screens/seller/biddetails';
 // import ServiceSeller from './screens/buyer/ServiceSeller';
 // import BuyerHome from './screens/buyer/Home';
 // import BuyerRequests from './screens/buyer/BuyerRequests';
-import RequestDetails from './screens/buyer/RequestDetails';
-import BidsOnBuyerRequests from './screens/buyer/BidsOnBuyerRequests';
-import OfferSent from './screens/buyer/OfferSent';
-import EditProfileBuyer from './screens/buyer/EditProfile';
+// import RequestDetails from './screens/buyer/RequestDetails';
+// import BidsOnBuyerRequests from './screens/buyer/BidsOnBuyerRequests';
+// import OfferSent from './screens/buyer/OfferSent';
+// import EditProfileBuyer from './screens/buyer/EditProfile';
 
 import Providers from './navigation';
 // import BuyerRequests from './screens/buyer/BuyerRequests.js';
@@ -63,7 +63,7 @@ export default function App() {
   // <BuyerRequests />
   // <BidDetails />
   // <RequestDetails />
-  <BidsOnBuyerRequests />;
+  // <BidsOnBuyerRequests />;
   // <OfferSent />
   // <EditProfileBuyer />
   // );

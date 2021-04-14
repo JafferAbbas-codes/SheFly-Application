@@ -12,9 +12,9 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
@@ -46,6 +46,7 @@ const AllServices = (props) => {
         overflow: 'hidden',
       }}>
       {console.log('item in Item', item)}
+      {/* {console.log('To test')} */}
       <Text
         style={{
           fontSize: 25,

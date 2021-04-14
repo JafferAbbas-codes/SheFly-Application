@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import FlatButton from '../../shared/button';
+import FlatButton from '../../shared/Button';
 
 export default function offerSent() {
   return (
@@ -11,6 +11,7 @@ export default function offerSent() {
         alignSelf: 'center',
         justifyContent: 'center',
       }}>
+      {/* {console.log('To test')} */}
       <MaterialIcons
         name="check-circle"
         size={180}
@@ -18,7 +19,7 @@ export default function offerSent() {
           color: '#AD379D',
         }}
       />
-      <Text style={{ textAlign: 'center', fontSize: 30 }}>
+      <Text style={{textAlign: 'center', fontSize: 30}}>
         Let the seller know how was her service!
       </Text>
       <MaterialIcons

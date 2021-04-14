@@ -12,15 +12,16 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getAllServicesRoute} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
+import {TouchableHighlight} from 'react-native';
 
 const AllServices = (props) => {
   // const [value, onChangeText] = React.useState('42|');
@@ -35,7 +36,14 @@ const AllServices = (props) => {
   const renderItem = (item) => <Item item={item.item} />;
 
   const Item = ({item}) => (
-    <TouchableOpacity onPress={() => console.log('on click', item._id)}>
+    <TouchableOpacity
+      onPress={
+        () => {
+          OnPressService(item._id, item.name);
+        }
+        // console.log('on click', item._id),
+      }>
+      {/* {console.log('To test')} */}
       <ImageBackground
         //   source={require('../../assets/i.jpg')}
         source={{
@@ -65,10 +73,11 @@ const AllServices = (props) => {
     </TouchableOpacity>
   );
 
-  const OnPressService = (id) => {
+  const OnPressService = (id, name) => {
     props.navigation.navigate('ServiceSeller', {
       ...props.route.params,
       id,
+      name,
     });
   };
 
