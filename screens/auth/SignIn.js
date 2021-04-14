@@ -84,6 +84,7 @@ const SignIn = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      {console.log('To Test')}
       <View style={styles.back}>
         <Header />
         <Stepper

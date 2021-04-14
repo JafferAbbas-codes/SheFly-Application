@@ -43,6 +43,7 @@ const AllServices = (props) => {
         }
         // console.log('on click', item._id),
       }>
+      {console.log('To test')}
       <ImageBackground
         //   source={require('../../assets/i.jpg')}
         source={{

@@ -83,6 +83,7 @@ export default function profileHead() {
               }}>
               3
             </Text>
+            {console.log('To test')}
             <Text
               style={{
                 fontSize: 13,

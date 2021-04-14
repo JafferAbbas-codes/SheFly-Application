@@ -49,7 +49,6 @@ const EnterCNIC = (props) => {
       if (result.error) {
         console.log('result.error', result.error);
         setError({status: true, message: result.error.message});
-        //do something
       } else {
         nextPressHandler();
       }

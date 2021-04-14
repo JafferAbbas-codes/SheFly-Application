@@ -109,6 +109,7 @@ const Home = (props) => {
         backgroundColor: 'white',
         marginHorizontal: 5,
       }}>
+      {console.log('To test')}
       <View style={{height: 75, width: 300, flexDirection: 'row'}}>
         <Image
           source={require('../../assets/i.jpg')}

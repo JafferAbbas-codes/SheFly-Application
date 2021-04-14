@@ -32,6 +32,7 @@ export default function ReviewForm({addReview}) {
         }}>
         {(props) => (
           <View style={{margin: 25}}>
+            {console.log('To test')}
             <TextInput
               style={gStyles.input}
               placeholder="Name"

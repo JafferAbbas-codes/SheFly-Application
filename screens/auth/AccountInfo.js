@@ -56,7 +56,6 @@ const AccountInfo = (props) => {
       console.log('result', result);
       if (result.error) {
         console.log('result.error', result.error);
-        //do something here
       }
     } catch (error) {
       console.log('error d: ', error);
