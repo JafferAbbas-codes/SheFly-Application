@@ -20,6 +20,7 @@ export default function FlatButton(props) {
           {/* {props.text} */}
         </Text>
       </View>
+      {/* {console.log('To test')} */}
     </TouchableOpacity>
   );
 }
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     // height: 46,
-    borderRadius: 20,
+    borderRadius: 30,
     paddingVertical: 14,
     marginHorizontal: 70,
     paddingHorizontal: 10,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     fontSize: 18,
     textAlign: 'center',
     // flexDirection: 'row',

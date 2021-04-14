@@ -12,47 +12,12 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-
-import {logout} from '../../redux/authActions';
-import {connect} from 'react-redux';
-
-const Home = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
-  const [Servises, setServises] = useState([
-    {text: 'Cooking', key: '1'},
-    {text: 'Makeup', key: '2'},
-    {text: 'Nursing', key: '3'},
-  ]);
-  const renderItem = ({item}) => <Item text={item.text} />;
-  const Item = ({text}) => (
-    <ImageBackground
-      source={require('../../assets/i.jpg')}
-      style={{
-        width: 120,
-        height: 120,
-        borderRadius: 20,
-        marginHorizontal: 5,
-        overflow: 'hidden',
-      }}>
-      <Text
-        style={{
-          fontSize: 25,
-          color: 'white',
-          fontWeight: 'bold',
-          width: 120,
-          textAlign: 'center',
-          textAlignVertical: 'center',
-          height: 120,
-        }}>
-        {text}
-      </Text>
-    </ImageBackground>
-  );
+export default function getStarted() {
   const [Recommendation, setRecommendation] = useState([
     {
       name: 'ibrahim',
@@ -105,9 +70,9 @@ const Home = (props) => {
       style={{
         height: 150,
         width: 300,
-        borderRadius: 25,
+        borderRadius: 15,
         backgroundColor: 'white',
-        marginHorizontal: 5,
+        margin: 5,
       }}>
       <View style={{height: 75, width: 300, flexDirection: 'row'}}>
         <Image
@@ -148,6 +113,7 @@ const Home = (props) => {
       </Text>
     </View>
   );
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -157,32 +123,6 @@ const Home = (props) => {
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
-            <TouchableWithoutFeedback onPress={props.logout}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 25,
-                  marginBottom: 15,
-                  width: 200,
-                }}>
-                Popular Services
-              </Text>
-            </TouchableWithoutFeedback>
-
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
-            </Text>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              horizontal
-              data={Servises}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
-            />
-          </SafeAreaView>
-          <View style={{flexDirection: 'row'}}>
             <Text
               style={{
                 fontWeight: 'bold',
@@ -190,15 +130,11 @@ const Home = (props) => {
                 marginBottom: 15,
                 width: 200,
               }}>
-              Recommendation For You
-            </Text>
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
+              Available Jobs
             </Text>
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
-              horizontal
               data={Recommendation}
               renderItem={renderRecommendation}
               keyExtractor={(item) => item.key}
@@ -209,7 +145,7 @@ const Home = (props) => {
       </View>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 const styles = StyleSheet.create({
   back: {
@@ -225,39 +161,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginVertical: 30,
   },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
-  },
   title: {
     fontSize: 32,
-  },
-  header: {
-    paddingLeft: 35,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  HeaderText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'black',
-    letterSpacing: 1,
   },
   icon: {
     position: 'absolute',
   },
-  headerTitle: {},
 });
-
-const mapStateToProps = (state) => ({
-  user: state.userDetails.user,
-  loading: state.userDetails.loading,
-});
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout()),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Home);

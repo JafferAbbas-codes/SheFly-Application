@@ -17,7 +17,7 @@ export default function offerSent() {
           color: '#AD379D',
         }}
       />
-      <Text style={{textAlign: 'center', fontSize: 30}}>Bid Accepted</Text>
+      <Text style={{textAlign: 'center', fontSize: 30}}>Offer Sent</Text>
     </View>
   );
 }

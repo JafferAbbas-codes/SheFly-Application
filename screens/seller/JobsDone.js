@@ -12,9 +12,9 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function jobsDone() {
@@ -91,6 +91,7 @@ export default function jobsDone() {
         shadowRadius: 5,
         elevation: 10,
       }}>
+      {/* {console.log('To test')} */}
       <View
         style={{
           flexDirection: 'row',
@@ -102,10 +103,10 @@ export default function jobsDone() {
         <Text
           style={{
             fontWeight: 'bold',
-            textAlign: 'center',
           }}>
           Booking No: {bookingno}
         </Text>
+        <Text>completed on {date}</Text>
       </View>
       <View
         style={{
@@ -146,8 +147,6 @@ export default function jobsDone() {
           {service}
         </Text>
       </View>
-      <Text>Description:</Text>
-      <Text>Budget:</Text>
     </View>
   );
 
@@ -171,8 +170,13 @@ export default function jobsDone() {
               justifyContent: 'space-between',
               margin: 25,
             }}>
-            Bids
+            Jobs Done
           </Text>
+          <MaterialIcons
+            name="ellipsis-v"
+            style={{alignSelf: 'center', color: 'white'}}
+            size={30}
+          />
         </View>
         <Card>
           <SafeAreaView style={styles.container}>

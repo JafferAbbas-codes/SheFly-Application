@@ -9,10 +9,13 @@ import {
   TouchableOpacity,
   Keyboard,
   ScrollView,
+  Alert,
 } from 'react-native';
-import Header from '../../shared/header';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
+import Stepper from '../../shared/Stepper';
+
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {connect, useDispatch} from 'react-redux';
@@ -28,16 +31,31 @@ const SignIn = (props) => {
   };
   const loginFunction = async (body) => {
     try {
-      // await props.setLoading(true);
       setButtonLoading(true);
       const result = await props.Login(body);
       setButtonLoading(false);
-      // console.log("props.user is " , props.user)
-      // await props.setLoading(false);
-      // console.log('result', result);
       if (result.error) {
         console.log('result.error', result.error);
         setError(result.error);
+        if (result.error.responseCode == 403) {
+          console.log('in Alert');
+          Alert.alert(
+            'Ops!',
+            result.error.message,
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {
+              cancelable: true,
+            },
+          );
+        }
+
         //do something here
       }
     } catch (error) {
@@ -66,10 +84,14 @@ const SignIn = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      {/* {console.log('To Test')} */}
       <View style={styles.back}>
         <Header />
+        <Stepper
+        // step={1}
+        />
         <ScrollView>
-          <Card>
+          <Card cardWithOutStepper={true}>
             <Formik
               initialValues={{email: '', password: ''}}
               validationSchema={reviewSchema}
@@ -91,7 +113,7 @@ const SignIn = (props) => {
                         fontSize: 25,
                         marginBottom: 15,
                       }}>
-                      Welcome Back
+                      Welcome to She-Fly
                     </Text>
                   </View>
                   <View
@@ -111,8 +133,8 @@ const SignIn = (props) => {
                       <View
                         style={{
                           // backgroundColor: 'yellow',
-                          alignSelf: 'center',
-                          marginHorizontal: 50,
+                          // alignSelf: 'center',
+                          // marginHorizontal: 50,
                           fontSize: 25,
                         }}>
                         <View>
@@ -123,11 +145,14 @@ const SignIn = (props) => {
                                 ? styles.errorInput
                                 : styles.input
                             }
+                            placeholder="example@gmail.com"
                             onChangeText={propss.handleChange('email')}
                             value={propss.values.email}
                             onBlur={propss.handleBlur('email')}
                           />
-                          <View style={{width: 215}}>
+                          <View
+                          // style={{ width: 215 }}
+                          >
                             <Text style={{color: 'red'}}>
                               {error.responseCode == 404
                                 ? 'Email not found'
@@ -150,8 +175,8 @@ const SignIn = (props) => {
                       </View>
                       <View
                         style={{
-                          alignSelf: 'center',
-                          marginHorizontal: 50,
+                          // alignSelf: 'center',
+                          // marginHorizontal: 50,
                           fontSize: 25,
                         }}>
                         <View>
@@ -164,7 +189,7 @@ const SignIn = (props) => {
                                 : styles.input
                             }
                             type="password"
-                            // placeholder="********"
+                            placeholder="********"
                             secureTextEntry={true}
                             autoCompleteType="password"
                             onChangeText={propss.handleChange('password')}
@@ -172,7 +197,9 @@ const SignIn = (props) => {
                             onBlur={propss.handleBlur('password')}
                           />
 
-                          <View style={{width: 215}}>
+                          <View
+                          // style={{ width: 215 }}
+                          >
                             <Text
                               style={{
                                 color: 'red',
@@ -189,16 +216,20 @@ const SignIn = (props) => {
                       </View>
                     </View>
 
-                    <Text style={{marginBottom: 30}}>Forget Password?</Text>
+                    <Text style={{marginBottom: 25}}>Forget Password?</Text>
                   </View>
                   <FlatButton
                     text="Login"
                     loading={buttonLoading}
                     onPress={propss.handleSubmit}
                   />
-                  <Text style={{marginTop: 30}}>Don't have an account?</Text>
+                  <Text style={{marginTop: 30, textAlign: 'center'}}>
+                    Don't have an account?
+                  </Text>
                   <TouchableOpacity onPress={signUpPressHandler}>
-                    <Text>Sign Up</Text>
+                    <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
+                      Sign Up
+                    </Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -214,29 +245,29 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
   },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 10,
-    // marginBottom: 35,
-    backgroundColor: '#FEF8FF',
-    width: 302,
-    padding: 10,
-    // paddingVertical: 0,
-    fontSize: 16,
-  },
   errorInput: {
     height: 40,
     borderColor: 'red',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 35,
+    // marginBottom: 55,
     backgroundColor: '#FEF8FF',
-    width: 302,
+    // width: 250,
     padding: 10,
     // paddingVertical: 0,
     fontSize: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    // marginBottom: 50,
+    backgroundColor: '#FEF8FF',
+    alignSelf: 'stretch',
+    // width: width,
+    fontSize: 16,
+    padding: 10,
   },
   header: {
     paddingLeft: 35,
