@@ -20,7 +20,7 @@ export default function FlatButton(props) {
           {/* {props.text} */}
         </Text>
       </View>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
     </TouchableOpacity>
   );
 }

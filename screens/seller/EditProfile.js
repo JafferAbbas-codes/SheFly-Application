@@ -89,7 +89,7 @@ export default function yourBid() {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <View>
         <View>
           <View

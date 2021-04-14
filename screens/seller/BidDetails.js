@@ -74,7 +74,7 @@ export default function bookingDetails() {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <View>
         <View
           style={{

@@ -53,7 +53,7 @@ const PhoneNumber = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {console.log('To Test')}
+      {/* {console.log('To Test')} */}
       <ScrollView
         style={styles.back}
         // contentContainerStyle={styles.temp}

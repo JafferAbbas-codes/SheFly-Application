@@ -85,7 +85,7 @@ const AvailableSellers = (props) => {
         marginHorizontal: 5,
         marginBottom: 10,
       }}>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <View style={{height: 75, width: 300, flexDirection: 'row'}}>
         <Image source={{uri: item.profileImage}} style={styles.headerImage} />
         <View>

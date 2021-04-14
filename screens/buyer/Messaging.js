@@ -29,7 +29,7 @@ export default function getStarted() {
   );
   const Item = ({text, msg, time}) => (
     <View style={{flexDirection: 'row', margin: 10}}>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <Image
         source={require('../../assets/i.jpg')}
         style={{

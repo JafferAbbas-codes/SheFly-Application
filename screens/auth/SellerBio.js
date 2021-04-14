@@ -78,7 +78,7 @@ export default class MultiSelectExample extends Component {
           alignContent: 'center',
           alignContent: 'center',
         }}>
-        {console.log('To Test')}
+        {/* {console.log('To Test')} */}
         <View style={{flexDirection: 'column', alignSelf: 'center'}}>
           <Text style={{fontWeight: 'bold', fontSize: 22}}>
             Write a short bio

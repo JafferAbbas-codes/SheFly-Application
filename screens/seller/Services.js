@@ -46,7 +46,7 @@ const AllServices = (props) => {
         overflow: 'hidden',
       }}>
       {console.log('item in Item', item)}
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <Text
         style={{
           fontSize: 25,

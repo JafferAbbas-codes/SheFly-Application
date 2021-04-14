@@ -5,12 +5,13 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import Home from '../screens/buyer/Home';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Home from '../screens/seller/Home';
 import AllServices from '../screens/seller/AllService';
 import Messaging from '../screens/seller/Messaging';
 import DrawerContent from '../screens/seller/DrawerContent';
 import Availablejobs from '../screens/seller/Availablejobs';
+import Profile from '../screens/seller/Profile';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -31,52 +32,60 @@ const MainBottomTabStack = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#fff"
-      style={{backgroundColor: 'tomato'}}>
+      // activeColor="#fff"
+      activeColor="#291F28"
+      inactiveColor="#D8BFD6"
+      // style={{backgroundColor: 'tomato'}}
+    >
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: 'Home',
-          tabBarColor: '#FF9900',
+          // tabBarLabel: 'Home',
+          // tabBarColor: '#FF9900',
+          tabBarColor: '#FFFFFF',
+
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="ChatStackScreen"
+        name="Chats"
         component={ChatStackScreen}
         options={{
-          tabBarLabel: 'Chats',
-          tabBarColor: '#CC0000',
+          // tabBarLabel: 'Chats',
+          // tabBarColor: '#CC0000',
+          tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
             <Ionicons name="chatbox-ellipses-outline" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="AvailableJobsStackScreen"
+        name="AvailableJobs"
         component={AvailableJobsStackScreen}
         options={{
-          tabBarLabel: 'Updates',
-          tabBarColor: '#FF6699',
+          // tabBarLabel: 'AvailableJobs',
+          // tabBarColor: '#FF6699',
+          tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <FontAwesome5 name="file-alt" color={color} size={26} />
           ),
         }}
       />
-      {/* <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarLabel: 'Profile',
-            tabBarColor: '#CC33FF',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="account" color={color} size={26} />
-            ),
-          }}
-        /> */}
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackScreen}
+        options={{
+          // tabBarLabel: 'Profile',
+          // tabBarColor: '#FF6699',
+          tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -114,16 +123,16 @@ const AvailableJobsStackScreen = () => {
     </Stack.Navigator>
   );
 };
-// const ProfileStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Messaging" component={Messaging} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
+const ProfileStackScreen = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Profile" component={Profile} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
 
 export default SellerStack;

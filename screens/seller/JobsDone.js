@@ -91,7 +91,7 @@ export default function jobsDone() {
         shadowRadius: 5,
         elevation: 10,
       }}>
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <View
         style={{
           flexDirection: 'row',

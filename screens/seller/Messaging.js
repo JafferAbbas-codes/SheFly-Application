@@ -39,7 +39,7 @@ export default function getStarted() {
           overflow: 'hidden',
         }}
       />
-      {console.log('To test')}
+      {/* {console.log('To test')} */}
       <View
         style={{
           flexDirection: 'row',
