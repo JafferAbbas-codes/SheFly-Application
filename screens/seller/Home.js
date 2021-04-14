@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,42 +17,89 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-
-import {logout} from '../../redux/authActions';
+import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
+import axios from 'axios';
 import {connect} from 'react-redux';
+import {TouchableOpacity} from 'react-native';
+import {logout} from '../../redux/authActions';
 
 const Home = (props) => {
   // const [value, onChangeText] = React.useState('42|');
-  const [Servises, setServises] = useState([
-    {text: 'Cooking', key: '1'},
-    {text: 'Makeup', key: '2'},
-    {text: 'Nursing', key: '3'},
+  const [services, setServices] = useState([
+    // {name: 'Cooking', _id: '1'},
+    // {name: 'Makeup', _id: '2'},
+    // {name: 'Nursing', _id: '3'},
   ]);
-  const renderItem = ({item}) => <Item text={item.text} />;
-  const Item = ({text}) => (
-    <ImageBackground
-      source={require('../../assets/i.jpg')}
-      style={{
-        width: 120,
-        height: 120,
-        borderRadius: 20,
-        marginHorizontal: 5,
-        overflow: 'hidden',
-      }}>
-      <Text
+  const renderItem = (item) => <Item item={item.item} />;
+
+  useEffect(() => {
+    getAllServices();
+    // getAllSellers();
+  }, []);
+
+  const Item = ({item}) => (
+    <TouchableOpacity
+    // onPress={
+    //   () => {
+    //     OnPressService(item._id, item.name);
+    //   }
+    //   // console.log('on click', item._id),
+    // }
+    >
+      {/* {console.log('To test')} */}
+      <ImageBackground
+        // source={require('../../assets/i.jpg')}
+        source={{
+          uri: item.image,
+        }}
         style={{
-          fontSize: 25,
-          color: 'white',
-          fontWeight: 'bold',
           width: 120,
-          textAlign: 'center',
-          textAlignVertical: 'center',
           height: 120,
+          borderRadius: 20,
+          marginHorizontal: 5,
+          overflow: 'hidden',
         }}>
-        {text}
-      </Text>
-    </ImageBackground>
+        {console.log('item in Item', item)}
+        <Text
+          style={{
+            fontSize: 25,
+            color: 'white',
+            fontWeight: 'bold',
+            width: 120,
+            textAlign: 'center',
+            textAlignVertical: 'center',
+            height: 120,
+          }}>
+          {item.name}
+        </Text>
+      </ImageBackground>
+    </TouchableOpacity>
   );
+  const getAllServices = async () => {
+    try {
+      let response = await axios.get(`${URL}${getAllServicesRoute}`, {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+      console.log('response', response);
+      setServices(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('error123 signin : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  const seeAllServicesPressHandler = () => {
+    props.navigation.navigate('AllServices', {
+      ...props.route.params,
+      getAllServices,
+    });
+  };
+
   const [Recommendation, setRecommendation] = useState([
     {
       name: 'ibrahim',
@@ -158,28 +205,27 @@ const Home = (props) => {
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
-            <TouchableWithoutFeedback onPress={props.logout}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 25,
-                  marginBottom: 15,
-                  width: 200,
-                }}>
-                Popular Services
-              </Text>
-            </TouchableWithoutFeedback>
-
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 25,
+                marginBottom: 15,
+                width: 200,
+              }}>
+              Popular Services
             </Text>
+            <TouchableOpacity
+              onPress={seeAllServicesPressHandler}
+              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              <Text>see all</Text>
+            </TouchableOpacity>
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
               horizontal
-              data={Servises}
+              data={services}
               renderItem={renderItem}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item._id}
               style={{borderRadius: 20}}
             />
           </SafeAreaView>
@@ -255,10 +301,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   user: state.userDetails.user,
   loading: state.userDetails.loading,
+  token: state.userDetails.token,
 });
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout()),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+export default connect(mapStateToProps)(Home);
