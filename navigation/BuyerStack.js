@@ -10,9 +10,10 @@ import Home from '../screens/buyer/Home';
 import AllServices from '../screens/buyer/AllService';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
 import Messaging from '../screens/buyer/Messaging';
+import BuyerRequests from '../screens/buyer/BuyerRequests';
 // import About from '../screens/About';
 // import Notifications from '../screens/Notifications';
-// import Profile from '../screens/Profile';
+// import Profile from '../screens/buyer/Profile';
 // import Explorer from '../screens/Explorer';
 // import Users from '../screens/Users';
 import DrawerContent from '../screens/buyer/DrawerContent';
@@ -38,14 +39,16 @@ const MainBottomTabStack = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#fff"
+      activeColor="#291F28"
+      inactiveColor="#D8BFD6"
       style={{backgroundColor: 'tomato'}}>
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: '#FF9900',
+          // tabBarColor: '#FF9900',
+          tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -56,35 +59,37 @@ const MainBottomTabStack = () => {
         component={ChatStackScreen}
         options={{
           tabBarLabel: 'Chats',
-          tabBarColor: '#CC0000',
+          // tabBarColor: '#CC0000',
+          tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
             <Ionicons name="chatbox-ellipses-outline" color={color} size={26} />
           ),
         }}
       />
-      {/* <Tab.Screen
-          name="Notifications"
-          component={Notifications}
-          options={{
-            tabBarLabel: 'Updates',
-            tabBarColor: '#FF6699',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="bell" color={color} size={26} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarLabel: 'Profile',
-            tabBarColor: '#CC33FF',
-            tabBarIcon: ({color}) => (
-              <MaterialCommunityIcons name="account" color={color} size={26} />
-            ),
-          }}
-        />
-        */}
+      <Tab.Screen
+        name="YourRequestsStackScreen"
+        component={YourRequestsStackScreen}
+        options={{
+          tabBarLabel: 'Updates',
+          // tabBarColor: '#FF6699',
+          tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="bell" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="ProfileStackScreen"
+        component={ProfileStackScreen}
+        options={{
+          tabBarLabel: 'Profile',
+          // tabBarColor: '#CC33FF',
+          tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -118,27 +123,27 @@ const ChatStackScreen = () => {
   );
 };
 
-// const YourRequestsStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Messaging" component={Messaging} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
-// const ProfileStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Messaging" component={Messaging} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
+const YourRequestsStackScreen = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
+const ProfileStackScreen = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Messaging" component={Messaging} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
 
 export default BuyerStack;
