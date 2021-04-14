@@ -97,7 +97,7 @@ const HomeStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Home" component={Home} />
-      {/* <Stack.Screen name="AllServices" component={AllServices} /> */}
+      <Stack.Screen name="AllServices" component={AllServices} />
     </Stack.Navigator>
   );
 };
