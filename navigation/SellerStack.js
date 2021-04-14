@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/buyer/Home';
-import AllServices from '../screens/seller/AllServices';
+import AllServices from '../screens/seller/AllService';
 import Messaging from '../screens/seller/Messaging';
 import DrawerContent from '../screens/seller/DrawerContent';
 import Availablejobs from '../screens/seller/Availablejobs';

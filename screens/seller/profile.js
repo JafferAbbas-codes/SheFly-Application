@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image, ImageBackground} from 'react-native';
-import Header from '../../shared/profilehead';
+import Header from '../../shared/ProfileHead';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {SearchBar} from 'react-native-elements';
-import Card from '../../shared/card';
+import Card from '../../shared/Card';
 
 export default function profileHead() {
   return (

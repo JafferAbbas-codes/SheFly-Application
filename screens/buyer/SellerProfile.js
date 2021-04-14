@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native';
-import Header from '../../shared/profilehead';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, Image, ImageBackground} from 'react-native';
+import Header from '../../shared/ProfileHead';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import { SearchBar } from 'react-native-elements';
-import Card from '../../shared/card';
+import {SearchBar} from 'react-native-elements';
+import Card from '../../shared/Card';
+import {connect} from 'react-redux';
 
-export default function profileHead() {
+const profileHead = (props) => {
   return (
     <View style={styles.back}>
+      {console.log(props.user)}
       <Header />
       <Card>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <View
             style={{
               flexDirection: 'column',
@@ -93,10 +95,10 @@ export default function profileHead() {
             </Text>
           </View>
         </View>
-        <Text style={{ fontWeight: 'bold', fontSize: 25, margin: 10 }}>
+        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
           Expertise
         </Text>
-        <View style={{ flexDirection: 'row', height: 100 }}>
+        <View style={{flexDirection: 'row', height: 100}}>
           <ImageBackground
             source={require('../../assets/i.jpg')}
             style={{
@@ -165,10 +167,10 @@ export default function profileHead() {
           </ImageBackground>
         </View>
 
-        <Text style={{ fontWeight: 'bold', fontSize: 25, margin: 10 }}>
+        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
           Samples
         </Text>
-        <View style={{ flexDirection: 'row', height: 100 }}>
+        <View style={{flexDirection: 'row', height: 100}}>
           <ImageBackground
             source={require('../../assets/i.jpg')}
             style={{
@@ -208,10 +210,18 @@ export default function profileHead() {
       </Card>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
   },
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(profileHead);

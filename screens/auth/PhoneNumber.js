@@ -9,12 +9,12 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import { gStyles } from '../../styles/global';
-import Header from '../../shared/header';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
-import { Dimensions } from "react-native";
-import Stepper from '../../shared/stepper';
+import {gStyles} from '../../styles/global';
+import Header from '../../shared/Header';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
+import {Dimensions} from 'react-native';
+import Stepper from '../../shared/Stepper';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -22,14 +22,14 @@ var height = Dimensions.get('window').height; //full height
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const PhoneNumber = (props) => {
   const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [error, setError] = React.useState({ status: false, message: "" })
+  const [error, setError] = React.useState({status: false, message: ''});
 
   const handleNumberChange = (inputValue) => {
-    setError({ status: false, message: "" })
+    setError({status: false, message: ''});
 
-    console.log(typeof inputValue)
+    console.log(typeof inputValue);
     let reg = /^\d+$/;
-    if (reg.test(inputValue) || inputValue == "") {
+    if (reg.test(inputValue) || inputValue == '') {
       setPhoneNumber(inputValue);
     }
   };
@@ -45,59 +45,56 @@ const PhoneNumber = (props) => {
         phoneNumber,
       });
     } else {
-      setError({ status: true, message: "Invalid phone number" })
+      setError({status: true, message: 'Invalid phone number'});
     }
-
   };
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView style={styles.back}
-      // contentContainerStyle={styles.temp}
+      <ScrollView
+        style={styles.back}
+        // contentContainerStyle={styles.temp}
       >
         <Header />
-        < Stepper step={1} />
+        <Stepper step={1} />
         {/* <Image
           source={require('../../assets/stepper1.png')}
           style={gStyles.stepImg}
         /> */}
         <Card>
-          <View >
-            <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 15, }}>
+          <View>
+            <Text style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
               Let's Get Started
             </Text>
-            <Text style={{ marginBottom: 30 }}>
+            <Text style={{marginBottom: 30}}>
               Enter your phone number to begin
             </Text>
           </View>
-          <View style={{
-            // backgroundColor: 'red',
-            flexDirection: 'row',
-            marginBottom: 50,
-            justifyContent: 'flex-start'
-
-          }}>
+          <View
+            style={{
+              // backgroundColor: 'red',
+              flexDirection: 'row',
+              marginBottom: 50,
+              justifyContent: 'flex-start',
+            }}>
             <Image
               source={require('../../assets/flag-400.jpg')}
               style={styles.headerImage}
             />
 
-            <View style={{
-              flexDirection: 'column',
-              // backgroundColor: 'yellow', 
-              flex: 7
-            }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                // backgroundColor: 'yellow',
+                flex: 7,
+              }}>
               <TextInput
-                style={
-                  error.status
-                    ? styles.errorInput
-                    : styles.input
-                }
+                style={error.status ? styles.errorInput : styles.input}
                 placeholder="eg. 03362032476"
                 onChangeText={(text) => handleNumberChange(text)}
-                keyboardType='number-pad'
+                keyboardType="number-pad"
                 value={phoneNumber}
               />
 
@@ -105,15 +102,12 @@ const PhoneNumber = (props) => {
                 <Text
                   style={{
                     color: 'red',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
                   }}>
-                  {error.status
-                    ? error.message
-                    : ''}
+                  {error.status ? error.message : ''}
                 </Text>
               </View>
             </View>
-
           </View>
           <FlatButton text="Next" onPress={nextPressHandler} />
         </Card>
@@ -131,7 +125,7 @@ const styles = StyleSheet.create({
   },
   temp: {
     alignContent: 'flex-end',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   header: {
     paddingLeft: 35,

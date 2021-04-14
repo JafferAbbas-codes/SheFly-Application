@@ -8,4 +8,5 @@ export const getAllServicesRoute = 'service/';
 export const getAllUsers = 'user/';
 export const connectToChat = 'chat/join';
 export const sendMessageToServer = 'chat/sendMessage';
-export const getSellersByService = '/user/byService/';
+export const getSellersByService = 'user/byService/';
+export const getUserByType = 'user/byType/';

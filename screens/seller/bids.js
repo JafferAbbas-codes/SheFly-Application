@@ -12,9 +12,9 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/header2';
-import Card from '../../shared/card';
-import FlatButton from '../../shared/button.js';
+import Header from '../../shared/Header2';
+import Card from '../../shared/Card';
+import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function jobsDone() {

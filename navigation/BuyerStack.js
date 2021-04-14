@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Home from '../screens/buyer/Home';
-import AllServices from '../screens/buyer/AllServices';
+import AllServices from '../screens/buyer/AllService';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
 import Messaging from '../screens/buyer/Messaging';
 // import About from '../screens/About';
@@ -18,6 +18,8 @@ import Messaging from '../screens/buyer/Messaging';
 import DrawerContent from '../screens/buyer/DrawerContent';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
+import AvailableSellers from '../screens/buyer/AvailableSellers';
+import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -96,6 +98,11 @@ const HomeStackScreen = () => {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AllServices" component={AllServices} />
       <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
+      <Stack.Screen name="AvailableSellers" component={AvailableSellers} />
+      <Stack.Screen
+        name="SellerProfileForBuyer"
+        component={SellerProfileForBuyer}
+      />
     </Stack.Navigator>
   );
 };

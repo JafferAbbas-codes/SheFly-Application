@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,16 +10,16 @@ import {
   ScrollView,
 } from 'react-native';
 import Checkbox from 'react-native-check-box';
-import Header from '../../shared/header';
-import LongCard from '../../shared/longCard';
-import FlatButton from '../../shared/button.js';
-import { gStyles } from '../../styles/global';
-import { Formik } from 'formik';
+import Header from '../../shared/Header';
+import LongCard from '../../shared/LongCard';
+import FlatButton from '../../shared/Button.js';
+import {gStyles} from '../../styles/global';
+import {Formik} from 'formik';
 import * as yup from 'yup';
-import Stepper from '../../shared/stepper';
+import Stepper from '../../shared/Stepper';
 
-import { signup, setLoading } from '../../redux/authActions';
-import { connect } from 'react-redux';
+import {signup, setLoading} from '../../redux/authActions';
+import {connect} from 'react-redux';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
@@ -38,10 +38,10 @@ const AccountInfo = (props) => {
   const handleSubmit = (values) => {
     console.log(
       'props in AccountInfo',
-      Object.assign({ isActivated: true }, values, props.route.params),
+      Object.assign({isActivated: true}, values, props.route.params),
     );
     signupFunction(
-      Object.assign({ isActivated: true }, values, props.route.params),
+      Object.assign({isActivated: true}, values, props.route.params),
     );
     console.log('values');
   };
@@ -99,7 +99,7 @@ const AccountInfo = (props) => {
       }}>
       <ScrollView style={styles.back}>
         <Header />
-        < Stepper step={3} />
+        <Stepper step={3} />
         {/* <Image
           source={require('../../assets/stepper3.png')}
           style={gStyles.stepImg}
@@ -144,9 +144,9 @@ const AccountInfo = (props) => {
                   style={{
                     flexDirection: 'column',
                     alignContent: 'space-around',
-                    marginBottom: 5
+                    marginBottom: 5,
                   }}>
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -172,11 +172,11 @@ const AccountInfo = (props) => {
                           onChangeText={propss.handleChange('name')}
                           value={propss.values.name}
                           onBlur={propss.handleBlur('name')}
-                          placeholder='Enter your name'
+                          placeholder="Enter your name"
                         />
                         {/* {propss.errors.name && propss.touched.name ? ( */}
-                        <View >
-                          <Text style={{ color: 'red' }}>
+                        <View>
+                          <Text style={{color: 'red'}}>
                             {propss.errors.name && propss.touched.name
                               ? propss.errors.name
                               : ''}
@@ -187,7 +187,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -204,7 +204,7 @@ const AccountInfo = (props) => {
                       }}>
                       <View>
                         <TextInput
-                          placeholder='abc@example.com'
+                          placeholder="abc@example.com"
                           style={
                             propss.errors.email && propss.touched.email
                               ? styles.errorInput
@@ -215,8 +215,8 @@ const AccountInfo = (props) => {
                           onBlur={propss.handleBlur('email')}
                         />
                         {/* {propss.errors.email && propss.touched.email ? ( */}
-                        <View >
-                          <Text style={{ color: 'red' }}>
+                        <View>
+                          <Text style={{color: 'red'}}>
                             {propss.errors.email && propss.touched.email
                               ? propss.errors.email
                               : ''}
@@ -227,7 +227,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -254,11 +254,11 @@ const AccountInfo = (props) => {
                           onChangeText={propss.handleChange('password')}
                           value={propss.values.password}
                           onBlur={propss.handleBlur('password')}
-                          placeholder='********'
+                          placeholder="********"
                         />
 
                         {/* {propss.errors.password && propss.touched.password ? ( */}
-                        <View >
+                        <View>
                           <Text
                             style={{
                               color: 'red',
@@ -273,7 +273,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -292,12 +292,12 @@ const AccountInfo = (props) => {
                         <TextInput
                           style={
                             propss.errors.passwordConfirmation &&
-                              propss.touched.passwordConfirmation
+                            propss.touched.passwordConfirmation
                               ? styles.errorInput
                               : styles.input
                           }
                           secureTextEntry={true}
-                          placeholder='********'
+                          placeholder="********"
                           autoCompleteType="password"
                           onChangeText={propss.handleChange(
                             'passwordConfirmation',
@@ -307,13 +307,13 @@ const AccountInfo = (props) => {
                         />
                         {/* {propss.errors.passwordConfirmation &&
                         propss.touched.passwordConfirmation ? ( */}
-                        <View >
+                        <View>
                           <Text
                             style={{
                               color: 'red',
                             }}>
                             {propss.errors.passwordConfirmation &&
-                              propss.touched.passwordConfirmation
+                            propss.touched.passwordConfirmation
                               ? propss.errors.passwordConfirmation
                               : ''}
                           </Text>
