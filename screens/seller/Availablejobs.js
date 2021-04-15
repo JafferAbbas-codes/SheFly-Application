@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,55 +17,77 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function getStarted() {
+import {URL, getAvailableJobs} from '../../config/const';
+import axios from 'axios';
+import {connect} from 'react-redux';
+const AvailableJobs = (props) => {
   const [Recommendation, setRecommendation] = useState([
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '1',
-    },
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '2',
-    },
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '3',
-    },
+    // {
+    //   name: 'ibrahim',
+    //   price: '25000',
+    //   service: 'graphic',
+    //   location: 'karachi',
+    //   description: 'Hello world',
+    //   text: 'Cooking',
+    //   key: '1',
+    // },
+    // {
+    //   name: 'ibrahim',
+    //   price: '25000',
+    //   service: 'graphic',
+    //   location: 'karachi',
+    //   description: 'Hello world',
+    //   text: 'Cooking',
+    //   key: '2',
+    // },
+    // {
+    //   name: 'ibrahim',
+    //   price: '25000',
+    //   service: 'graphic',
+    //   location: 'karachi',
+    //   description: 'Hello world',
+    //   text: 'Cooking',
+    //   key: '3',
+    // },
   ]);
+  const getAllAvailableJobs = async () => {
+    try {
+      let response = await axios.post(
+        `${URL}${getAvailableJobs}`,
+        {status: 'pending'},
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of getAllAvailableJobs', response.data.result);
+      setRecommendation(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('propss in availablejobs', props);
+        console.log('error123 available jobs : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  useEffect(() => {
+    getAllAvailableJobs();
+  }, []);
+
   const renderRecommendation = ({item}) => (
+    // console.log('item in availableJob', item);
     <ItemRecom
-      name={item.name}
+      name={item.buyer.name}
       description={item.description}
-      location={item.location}
+      location={item.address}
       service={item.service}
       price={item.price}
-      text={item.text}
     />
   );
-  const ItemRecom = ({
-    name,
-    price,
-    service,
-    location,
-    description,
-    text,
-    key,
-  }) => (
+  const ItemRecom = ({name, price, service, location, description, key}) => (
     <View
       style={{
         height: 150,
@@ -137,7 +159,7 @@ export default function getStarted() {
             <FlatList
               data={Recommendation}
               renderItem={renderRecommendation}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item._id}
               style={{borderRadius: 20}}
             />
           </SafeAreaView>
@@ -145,7 +167,7 @@ export default function getStarted() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -168,3 +190,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(AvailableJobs);

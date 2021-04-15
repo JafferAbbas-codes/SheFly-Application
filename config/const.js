@@ -10,3 +10,4 @@ export const connectToChat = 'chat/join';
 export const sendMessageToServer = 'chat/sendMessage';
 export const getSellersByService = 'user/byService/';
 export const getUserByType = 'user/byType/';
+export const getAvailableJobs = 'order/status/';
