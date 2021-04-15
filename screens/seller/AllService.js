@@ -35,7 +35,13 @@ const AllServices = (props) => {
   const renderItem = (item) => <Item item={item.item} />;
 
   const Item = ({item}) => (
-    <TouchableOpacity onPress={() => console.log('on click', item._id)}>
+    <TouchableOpacity
+      onPress={
+        () => {
+          OnPressService(item._id, item.name);
+        }
+        // console.log('on click', item._id),
+      }>
       {/* {console.log('To test')} */}
       <ImageBackground
         //   source={require('../../assets/i.jpg')}
@@ -66,10 +72,11 @@ const AllServices = (props) => {
     </TouchableOpacity>
   );
 
-  const OnPressService = (id) => {
+  const OnPressService = (id, name) => {
     props.navigation.navigate('ServiceSeller', {
       ...props.route.params,
       id,
+      name,
     });
   };
 

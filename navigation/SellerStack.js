@@ -12,6 +12,8 @@ import Messaging from '../screens/seller/Messaging';
 import DrawerContent from '../screens/seller/DrawerContent';
 import Availablejobs from '../screens/seller/Availablejobs';
 import Profile from '../screens/seller/Profile';
+import ServiceSeller from '../screens/buyer/ServiceSeller';
+import EditProfile from '../screens/seller/EditProfile';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -98,6 +100,7 @@ const HomeStackScreen = () => {
       }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AllServices" component={AllServices} />
+      <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
     </Stack.Navigator>
   );
 };
@@ -130,6 +133,8 @@ const ProfileStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );

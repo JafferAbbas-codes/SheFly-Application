@@ -39,13 +39,12 @@ const Home = (props) => {
 
   const Item = ({item}) => (
     <TouchableOpacity
-    // onPress={
-    //   () => {
-    //     OnPressService(item._id, item.name);
-    //   }
-    //   // console.log('on click', item._id),
-    // }
-    >
+      onPress={
+        () => {
+          OnPressService(item._id, item.name);
+        }
+        // console.log('on click', item._id),
+      }>
       {/* {console.log('To test')} */}
       <ImageBackground
         // source={require('../../assets/i.jpg')}
@@ -75,6 +74,14 @@ const Home = (props) => {
       </ImageBackground>
     </TouchableOpacity>
   );
+
+  const OnPressService = (id, name) => {
+    props.navigation.navigate('ServiceSeller', {
+      ...props.route.params,
+      id,
+      name,
+    });
+  };
   const getAllServices = async () => {
     try {
       let response = await axios.get(`${URL}${getAllServicesRoute}`, {

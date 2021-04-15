@@ -1,5 +1,5 @@
 export const URL = 'https://she-fly-application-server.herokuapp.com/';
-// export const URL = '192.168.43.224:4000';
+// export const URL = 'http://192.168.43.248:4000/';
 
 export const loginRoute = 'auth/login/';
 export const signupRoute = 'auth/signup/';

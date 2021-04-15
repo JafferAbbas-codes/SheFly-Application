@@ -1,75 +1,92 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
+// import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {SearchBar} from 'react-native-elements';
+import {TouchableOpacity} from 'react-native';
 
-export default function Header() {
+const Header = (props) => {
   // {navigation, title}
   // const openMenu=()=>{
   //     navigation.openDrawer();
   // }
+
+  {
+    console.log('profile header props', props);
+  }
+
+  const OnPressEdit = () => {
+    console.log('in on Press Edit');
+    props.navigation.navigate('EditProfile', {
+      ...props.route.params,
+    });
+  };
+
   const [search, updateSearch] = useState('');
   return (
     <View style={{alignSelf: 'center', margin: 40}}>
+      {console.log('In header', props)}
       <View style={{flexDirection: 'row'}}>
-        <Image source={require('../assets/i.jpg')} style={styles.headerImage} />
+        <Image
+          source={{
+            uri: props.user.profileImage,
+          }}
+          style={styles.headerImage}
+        />
         <View style={{margin: 5}}>
-          <Text style={{fontSize: 15, color: 'white', margin: 2}}>Hello,</Text>
+          <Text
+            style={{fontSize: 14, color: 'white', marginTop: 2, marginLeft: 2}}>
+            Hello,
+          </Text>
           <Text
             style={{
-              fontSize: 25,
+              fontSize: 24,
               color: 'white',
               fontWeight: 'bold',
-              margin: 2,
+              // margin: 2,
             }}>
-            Ibrahim
+            {props.user.name}
           </Text>
-          <Text style={{fontSize: 15, color: 'white', margin: 2}}>
-            Make Up Artist
-          </Text>
+
           <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 15, color: 'white', margin: 2}}>
-              kdkdfjkdf
+            <Text style={{fontSize: 12, color: 'white', marginTop: 10}}>
+              {props.user.title + '     '}
             </Text>
-            <Text style={{fontSize: 15, color: 'white', margin: 2}}>
+
+            <Text style={{fontSize: 12, color: 'white', margin: 10}}>
               <MaterialIcons
                 name="star"
-                size={15}
+                size={10}
                 /*onPress={openMenu}*/ style={styles.icon}
               />
-              5.0
+              {' ' + parseFloat(props.user.rating).toFixed(1)}
             </Text>
           </View>
         </View>
         <View>
           <MaterialIcons
-            name="edit"
-            size={20}
-            /*onPress={openMenu}*/ style={styles.icon}
+            onPress={() => OnPressEdit()}
+            name="pencil"
+            // backgroundColor="#3b5998"
+            size={14}
+            // size="small"
+            style={styles.icon}
+            // iconStyle={{padding: 0, alignContent: 'stretch'}}
           />
-          <Text
-            style={{
-              fontSize: 20,
-              width: 130,
-              textAlign: 'right',
-              textAlignVertical: 'center',
-              fontWeight: 'bold',
-              margin: 5,
-            }}></Text>
         </View>
       </View>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 16,
           textAlignVertical: 'center',
-          margin: 10,
+          marginTop: 10,
           color: 'white',
         }}>
-        I am a professional
+        {props.user.bio}
       </Text>
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   header: {
     width: '100%',
@@ -88,19 +105,20 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     color: 'white',
+    alignItems: 'flex-end',
     // left:16,
-    width: 130,
+    width: 100,
     textAlign: 'right',
     textAlignVertical: 'center',
-    fontWeight: 'bold',
-    margin: 5,
+    // fontWeight: 'bold',
+    marginTop: 15,
   },
   headerTitle: {
     flexDirection: 'row',
   },
   headerImage: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     alignSelf: 'flex-end',
     borderRadius: 15,
     margin: 10,
@@ -108,3 +126,5 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
 });
+
+export default Header;
