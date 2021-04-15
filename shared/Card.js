@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Dimensions } from "react-native";
+import {StyleSheet, View, Text} from 'react-native';
+import {Dimensions} from 'react-native';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
 export default function Card(props) {
   return (
-    <View style={props.cardWithOutStepper ? styles.cardWithOutStepper : styles.card}>
+    <View
+      style={
+        props.cardWithOutStepper ? styles.cardWithOutStepper : styles.card
+      }>
       <View style={styles.cardContent}>{props.children}</View>
     </View>
   );
@@ -20,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F9FE',
     shadowColor: '#333',
     padding: 30,
-    width: width,//120,//108//1
+    width: width, //120,//108//1
     height: 0.6 * height,
     bottom: 0,
     // alignItems: 'center',
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F9FE',
     shadowColor: '#333',
     padding: 30,
-    width: width,//120,//108//1
+    width: width, //120,//108//1
     height: 0.7 * height,
     bottom: 0,
     // alignItems: 'center',

@@ -21,7 +21,7 @@ import {Formik} from 'formik';
 import MultiSelect from 'react-native-multiple-select';
 import * as yup from 'yup';
 
-export default function yourBid() {
+const EditProfile = () => {
   // const [value, onChangeText] = React.useState('42|');
   const reviewSchema = yup.object({
     budget: yup.string().required(),
@@ -309,7 +309,7 @@ export default function yourBid() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -378,3 +378,5 @@ const styles = StyleSheet.create({
   },
   headerTitle: {},
 });
+
+export default EditProfile;

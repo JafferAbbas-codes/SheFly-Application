@@ -22,40 +22,7 @@ import {connect} from 'react-redux';
 import {URL, getSellersByService} from '../../config/const';
 
 const ServiceSeller = (props) => {
-  const [sellerByService, setsellerByService] = useState([
-    // {
-    //     name: 'Mashama Hafeez',
-    //     rating: '5.0',
-    //     service: 'Make up Artist',
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor consectetur adipiscing. Sed id placerat odio.',
-    //     text: 'Makeup',
-    //     key: '1',
-    // },
-    // {
-    //     name: 'Mashama Hafeez',
-    //     rating: '5.0',
-    //     service: 'Make up Artist',
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio. ',
-    //     text: 'Makeup',
-    //     key: '2',
-    // },
-    // {
-    //     name: 'Mashama Hafeez',
-    //     rating: '5.0',
-    //     service: 'Make up Artist',
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio. ',
-    //     text: 'Makeup',
-    //     key: '4',
-    // },
-    // {
-    //     name: 'Mashama Hafeez',
-    //     rating: '5.0',
-    //     service: 'Make up Artist',
-    //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio.  ',
-    //     text: 'Makeup',
-    //     key: '5',
-    // },
-  ]);
+  const [sellerByService, setsellerByService] = useState([]);
 
   const getAllSellersByService = async (id) => {
     // return {};

@@ -99,18 +99,18 @@ const Home = (props) => {
     });
   };
 
-  const OnPressService = (index) => {
-    props.navigation.navigate('SellerProfileForBuyer', {
-      ...props.route.params,
-      index,
-    });
-  };
-
-  const OnPressSeller = (id) => {
+  const OnPressService = (id, name) => {
     props.navigation.navigate('ServiceSeller', {
       ...props.route.params,
       id,
       name,
+    });
+  };
+
+  const OnPressSeller = (index) => {
+    props.navigation.navigate('SellerProfileForBuyer', {
+      ...props.route.params,
+      index,
     });
   };
 
@@ -181,7 +181,7 @@ const Home = (props) => {
   const ItemRecom = ({name, profileImage, bio, rating, title, _id, index}) => (
     <TouchableOpacity
       onPress={() => {
-        OnPressService(index);
+        OnPressSeller(index);
         // console.log('on click in seller box', _id);
       }}>
       <View
