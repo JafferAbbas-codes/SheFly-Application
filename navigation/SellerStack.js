@@ -72,7 +72,7 @@ const MainBottomTabStack = () => {
           // tabBarColor: '#FF6699',
           tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
-            <FontAwesome5 name="file-alt" color={color} size={26} />
+            <FontAwesome5 name="briefcase" color={color} size={24} />
           ),
         }}
       />

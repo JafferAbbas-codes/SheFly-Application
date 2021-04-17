@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -18,70 +18,43 @@ import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native';
-export default function BidsOnBuyerRequests() {
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {URL, getOrdersBySeller, getBidsByOrder} from '../../config/const';
+
+const BidsOnBuyerRequests = (props) => {
   // const [value, onChangeText] = React.useState('42|');
-  const [Services, setServices] = useState([
-    {
-      bookingno: '156843',
-      //   status: 'completed',
-      seller: 'Sara Khan',
-      description:
-        ' I will apply mehendi according to your designs. I will reach your address at 2:00 pm',
-      budget: '3500',
-      //   date: '6-06-2021',
-      //   service: 'Cooking',
-      //   user: 'Salman',
-      key: '1',
-    },
-    {
-      bookingno: '156843',
-      //   status: 'completed',
-      seller: 'Mona',
-      description:
-        'I will reach your home at 12:00 pm. Please be ready with your designs. ',
-      budget: '3000',
-      //   date: '6-06-2021',
-      //   service: 'Cooking',
-      //   user: 'Salman',
-      key: '2',
-    },
-    {
-      bookingno: '156843',
-      //   status: 'completed',
-      seller: 'Rasheeda',
-      description:
-        'I will apply bridal mehendi with your designs. I will come to the given address at 3 ',
-      budget: '3000',
-      //   date: '6-06-2021',
-      //   service: 'Cooking',
-      //   user: 'Salman',
-      key: '3',
-    },
-    {
-      bookingno: '156843',
-      //   status: 'completed',
-      seller: 'Tehreem',
-      description:
-        'I will reach your home at 12:00 pm. Please be ready with your designs. ',
-      budget: '4000',
-      //   date: '6-06-2021',
-      //   service: 'Cooking',
-      //   user: 'Salman',
-      key: '4',
-    },
-    {
-      bookingno: '156843',
-      //   status: 'completed',
-      seller: 'Tehreem',
-      description:
-        'I will reach your home at 12:00 pm. Please be ready with your designs. ',
-      budget: '4000',
-      //   date: '6-06-2021',
-      //   service: 'Cooking',
-      //   user: 'Salman',
-      key: '5',
-    },
-  ]);
+  console.log('props in bidsonbuyerrequest', props);
+  const [Bids, setBids] = useState([]);
+
+  const getAllBidsByOrder = async () => {
+    console.log('in Api call', props.route.params.id);
+    try {
+      let response = await axios.get(
+        `${URL}${getBidsByOrder}${props.route.params.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of getAllBidsByOrder', response.data.result);
+
+      setBids(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('propss in getAllBidsByOrder', props);
+        console.log('error123 getAllBidsByOrder : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  useEffect(() => {
+    getAllBidsByOrder();
+  }, []);
+
   const renderItem = ({item}) => (
     <Item
       text={item.text}
@@ -131,7 +104,7 @@ export default function BidsOnBuyerRequests() {
             textAlign: 'center',
             fontSize: 15,
           }}>
-          Booking No: {bookingno}
+          Booking No: {props.route.params.id}
         </Text>
       </View>
       <View
@@ -226,6 +199,13 @@ export default function BidsOnBuyerRequests() {
     </View>
   );
 
+  const OnPressBack = () => {
+    console.log('in on Press Edit');
+    props.navigation.navigate('RequestDetails', {
+      ...props.route.params,
+    });
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -235,16 +215,22 @@ export default function BidsOnBuyerRequests() {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 15,
+            // justifyContent: 'space-evenly',
+            padding: 35,
           }}>
+          <MaterialIcons
+            onPress={() => OnPressBack()}
+            name="arrow-left"
+            size={20}
+            color="white"
+          />
           <Text
             style={{
               color: 'white',
               fontWeight: 'bold',
               fontSize: 30,
-              justifyContent: 'space-between',
-              padding: 25,
+              // justifyContent: 'space-between',
+              paddingTop: 25,
             }}>
             Bids
           </Text>
@@ -253,7 +239,7 @@ export default function BidsOnBuyerRequests() {
           <ScrollView>
             <SafeAreaView style={styles.container}>
               <FlatList
-                data={Services}
+                data={Bids}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.key}
                 style={{borderRadius: 20}}
@@ -264,7 +250,7 @@ export default function BidsOnBuyerRequests() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -325,3 +311,11 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(BidsOnBuyerRequests);

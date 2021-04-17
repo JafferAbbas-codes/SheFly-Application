@@ -15,3 +15,4 @@ export const getOrdersBySeller = 'order/seller/';
 export const getBuyerRequests = 'order/buyer/';
 export const getRecommendedJobs = 'order/recommended/';
 export const getBidsBySeller = 'bid/seller/';
+export const getBidsByOrder = 'bid/order/';

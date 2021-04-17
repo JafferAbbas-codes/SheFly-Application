@@ -21,21 +21,21 @@ import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function requestDetails(props) {
   // const [value, onChangeText] = React.useState('42|');
   console.log(props);
-  const [Services, setServices] = useState([
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      budget: '3000',
-      user: 'Salman',
-      location: 'FB Area,Karachi',
-      description:
-        'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
-      key: '1',
-    },
-  ]);
+  // const [Services, setServices] = useState([
+  //   {
+  //     bookingno: '1',
+  //     status: 'completed',
+  //     serviceprovider: 'Narjis',
+  //     date: '6-06-2021',
+  //     service: 'Cooking',
+  //     budget: '3000',
+  //     user: 'Salman',
+  //     location: 'FB Area,Karachi',
+  //     description:
+  //       'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
+  //     key: '1',
+  //   },
+  // ]);
   const renderItem = ({item}) => (
     <Item
       text={item.text}
@@ -52,6 +52,33 @@ export default function requestDetails(props) {
     console.log('in on Press Edit');
     props.navigation.navigate('BuyerRequests', {
       ...props.route.params,
+    });
+  };
+
+  const OnPressViewAllBids = (
+    id,
+    requestNo,
+    date,
+    buyer,
+    status,
+    seller,
+    service,
+    budget,
+    address,
+    description,
+  ) => {
+    props.navigation.navigate('BidsOnBuyerRequest', {
+      ...props.route.params,
+      id,
+      requestNo,
+      date,
+      buyer,
+      status,
+      seller,
+      service,
+      budget,
+      address,
+      description,
     });
   };
 
@@ -162,7 +189,26 @@ export default function requestDetails(props) {
               marginTop: 40,
               marginHorizontal: 30,
             }}>
-            <FlatButton text="View all Bids" />
+            <FlatButton
+              text="View all Bids"
+              onPress={
+                () => {
+                  OnPressViewAllBids(
+                    props.route.params.id,
+                    props.route.params.requestNo,
+                    props.route.params.date,
+                    props.route.params.buyer,
+                    props.route.params.status,
+                    props.route.params.seller,
+                    props.route.params.service,
+                    props.route.params.budget,
+                    props.route.params.address,
+                    props.route.params.description,
+                  );
+                }
+                // console.log('on click', item._id),
+              }
+            />
           </View>
         </View>
       </View>
