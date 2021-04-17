@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -14,13 +14,14 @@ import {SearchBar} from 'react-native-elements';
 import Card from '../../shared/Card';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {URL, getAllServicesRoute} from '../../config/const';
+import {URL, getOrdersBySeller, getBidsBySeller} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const Profile = (props) => {
-  // const [Services, setServices] = useState(props.user.services);
-  // const [Samples, setSamples] = useState(props.user.samples);
+  const [jobsDone, setJobsDone] = useState([]);
+  const [jobsInProgress, setJobsInProgress] = useState([]);
+  const [bids, setBids] = useState([]);
   // console.log('services print', Services);
   // console.log('services print', Samples);
   console.log('props in profile', props);
@@ -54,6 +55,65 @@ const Profile = (props) => {
     </ImageBackground>
   );
 
+  const getJobsDoneBySeller = async () => {
+    try {
+      let response = await axios.get(
+        `${URL}${getOrdersBySeller}${props.user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of getJobsDoneBySeller', response.data.result);
+      let inProgess = [];
+      let completed = [];
+      response.data.result.map((order) => {
+        if (order.status == 'confirmed') {
+          inProgess.push(order);
+        } else if (order.status == 'completed') {
+          completed.push(order);
+        }
+      });
+      setJobsInProgress(inProgess);
+      setJobsDone(completed);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('propss in JobsDoneBySeller', props);
+        console.log('error123 JobsDoneBySeller : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+  const getAllBidsBySeller = async () => {
+    try {
+      let response = await axios.get(
+        `${URL}${getBidsBySeller}${props.user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of getAllBidsBySeller', response.data.result);
+
+      setBids(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('propss in getAllBidsBySeller', props);
+        console.log('error123 getAllBidsBySeller : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  useEffect(() => {
+    getJobsDoneBySeller();
+    getAllBidsBySeller();
+  }, []);
+
   return (
     <View style={styles.back}>
       {console.log('Inprofile', props)}
@@ -81,7 +141,7 @@ const Profile = (props) => {
                   textAlign: 'center',
                   textAlignVertical: 'bottom',
                 }}>
-                12
+                {jobsDone.length}
               </Text>
               <Text
                 style={{
@@ -108,7 +168,7 @@ const Profile = (props) => {
                   textAlign: 'center',
                   textAlignVertical: 'bottom',
                 }}>
-                3
+                {jobsInProgress.length}
               </Text>
               <Text
                 style={{
@@ -135,7 +195,7 @@ const Profile = (props) => {
                   textAlign: 'center',
                   textAlignVertical: 'bottom',
                 }}>
-                3
+                {bids.length}
               </Text>
               {/* {console.log('To test')} */}
               <Text
