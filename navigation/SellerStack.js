@@ -37,6 +37,9 @@ const MainBottomTabStack = () => {
       // activeColor="#fff"
       activeColor="#291F28"
       inactiveColor="#D8BFD6"
+      tabBarOptions={{
+        showLabel: false,
+      }}
       // style={{backgroundColor: 'tomato'}}
     >
       <Tab.Screen

@@ -1,6 +1,6 @@
-import { SIGNIN_USER, SIGNUP_USER, CLEAR_USER, SET_LOADING } from './ActionTypes';
+import {SIGNIN_USER, SIGNUP_USER, CLEAR_USER, SET_LOADING} from './ActionTypes';
 import axios from 'axios';
-import { URL, loginRoute, signupRoute, verifyCNICRoute } from '../config/const';
+import {URL, loginRoute, signupRoute, verifyCNICRoute} from '../config/const';
 
 export const login = (body) => async (dispatch) => {
   try {
@@ -14,9 +14,10 @@ export const login = (body) => async (dispatch) => {
     });
     return response.data.result;
   } catch (error) {
+    console.log('error signin', error);
     if (error?.response?.data?.result) {
       console.log('error123 signin : ', error.response.data);
-      return { error: error.response.data.result };
+      return {error: error.response.data.result};
     }
   }
 };
@@ -36,7 +37,7 @@ export const signup = (body) => async (dispatch) => {
   } catch (error) {
     if (error?.response?.data?.result) {
       console.log('error123 signin : ', error.response.data);
-      return { error: error.response.data.result };
+      return {error: error.response.data.result};
     }
   }
 };
@@ -56,7 +57,7 @@ export const verifyCNIC = async (body) => {
   } catch (error) {
     if (error?.response?.data?.result) {
       console.log('error123 Route : ', error.response.data);
-      return { error: error.response.data.result };
+      return {error: error.response.data.result};
     }
   }
 };
