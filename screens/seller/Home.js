@@ -17,25 +17,22 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
+import {URL, getAllServicesRoute, getRecommendedJobs} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import {logout} from '../../redux/authActions';
 
 const Home = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
-  const [services, setServices] = useState([
-    // {name: 'Cooking', _id: '1'},
-    // {name: 'Makeup', _id: '2'},
-    // {name: 'Nursing', _id: '3'},
-  ]);
-  const renderItem = (item) => <Item item={item.item} />;
+  const [services, setServices] = useState([]);
+  const [Recommendation, setRecommendation] = useState([]);
 
   useEffect(() => {
     getAllServices();
-    // getAllSellers();
+    getAllRecommendedJobs();
   }, []);
+
+  const renderItem = (item) => <Item item={item.item} />;
 
   const Item = ({item}) => (
     <TouchableOpacity
@@ -82,6 +79,7 @@ const Home = (props) => {
       name,
     });
   };
+
   const getAllServices = async () => {
     try {
       let response = await axios.get(`${URL}${getAllServicesRoute}`, {
@@ -103,102 +101,105 @@ const Home = (props) => {
   const seeAllServicesPressHandler = () => {
     props.navigation.navigate('AllServices', {
       ...props.route.params,
-      getAllServices,
+      services,
     });
   };
 
-  const [Recommendation, setRecommendation] = useState([
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '1',
-    },
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '2',
-    },
-    {
-      name: 'ibrahim',
-      price: '25000',
-      service: 'graphic',
-      location: 'karachi',
-      description: 'Hello world',
-      text: 'Cooking',
-      key: '3',
-    },
-  ]);
+  const seeAllJobsPressHandler = () => {
+    props.navigation.navigate('Availablejobs', {
+      ...props.route.params,
+      Recommendation,
+    });
+  };
+
+  const getAllRecommendedJobs = async () => {
+    try {
+      let response = await axios.post(
+        `${URL}${getRecommendedJobs}${props.user._id}`,
+        {services: props.user.services},
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of getAllRecommendedJobs', response.data.result);
+      setRecommendation(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('propss in getAllRecommendedJobs', props);
+        console.log('error123 getAllRecommendedJobs : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
   const renderRecommendation = ({item}) => (
     <ItemRecom
-      name={item.name}
-      description={item.description}
-      location={item.location}
+      name={item.buyer.name}
+      image={item.buyer.profileImage}
       service={item.service}
-      price={item.price}
-      text={item.text}
+      location={item.address}
+      // service={item.service}
+      budget={item.budget}
+      description={item.description}
     />
   );
-  const ItemRecom = ({
-    name,
-    price,
-    service,
-    location,
-    description,
-    text,
-    key,
-  }) => (
+  const ItemRecom = ({name, service, location, budget, description, image}) => (
     <View
       style={{
-        height: 150,
+        // height: 150,
         width: 300,
         borderRadius: 25,
         backgroundColor: 'white',
         marginHorizontal: 5,
       }}>
       {/* {console.log('To test')} */}
-      <View style={{height: 75, width: 300, flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row'}}>
         <Image
-          source={require('../../assets/i.jpg')}
+          source={{
+            uri: image,
+          }}
           style={styles.headerImage}
         />
         <View>
-          <Text style={{fontSize: 20, fontWeight: 'bold', margin: 2}}>
+          <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
             {name}
           </Text>
-          <Text style={{fontSize: 10, margin: 2}}>{service}</Text>
-          <Text style={{fontSize: 10, margin: 2}}>
+          <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
+            {service}
+          </Text>
+          <Text style={{fontSize: 10, color: '#A28FA1'}}>
             <MaterialIcons
               name="map-marker"
               size={10}
               /*onPress={openMenu}*/ style={styles.icon}
             />
-            {location}
+            {' ' + location}
           </Text>
         </View>
         <View>
           <Text
             style={{
-              fontSize: 20,
-              width: 130,
-              textAlign: 'right',
-              textAlignVertical: 'center',
+              fontSize: 15,
+              // width: 130,
+              // textAlign: 'right',
+              // textAlignVertical: 'center',
               fontWeight: 'bold',
-              margin: 5,
+              marginTop: 20,
             }}>
-            {price}
+            {'Rs. ' + budget}
           </Text>
-          <Text style={{textAlign: 'right'}}>/month</Text>
         </View>
       </View>
-      <Text style={{fontSize: 15, textAlignVertical: 'center', margin: 10}}>
+      <Text
+        style={{
+          fontSize: 15,
+          textAlignVertical: 'center',
+          marginHorizontal: 10,
+          marginBottom: 15,
+        }}>
         {description}
       </Text>
     </View>
@@ -246,9 +247,11 @@ const Home = (props) => {
               }}>
               Recommendation For You
             </Text>
-            <Text style={{textAlignVertical: 'center', marginLeft: 90}}>
-              see all
-            </Text>
+            <TouchableOpacity
+              onPress={seeAllJobsPressHandler}
+              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              <Text>see all</Text>
+            </TouchableOpacity>
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
@@ -270,8 +273,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   headerImage: {
-    width: 50,
-    height: 50,
+    width: 56,
+    height: 56,
     margin: 10,
     borderRadius: 50,
   },

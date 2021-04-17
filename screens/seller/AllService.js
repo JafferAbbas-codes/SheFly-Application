@@ -81,21 +81,8 @@ const AllServices = (props) => {
   };
 
   const getAllServices = async () => {
-    try {
-      let response = await axios.get(`${URL}${getAllServicesRoute}`, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      });
-      console.log('response', response);
-      setServices(response.data.result);
-      return response.data.result;
-    } catch (error) {
-      if (error?.response?.data?.result) {
-        console.log('error123 signin : ', error.response.data);
-        return {error: error.response.data.result};
-      }
-    }
+    console.log('props in AllServices', props);
+    setServices(props.route.params.services);
   };
 
   useEffect(() => {

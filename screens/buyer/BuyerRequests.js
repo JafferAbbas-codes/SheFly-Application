@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,73 +17,39 @@ import MainCard from '../../shared/MainCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {URL, getBuyerRequests} from '../../config/const';
+
 export default function BuyerRequests() {
   // const [value, onChangeText] = React.useState('42|');
-  const [Services, setServices] = useState([
-    {
-      requestNo: '156001',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Rasheeda',
-      key: '1',
-    },
-    {
-      requestNo: '156002',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Nursing',
-      seller: 'Maria',
-      key: '2',
-    },
-    {
-      requestNo: '156003',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Rabia',
-      key: '3',
-    },
-    {
-      requestNo: '156004',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Salma',
-      key: '4',
-    },
-    {
-      requestNo: '156005',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Rabia',
-      key: '5',
-    },
-    {
-      requestNo: '156006',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Rabia',
-      key: '6',
-    },
-    {
-      requestNo: '156007',
-      status: 'Pending',
-      buyer: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      seller: 'Rabia',
-      key: '7',
-    },
-  ]);
+  const [Requests, setRequests] = useState([]);
+
+  const getAllBuyerRequests = async () => {
+    try {
+      let response = await axios.get(
+        `${URL}${getBuyerRequests}${props.user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response', response);
+      setRequests(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      if (error?.response?.data?.result) {
+        console.log('error123 in getAllBuyerRequests : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  useEffect(() => {
+    getAllBuyerRequests();
+  }, []);
+
   const renderItem = ({item}) => (
     <Item
       text={item.text}
@@ -195,7 +161,7 @@ export default function BuyerRequests() {
         <MainCard>
           <SafeAreaView style={styles.container}>
             <FlatList
-              data={Services}
+              data={Requests}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
               style={{borderRadius: 20}}

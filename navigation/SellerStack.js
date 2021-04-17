@@ -101,6 +101,7 @@ const HomeStackScreen = () => {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="AllServices" component={AllServices} />
       <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
+      <Stack.Screen name="Availablejobs" component={Availablejobs} />
     </Stack.Navigator>
   );
 };

@@ -17,57 +17,36 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {URL, getAvailableJobs} from '../../config/const';
+import {URL, getRecommendedJobs} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
+
 const AvailableJobs = (props) => {
-  const [Recommendation, setRecommendation] = useState([
-    // {
-    //   name: 'ibrahim',
-    //   price: '25000',
-    //   service: 'graphic',
-    //   location: 'karachi',
-    //   description: 'Hello world',
-    //   text: 'Cooking',
-    //   key: '1',
-    // },
-    // {
-    //   name: 'ibrahim',
-    //   price: '25000',
-    //   service: 'graphic',
-    //   location: 'karachi',
-    //   description: 'Hello world',
-    //   text: 'Cooking',
-    //   key: '2',
-    // },
-    // {
-    //   name: 'ibrahim',
-    //   price: '25000',
-    //   service: 'graphic',
-    //   location: 'karachi',
-    //   description: 'Hello world',
-    //   text: 'Cooking',
-    //   key: '3',
-    // },
-  ]);
+  const [Recommendation, setRecommendation] = useState([]);
+
   const getAllAvailableJobs = async () => {
     try {
-      let response = await axios.post(
-        `${URL}${getAvailableJobs}`,
-        {status: 'pending'},
-        {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
+      console.log('props in available jobs', props);
+      if (props.route.params && props.route.params.Recommendation) {
+        setRecommendation(props.route.params.Recommendation);
+      } else {
+        let response = await axios.post(
+          `${URL}${getRecommendedJobs}${props.user._id}`,
+          {services: props.user.services},
+          {
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+            },
           },
-        },
-      );
-      console.log('response of getAllAvailableJobs', response.data.result);
-      setRecommendation(response.data.result);
-      return response.data.result;
+        );
+        console.log('response of getAllRecommendedJobs', response.data.result);
+        setRecommendation(response.data.result);
+        return response.data.result;
+      }
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('propss in availablejobs', props);
-        console.log('error123 available jobs : ', error.response.data);
+        console.log('propss in getAllRecommendedJobs', props);
+        console.log('error123 getAllRecommendedJobs : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -81,56 +60,70 @@ const AvailableJobs = (props) => {
     // console.log('item in availableJob', item);
     <ItemRecom
       name={item.buyer.name}
-      description={item.description}
-      location={item.address}
+      image={item.buyer.profileImage}
       service={item.service}
-      price={item.price}
+      location={item.address}
+      // service={item.service}
+      budget={item.budget}
+      description={item.description}
     />
   );
-  const ItemRecom = ({name, price, service, location, description, key}) => (
+  const ItemRecom = ({name, service, location, budget, description, image}) => (
     <View
       style={{
-        height: 150,
-        width: 300,
-        borderRadius: 15,
+        // height: 150,
+        // width: 300,
+        borderRadius: 25,
         backgroundColor: 'white',
-        margin: 5,
+        marginHorizontal: 5,
       }}>
-      <View style={{height: 75, width: 300, flexDirection: 'row'}}>
+      {/* {console.log('To test')} */}
+      <View style={{flexDirection: 'row'}}>
         <Image
-          source={require('../../assets/i.jpg')}
+          source={{
+            uri: image,
+          }}
           style={styles.headerImage}
         />
-        <View>
-          <Text style={{fontSize: 20, fontWeight: 'bold', margin: 2}}>
-            {name}
-          </Text>
-          <Text style={{fontSize: 10, margin: 2}}>{service}</Text>
-          <Text style={{fontSize: 10, margin: 2}}>
-            <MaterialIcons
-              name="map-marker"
-              size={10}
-              /*onPress={openMenu}*/ style={styles.icon}
-            />
-            {location}
-          </Text>
-        </View>
-        <View>
-          <Text
-            style={{
-              fontSize: 20,
-              width: 130,
-              textAlign: 'right',
-              textAlignVertical: 'center',
-              fontWeight: 'bold',
-              margin: 5,
-            }}>
-            {price}
-          </Text>
-          <Text style={{textAlign: 'right'}}>/month</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
+              {name}
+            </Text>
+            <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
+              {service}
+            </Text>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+              <MaterialIcons
+                name="map-marker"
+                size={10}
+                /*onPress={openMenu}*/ style={styles.icon}
+              />
+              {' ' + location}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 15,
+                // width: 130,
+                // textAlign: 'right',
+                // textAlignVertical: 'center',
+                fontWeight: 'bold',
+                marginTop: 20,
+              }}>
+              {'Rs. ' + budget}
+            </Text>
+          </View>
         </View>
       </View>
-      <Text style={{fontSize: 15, textAlignVertical: 'center', margin: 10}}>
+      <Text
+        style={{
+          fontSize: 15,
+          textAlignVertical: 'center',
+          marginHorizontal: 10,
+          marginBottom: 15,
+        }}>
         {description}
       </Text>
     </View>
