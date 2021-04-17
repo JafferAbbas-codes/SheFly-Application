@@ -17,23 +17,25 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function requestDetails() {
+
+export default function requestDetails(props) {
   // const [value, onChangeText] = React.useState('42|');
-  const [Services, setServices] = useState([
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      budget: '3000',
-      user: 'Salman',
-      location: 'FB Area,Karachi',
-      description:
-        'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
-      key: '1',
-    },
-  ]);
+  console.log(props);
+  // const [Services, setServices] = useState([
+  //   {
+  //     bookingno: '1',
+  //     status: 'completed',
+  //     serviceprovider: 'Narjis',
+  //     date: '6-06-2021',
+  //     service: 'Cooking',
+  //     budget: '3000',
+  //     user: 'Salman',
+  //     location: 'FB Area,Karachi',
+  //     description:
+  //       'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
+  //     key: '1',
+  //   },
+  // ]);
   const renderItem = ({item}) => (
     <Item
       text={item.text}
@@ -45,6 +47,40 @@ export default function requestDetails() {
       service={item.service}
     />
   );
+
+  const OnPressBack = () => {
+    console.log('in on Press Edit');
+    props.navigation.navigate('BuyerRequests', {
+      ...props.route.params,
+    });
+  };
+
+  const OnPressViewAllBids = (
+    id,
+    requestNo,
+    date,
+    buyer,
+    status,
+    seller,
+    service,
+    budget,
+    address,
+    description,
+  ) => {
+    props.navigation.navigate('BidsOnBuyerRequest', {
+      ...props.route.params,
+      id,
+      requestNo,
+      date,
+      buyer,
+      status,
+      seller,
+      service,
+      budget,
+      address,
+      description,
+    });
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -60,7 +96,12 @@ export default function requestDetails() {
               marginHorizontal: 30,
               justifyContent: 'space-between',
             }}>
-            <MaterialIcons name="arrow-left" size={20} color="#4A4A4A" />
+            <MaterialIcons
+              onPress={() => OnPressBack()}
+              name="arrow-left"
+              size={20}
+              color="#4A4A4A"
+            />
           </View>
           <View
             style={{
@@ -76,7 +117,7 @@ export default function requestDetails() {
                 fontSize: 24,
                 // margin: 25,
               }}>
-              Bridal Makeup Required
+              Request Details
             </Text>
             <MaterialIcons name="pencil" size={15} style={{marginTop: 8}} />
           </View>
@@ -87,7 +128,9 @@ export default function requestDetails() {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 10, color: '#A28FA1'}}>Henna Art</Text>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+              {props.route.params.service}
+            </Text>
             <MaterialIcons
               name="map-marker"
               size={10}
@@ -98,7 +141,7 @@ export default function requestDetails() {
               }}
             />
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {' ' + Services[0].location}
+              {props.route.params.address}
             </Text>
           </View>
           <View
@@ -108,7 +151,7 @@ export default function requestDetails() {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 17}}>{' ' + Services[0].description}</Text>
+            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
           </View>
 
           <View
@@ -122,7 +165,7 @@ export default function requestDetails() {
               Budget
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              Rs. {' ' + Services[0].budget}
+              Rs. {props.route.params.budget}
             </Text>
           </View>
           <View
@@ -136,7 +179,7 @@ export default function requestDetails() {
               Date
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              {Services[0].date}
+              {props.route.params.date}
             </Text>
           </View>
           <View
@@ -146,7 +189,26 @@ export default function requestDetails() {
               marginTop: 40,
               marginHorizontal: 30,
             }}>
-            <FlatButton text="View all Bids" />
+            <FlatButton
+              text="View all Bids"
+              onPress={
+                () => {
+                  OnPressViewAllBids(
+                    props.route.params.id,
+                    props.route.params.requestNo,
+                    props.route.params.date,
+                    props.route.params.buyer,
+                    props.route.params.status,
+                    props.route.params.seller,
+                    props.route.params.service,
+                    props.route.params.budget,
+                    props.route.params.address,
+                    props.route.params.description,
+                  );
+                }
+                // console.log('on click', item._id),
+              }
+            />
           </View>
         </View>
       </View>

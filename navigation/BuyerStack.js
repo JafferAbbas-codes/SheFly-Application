@@ -5,7 +5,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Home from '../screens/buyer/Home';
 import AllServices from '../screens/buyer/AllService';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
@@ -21,6 +21,8 @@ import DrawerContent from '../screens/buyer/DrawerContent';
 import Icon from 'react-native-vector-icons';
 import AvailableSellers from '../screens/buyer/AvailableSellers';
 import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
+import RequestDetails from '../screens/buyer/RequestDetails';
+import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -70,11 +72,11 @@ const MainBottomTabStack = () => {
         name="YourRequestsStackScreen"
         component={YourRequestsStackScreen}
         options={{
-          tabBarLabel: 'Updates',
+          tabBarLabel: 'Requests',
           // tabBarColor: '#FF6699',
           tabBarColor: '#FFFFFF',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <FontAwesome5 name="file-alt" color={color} size={26} />
           ),
         }}
       />
@@ -130,6 +132,8 @@ const YourRequestsStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="RequestDetails" component={RequestDetails} />
+      <Stack.Screen name="BidsOnBuyerRequest" component={BidsOnBuyerRequest} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
