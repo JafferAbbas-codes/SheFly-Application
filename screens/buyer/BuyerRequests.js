@@ -11,6 +11,7 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import MainCard from '../../shared/MainCard';
@@ -21,7 +22,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getBuyerRequests} from '../../config/const';
 
-export default function BuyerRequests() {
+const BuyerRequests = (props) => {
   // const [value, onChangeText] = React.useState('42|');
   const [Requests, setRequests] = useState([]);
 
@@ -35,7 +36,7 @@ export default function BuyerRequests() {
           },
         },
       );
-      console.log('response', response);
+      console.log('response', response.data.result);
       setRequests(response.data.result);
       return response.data.result;
     } catch (error) {
@@ -50,89 +51,158 @@ export default function BuyerRequests() {
     getAllBuyerRequests();
   }, []);
 
-  const renderItem = ({item}) => (
-    <Item
-      text={item.text}
-      requestNo={item.requestNo}
-      date={item.date}
-      buyer={item.buyer}
-      status={item.status}
-      seller={item.seller}
-      service={item.service}
-    />
-  );
-  const Item = ({text, requestNo, date, buyer, status, seller, service}) => (
-    <View
-      style={{
-        marginBottom: 10,
-        backgroundColor: 'white',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 1,
-        },
-        padding: 5,
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 5,
-      }}>
+  const OnPressRequest = (
+    id,
+    requestNo,
+    date,
+    buyer,
+    status,
+    seller,
+    service,
+    budget,
+    address,
+    description,
+  ) => {
+    props.navigation.navigate('RequestDetails', {
+      ...props.route.params,
+      id,
+      requestNo,
+      date,
+      buyer,
+      status,
+      seller,
+      service,
+      budget,
+      address,
+      description,
+    });
+  };
+
+  const renderItem = ({item}) => {
+    var date = new Date(item.dateAndTime * 1000);
+    // var requestNo = parseInt(`${item._id}`, 10);
+    return (
+      <Item
+        requestNo={item._id.substring(0, 6)}
+        buyer={item.buyer.name}
+        date={date.toUTCString()}
+        // buyer={item.buyer}
+        seller={item.seller}
+        status={item.status}
+        service={item.service}
+        id={item._id}
+        budget={item.budget}
+        address={item.address}
+        description={item.description}
+        //sellername
+        // index={item.index}
+      />
+    );
+  };
+  const Item = ({
+    id,
+    requestNo,
+    date,
+    buyer,
+    status,
+    seller,
+    service,
+    budget,
+    address,
+    description,
+    // index,
+  }) => (
+    <TouchableOpacity
+      onPress={
+        () => {
+          OnPressRequest(
+            id,
+            requestNo,
+            date,
+            buyer,
+            status,
+            seller,
+            service,
+            budget,
+            address,
+            description,
+          );
+        }
+        // console.log('on click', item._id),
+      }>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          borderBottomColor: 'black',
-          borderBottomWidth: 2,
-          // paddingBottom: 5,
-          marginBottom: 5,
+          marginBottom: 10,
+          backgroundColor: 'white',
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          padding: 5,
+          shadowOpacity: 0.5,
+          shadowRadius: 5,
+          elevation: 5,
         }}>
-        <Text
+        {/* {console.log('in Item', index)} */}
+        <View
           style={{
-            fontWeight: 'bold',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderBottomColor: 'black',
+            borderBottomWidth: 2,
+            // paddingBottom: 5,
+            marginBottom: 5,
           }}>
-          Request No: {requestNo}
-        </Text>
-        <Text>Requested on {date}</Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          // margin: 2,
-        }}>
-        <Text style={{color: '#B0389F'}}>
-          <MaterialIcons name="user" style={{color: 'black'}} />
-          {' ' + buyer}
-        </Text>
-        <Text
+          <Text
+            style={{
+              fontWeight: 'bold',
+            }}>
+            Request No:{' ' + requestNo}
+          </Text>
+          <Text>Requested on{' ' + date}</Text>
+        </View>
+        <View
           style={{
-            backgroundColor: '#B0389F',
-            borderRadius: 10,
-            color: 'white',
-            padding: 3,
-            paddingHorizontal: 15,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            // margin: 2,
           }}>
-          {status}
-        </Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <Text>
-          <MaterialIcons name="female" />
-          {' ' + seller}
-        </Text>
-        <Text
+          <Text style={{color: '#B0389F'}}>
+            <MaterialIcons name="user" style={{color: 'black'}} />
+            {' ' + buyer}
+          </Text>
+          <Text
+            style={{
+              backgroundColor: '#B0389F',
+              borderRadius: 10,
+              color: 'white',
+              padding: 3,
+              paddingHorizontal: 15,
+            }}>
+            {status}
+          </Text>
+        </View>
+        <View
           style={{
-            color: '#B0389F',
-            padding: 3,
-            paddingHorizontal: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}>
-          {service}
-        </Text>
+          <Text>
+            <MaterialIcons name="female" />
+            {' ' + seller}
+          </Text>
+          <Text
+            style={{
+              color: '#B0389F',
+              padding: 3,
+              paddingHorizontal: 10,
+            }}>
+            {service}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -141,6 +211,7 @@ export default function BuyerRequests() {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
+        {/* {console.log(props)} */}
         <View
           style={{
             flexDirection: 'row',
@@ -160,6 +231,7 @@ export default function BuyerRequests() {
         </View>
         <MainCard>
           <SafeAreaView style={styles.container}>
+            {console.log('In return print requests', Requests)}
             <FlatList
               data={Requests}
               renderItem={renderItem}
@@ -171,7 +243,7 @@ export default function BuyerRequests() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -212,3 +284,11 @@ const styles = StyleSheet.create({
   },
   headerTitle: {},
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(BuyerRequests);

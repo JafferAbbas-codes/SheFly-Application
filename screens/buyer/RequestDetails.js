@@ -17,8 +17,10 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-export default function requestDetails() {
+
+export default function requestDetails(props) {
   // const [value, onChangeText] = React.useState('42|');
+  console.log(props);
   const [Services, setServices] = useState([
     {
       bookingno: '1',
@@ -46,6 +48,13 @@ export default function requestDetails() {
     />
   );
 
+  const OnPressBack = () => {
+    console.log('in on Press Edit');
+    props.navigation.navigate('BuyerRequests', {
+      ...props.route.params,
+    });
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -60,7 +69,12 @@ export default function requestDetails() {
               marginHorizontal: 30,
               justifyContent: 'space-between',
             }}>
-            <MaterialIcons name="arrow-left" size={20} color="#4A4A4A" />
+            <MaterialIcons
+              onPress={() => OnPressBack()}
+              name="arrow-left"
+              size={20}
+              color="#4A4A4A"
+            />
           </View>
           <View
             style={{
@@ -76,7 +90,7 @@ export default function requestDetails() {
                 fontSize: 24,
                 // margin: 25,
               }}>
-              Bridal Makeup Required
+              Request Details
             </Text>
             <MaterialIcons name="pencil" size={15} style={{marginTop: 8}} />
           </View>
@@ -87,7 +101,9 @@ export default function requestDetails() {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 10, color: '#A28FA1'}}>Henna Art</Text>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+              {props.route.params.service}
+            </Text>
             <MaterialIcons
               name="map-marker"
               size={10}
@@ -98,7 +114,7 @@ export default function requestDetails() {
               }}
             />
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {' ' + Services[0].location}
+              {props.route.params.address}
             </Text>
           </View>
           <View
@@ -108,7 +124,7 @@ export default function requestDetails() {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 17}}>{' ' + Services[0].description}</Text>
+            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
           </View>
 
           <View
@@ -122,7 +138,7 @@ export default function requestDetails() {
               Budget
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              Rs. {' ' + Services[0].budget}
+              Rs. {props.route.params.budget}
             </Text>
           </View>
           <View
@@ -136,7 +152,7 @@ export default function requestDetails() {
               Date
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              {Services[0].date}
+              {props.route.params.date}
             </Text>
           </View>
           <View

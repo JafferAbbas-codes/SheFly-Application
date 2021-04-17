@@ -21,6 +21,7 @@ import DrawerContent from '../screens/buyer/DrawerContent';
 import Icon from 'react-native-vector-icons';
 import AvailableSellers from '../screens/buyer/AvailableSellers';
 import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
+import RequestDetails from '../screens/buyer/RequestDetails';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -130,6 +131,7 @@ const YourRequestsStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="RequestDetails" component={RequestDetails} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
