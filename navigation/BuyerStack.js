@@ -1,7 +1,8 @@
 import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -23,10 +24,11 @@ import AvailableSellers from '../screens/buyer/AvailableSellers';
 import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
 import RequestDetails from '../screens/buyer/RequestDetails';
 import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
+import {TouchableOpacity} from 'react-native';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const BuyerStack = (myProps) => {
   return (
@@ -37,22 +39,63 @@ const BuyerStack = (myProps) => {
   );
 };
 
+const CustomTabBarButtom = ({children, onPress, focused}) => (
+  <TouchableOpacity
+    style={{
+      top: -20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      ...styles.shadow,
+    }}
+    onPress={onPress}>
+    <View
+      style={{
+        width: 60,
+        height: 60,
+        borderRadius: 35,
+        backgroundColor: '#b33aa3',
+      }}>
+      {children}
+    </View>
+  </TouchableOpacity>
+);
+
 const MainBottomTabStack = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#291F28"
-      inactiveColor="#D8BFD6"
-      style={{backgroundColor: 'tomato'}}>
+      // initialRouteName="Home"
+      // activeColor="#291F28"
+      // inactiveColor="#D8BFD6"
+      tabBarOptions={{
+        showLabel: false,
+
+        style: {
+          position: 'absolute',
+          elevation: 0,
+          border: 4,
+          height: 55,
+          // backgroundColor: '#FFFFFF',
+
+          // borderColor: '#000000',
+          borderRadius: 25,
+          // backgroundColor: 'red',
+          ...styles.shadow,
+        },
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: 'Home',
+          // tabBarLabel: 'Home',
           // tabBarColor: '#FF9900',
-          tabBarColor: '#FFFFFF',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+          // tabBarColor: '#FFFFFF',
+          // tabBarOptions: {showLabel: false},
+          tabBarIcon: ({color, focused}) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={focused ? '#000000' : '#D8BFD6'}
+              size={26}
+            />
           ),
         }}
       />
@@ -60,23 +103,44 @@ const MainBottomTabStack = () => {
         name="ChatStackScreen"
         component={ChatStackScreen}
         options={{
-          tabBarLabel: 'Chats',
+          // tabBarLabel: 'Chats',
           // tabBarColor: '#CC0000',
-          tabBarColor: '#FFFFFF',
-          tabBarIcon: ({color}) => (
-            <Ionicons name="chatbox-ellipses-outline" color={color} size={26} />
+          // tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color, focused}) => (
+            <Ionicons
+              name="chatbox-ellipses"
+              color={focused ? '#000000' : '#D8BFD6'}
+              size={26}
+            />
           ),
+        }}
+      />
+      <Tab.Screen
+        name="PostRequestStack"
+        component={PostRequestStack}
+        options={{
+          // tabBarLabel: 'Updates',
+          // tabBarColor: '#FF6699',
+          // tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color, focused}) => (
+            <MaterialCommunityIcons name="plus" color={'#D8BFD6'} size={26} />
+          ),
+          tabBarButton: (props) => <CustomTabBarButtom {...props} />,
         }}
       />
       <Tab.Screen
         name="YourRequestsStackScreen"
         component={YourRequestsStackScreen}
         options={{
-          tabBarLabel: 'Requests',
+          // tabBarLabel: 'Requests',
           // tabBarColor: '#FF6699',
-          tabBarColor: '#FFFFFF',
-          tabBarIcon: ({color}) => (
-            <FontAwesome5 name="file-alt" color={color} size={26} />
+          // tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color, focused}) => (
+            <MaterialCommunityIcons
+              name="clipboard-list"
+              color={focused ? '#000000' : '#D8BFD6'}
+              size={26}
+            />
           ),
         }}
       />
@@ -84,11 +148,15 @@ const MainBottomTabStack = () => {
         name="ProfileStackScreen"
         component={ProfileStackScreen}
         options={{
-          tabBarLabel: 'Profile',
+          // tabBarLabel: 'Profile',
           // tabBarColor: '#CC33FF',
-          tabBarColor: '#FFFFFF',
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
+          // tabBarColor: '#FFFFFF',
+          tabBarIcon: ({color, focused}) => (
+            <MaterialCommunityIcons
+              name="account"
+              color={focused ? '#000000' : '#D8BFD6'}
+              size={26}
+            />
           ),
         }}
       />
@@ -124,7 +192,17 @@ const ChatStackScreen = () => {
     </Stack.Navigator>
   );
 };
-
+const PostRequestStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+    </Stack.Navigator>
+  );
+};
 const YourRequestsStackScreen = () => {
   return (
     <Stack.Navigator
@@ -149,5 +227,17 @@ const ProfileStackScreen = () => {
     </Stack.Navigator>
   );
 };
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#7F5Df0',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
+});
 
 export default BuyerStack;
