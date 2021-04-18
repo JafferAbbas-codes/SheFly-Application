@@ -20,6 +20,7 @@ import AllBids from '../screens/seller/Bids';
 import ViewJob from '../screens/seller/ViewJobDetails';
 import SendBid from '../screens/seller/SendBid';
 import OfferSent from '../screens/seller/OfferSent';
+import ServiceJobs from '../screens/seller/ServiceJobs';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -114,6 +115,7 @@ const HomeStackScreen = () => {
       <Stack.Screen name="ViewJob" component={ViewJob} />
       <Stack.Screen name="SendBid" component={SendBid} />
       <Stack.Screen name="OfferSent" component={OfferSent} />
+      <Stack.Screen name="ServiceJobs" component={ServiceJobs} />
     </Stack.Navigator>
   );
 };
