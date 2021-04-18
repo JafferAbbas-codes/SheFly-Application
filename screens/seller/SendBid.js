@@ -22,15 +22,47 @@ import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {Formik} from 'formik';
 import MultiSelect from 'react-native-multiple-select';
 import * as yup from 'yup';
+import {URL, createBid} from '../../config/const';
+import axios from 'axios';
+import {connect, useDispatch} from 'react-redux';
 
-export default function yourBid(props) {
+const SendBid = (props) => {
   // const [value, onChangeText] = React.useState('42|');
+  console.log('props in sendBidd', props);
   const reviewSchema = yup.object({
     budget: yup.string().required(),
     description: yup.string().required('No description provided.'),
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const createBidAPI = async (budget, description) => {
+    try {
+      console.log('props in createBidAPI', props);
+      let response = await axios.post(
+        `${URL}${createBid}`,
+        {
+          seller: props.user._id,
+          order: props.route.params.orderId,
+          budget,
+          description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('response of createBidAPI', response.data.result);
+      displayModal(true);
+    } catch (error) {
+      console.log('propss in createBidAPI', error);
+      if (error?.response?.data?.result) {
+        console.log('propss in createBidAPI', error);
+        console.log('error123 createBidAPI : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
 
   const displayModal = (show) => {
     setIsVisible(show);
@@ -62,7 +94,7 @@ export default function yourBid(props) {
   };
 
   const [name, onChangeName] = useState('');
-  const [email, onChangeBudget] = useState('');
+  const [budget, setBudget] = useState('');
   const [pass, onChangePass] = useState('');
   const [confirmpass, onChangeConf] = useState('');
   const changeNameHandler = (val) => {
@@ -167,9 +199,13 @@ export default function yourBid(props) {
               initialValues={{budget: '', description: ''}}
               validationSchema={reviewSchema}
               onSubmit={(values, actions) => {
-                actions.resetForm();
+                console.log('valuesss', values);
+                createBidAPI(values.budget, values.description);
+
+                // console.log('form values', values);
+                // actions.resetForm();
               }}>
-              {(props) => (
+              {(propss) => (
                 <View>
                   <Text
                     style={{
@@ -191,9 +227,9 @@ export default function yourBid(props) {
                     }}>
                     <TextInput
                       style={styles.input}
-                      onChangeBudget={(text) => onChangeBudget(text)}
-                      // value={props.values.budget}
-                      onBlur={props.handleBlur('budget')}
+                      onChangeText={propss.handleChange('budget')}
+                      value={propss.values.budget}
+                      onBlur={propss.handleBlur('budget')}
                     />
                   </View>
                   <Text style={{marginBottom: 5, color: '#A28FA1'}}>
@@ -205,15 +241,15 @@ export default function yourBid(props) {
                       fontSize: 25,
                     }}>
                     <View style={styles.option}>
-                      <TextInput style={{fontSize: 16}} />
+                      <TextInput
+                        style={{fontSize: 16}}
+                        onChangeText={propss.handleChange('description')}
+                        value={propss.values.description}
+                        onBlur={propss.handleBlur('description')}
+                      />
                     </View>
                   </View>
-                  <FlatButton
-                    text="Send Offer"
-                    onPress={() => {
-                      displayModal(true);
-                    }}
-                  />
+                  <FlatButton text="Send Offer" onPress={propss.handleSubmit} />
                 </View>
               )}
             </Formik>
@@ -222,7 +258,7 @@ export default function yourBid(props) {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -298,3 +334,11 @@ const styles = StyleSheet.create({
   },
   headerTitle: {},
 });
+const mapStateToProps = (state) => ({
+  temp: state,
+  user: state.userDetails.user,
+  token: state.userDetails.token,
+  loading: state.userDetails.loading,
+});
+
+export default connect(mapStateToProps)(SendBid);
