@@ -14,6 +14,9 @@ import Availablejobs from '../screens/seller/Availablejobs';
 import Profile from '../screens/seller/Profile';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
 import EditProfile from '../screens/seller/EditProfile';
+import JobsDone from '../screens/seller/JobsDone';
+import JobsInProgress from '../screens/seller/JobsInProgress';
+import AllBids from '../screens/seller/Bids';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -138,7 +141,9 @@ const ProfileStackScreen = () => {
       }}>
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-
+      <Stack.Screen name="JobsDone" component={JobsDone} />
+      <Stack.Screen name="JobsInProgress" component={JobsInProgress} />
+      <Stack.Screen name="AllBids" component={AllBids} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );

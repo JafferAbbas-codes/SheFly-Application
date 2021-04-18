@@ -77,7 +77,9 @@ const MainBottomTabStack = () => {
           // backgroundColor: '#FFFFFF',
 
           // borderColor: '#000000',
-          borderRadius: 25,
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+
           // backgroundColor: 'red',
           ...styles.shadow,
         },
@@ -123,7 +125,7 @@ const MainBottomTabStack = () => {
           // tabBarColor: '#FF6699',
           // tabBarColor: '#FFFFFF',
           tabBarIcon: ({color, focused}) => (
-            <MaterialCommunityIcons name="plus" color={'#D8BFD6'} size={26} />
+            <MaterialCommunityIcons name="plus" color={'#ffffff'} size={27} />
           ),
           tabBarButton: (props) => <CustomTabBarButtom {...props} />,
         }}

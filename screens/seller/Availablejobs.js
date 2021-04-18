@@ -61,7 +61,7 @@ const AvailableJobs = (props) => {
     <ItemRecom
       name={item.buyer.name}
       image={item.buyer.profileImage}
-      service={item.service}
+      service={item.service.name}
       location={item.address}
       // service={item.service}
       budget={item.budget}

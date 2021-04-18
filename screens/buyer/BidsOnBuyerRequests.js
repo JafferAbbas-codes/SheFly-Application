@@ -104,7 +104,11 @@ const BidsOnBuyerRequests = (props) => {
             textAlign: 'center',
             fontSize: 15,
           }}>
-          Booking No: {props.route.params.id}
+          Request ID:{' '}
+          {props.route.params.id.substring(
+            props.route.params.id.length - 10,
+            props.route.params.id.length - 3,
+          )}
         </Text>
       </View>
       <View
@@ -116,7 +120,7 @@ const BidsOnBuyerRequests = (props) => {
         }}>
         <Text style={{fontSize: 15}}>
           <MaterialIcons name="female" size={18} style={{color: 'black'}} />
-          {' ' + seller}
+          {seller != undefined ? ' ' + seller.name : '  TBD'}
         </Text>
         <Text
           style={{

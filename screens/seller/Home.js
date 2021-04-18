@@ -168,7 +168,7 @@ const Home = (props) => {
             {name}
           </Text>
           <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
-            {service}
+            {service.name}
           </Text>
           <Text style={{fontSize: 10, color: '#A28FA1'}}>
             <MaterialIcons
