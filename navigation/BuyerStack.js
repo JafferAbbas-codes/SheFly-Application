@@ -95,7 +95,8 @@ const MainBottomTabStack = () => {
           tabBarIcon: ({color, focused}) => (
             <MaterialCommunityIcons
               name="home"
-              color={focused ? '#000000' : '#D8BFD6'}
+              // color={focused ? '#000000' : '#D8BFD6'}
+              color={focused ? '#b23aa2' : '#D8BFD6'}
               size={26}
             />
           ),
@@ -111,7 +112,7 @@ const MainBottomTabStack = () => {
           tabBarIcon: ({color, focused}) => (
             <Ionicons
               name="chatbox-ellipses"
-              color={focused ? '#000000' : '#D8BFD6'}
+              color={focused ? '#b23aa2' : '#D8BFD6'}
               size={26}
             />
           ),
@@ -140,7 +141,7 @@ const MainBottomTabStack = () => {
           tabBarIcon: ({color, focused}) => (
             <MaterialCommunityIcons
               name="clipboard-list"
-              color={focused ? '#000000' : '#D8BFD6'}
+              color={focused ? '#b23aa2' : '#D8BFD6'}
               size={26}
             />
           ),
@@ -156,7 +157,7 @@ const MainBottomTabStack = () => {
           tabBarIcon: ({color, focused}) => (
             <MaterialCommunityIcons
               name="account"
-              color={focused ? '#000000' : '#D8BFD6'}
+              color={focused ? '#b23aa2' : '#D8BFD6'}
               size={26}
             />
           ),
