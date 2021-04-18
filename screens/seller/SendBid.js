@@ -80,7 +80,7 @@ export default function yourBid(props) {
 
   const OnPressBack = () => {
     console.log('in on Press Back');
-    props.navigation.navigate('ViewJob', {
+    props.navigation.navigate('ViewJobDetails', {
       ...props.route.params,
     });
   };

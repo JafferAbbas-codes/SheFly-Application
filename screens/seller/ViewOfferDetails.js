@@ -18,7 +18,7 @@ import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
-export default function requestDetails(props) {
+export default function ViewOfferDetails(props) {
   // const [value, onChangeText] = React.useState('42|');
   console.log(props);
   // const [Services, setServices] = useState([
@@ -51,7 +51,7 @@ export default function requestDetails(props) {
 
   const OnPressBack = () => {
     console.log('in on Press Back');
-    props.navigation.navigate('Availablejobs', {
+    props.navigation.navigate('Offers', {
       ...props.route.params,
     });
   };
@@ -68,19 +68,19 @@ export default function requestDetails(props) {
     description,
     orderId,
   ) => {
-    props.navigation.navigate('SendBid', {
-      ...props.route.params,
-      id,
-      requestNo,
-      date,
-      buyer,
-      status,
-      service,
-      budget,
-      address,
-      description,
-      orderId,
-    });
+    // props.navigation.navigate('SendBid', {
+    //   ...props.route.params,
+    //   id,
+    //   requestNo,
+    //   date,
+    //   buyer,
+    //   status,
+    //   service,
+    //   budget,
+    //   address,
+    //   description,
+    //   orderId,
+    // });
   };
 
   return (
@@ -199,10 +199,10 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
             }}>
             <FlatButton
-              text="Bid"
+              text="Confirm Offer"
               onPress={
                 () => {
-                  OnPressBid(
+                  OnPressConfirmOffer(
                     props.route.params.id,
                     props.route.params.requestNo,
                     props.route.params.date,

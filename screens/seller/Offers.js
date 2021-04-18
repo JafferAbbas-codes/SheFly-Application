@@ -18,46 +18,45 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {URL, getRecommendedJobs} from '../../config/const';
+import {URL, getSellerOffers} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
-const AvailableJobs = (props) => {
-  const [Recommendation, setRecommendation] = useState([]);
+const Offers = (props) => {
+  const [offers, setOffers] = useState([]);
 
-  const getAllAvailableJobs = async () => {
+  const getAllSellerOffers = async () => {
     try {
-      console.log('props in available jobs', props);
-      if (props.route.params && props.route.params.Recommendation) {
-        setRecommendation(props.route.params.Recommendation);
-      } else {
-        let response = await axios.post(
-          `${URL}${getRecommendedJobs}${props.user._id}`,
-          {services: props.user.services},
-          {
-            headers: {
-              Authorization: `Bearer ${props.token}`,
-            },
+      console.log('props in setOffers', props);
+      //   if (props.route.params && props.route.params.Recommendation) {
+      //     setRecommendation(props.route.params.Recommendation);
+      //   } else {
+      let response = await axios.get(
+        `${URL}${getSellerOffers}${props.user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
           },
-        );
-        console.log('response of getAllRecommendedJobs', response.data.result);
-        setRecommendation(response.data.result);
-        return response.data.result;
-      }
+        },
+      );
+      console.log('response of setOffers', response.data.result);
+      setOffers(response.data.result);
+      return response.data.result;
+      //   }
     } catch (error) {
+      console.log('error in setOffers', error);
       if (error?.response?.data?.result) {
-        console.log('propss in getAllRecommendedJobs', props);
-        console.log('error123 getAllRecommendedJobs : ', error.response.data);
+        console.log('error123 setOffers : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
   };
 
   useEffect(() => {
-    getAllAvailableJobs();
+    getAllSellerOffers();
   }, []);
 
-  const renderRecommendation = ({item}) => (
+  const renderOffers = ({item}) => (
     // console.log('item in availableJob', item);
     <ItemRecom
       name={item.buyer.name}
@@ -71,16 +70,8 @@ const AvailableJobs = (props) => {
     />
   );
 
-  const OnPressJobs = (
-    name,
-    service,
-    location,
-    budget,
-    description,
-    image,
-    orderId,
-  ) => {
-    props.navigation.navigate('ViewJobDetails', {
+  const OnPressJobs = (name, service, location, budget, description, image) => {
+    props.navigation.navigate('ViewOfferDetails', {
       ...props.route.params,
       name,
       service,
@@ -89,6 +80,7 @@ const AvailableJobs = (props) => {
       description,
       image,
       orderId,
+      sellerId,
     });
   };
 
@@ -193,13 +185,13 @@ const AvailableJobs = (props) => {
                 marginBottom: 15,
                 width: 200,
               }}>
-              Available Jobs
+              Job Offers
             </Text>
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
-              data={Recommendation}
-              renderItem={renderRecommendation}
+              data={offers}
+              renderItem={renderOffers}
               keyExtractor={(item) => item._id}
               style={{borderRadius: 20}}
             />
@@ -238,4 +230,4 @@ const mapStateToProps = (state) => ({
   token: state.userDetails.token,
 });
 
-export default connect(mapStateToProps)(AvailableJobs);
+export default connect(mapStateToProps)(Offers);
