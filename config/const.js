@@ -1,5 +1,5 @@
-export const URL = 'https://she-fly-application-server.herokuapp.com/';
-// export const URL = 'http://192.168.43.248:4000/';
+// export const URL = 'https://she-fly-application-server.herokuapp.com/';
+export const URL = 'http://192.168.43.248:4000/';
 
 export const loginRoute = 'auth/login/';
 export const signupRoute = 'auth/signup/';
@@ -16,3 +16,4 @@ export const getBuyerRequests = 'order/buyer/';
 export const getRecommendedJobs = 'order/recommended/';
 export const getBidsBySeller = 'bid/seller/';
 export const getBidsByOrder = 'bid/order/';
+export const getSellerOffers = 'order/offer/seller/';
