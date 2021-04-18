@@ -17,6 +17,9 @@ import EditProfile from '../screens/seller/EditProfile';
 import JobsDone from '../screens/seller/JobsDone';
 import JobsInProgress from '../screens/seller/JobsInProgress';
 import AllBids from '../screens/seller/Bids';
+import ViewJob from '../screens/seller/ViewJobDetails';
+import SendBid from '../screens/seller/SendBid';
+import OfferSent from '../screens/seller/OfferSent';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -108,6 +111,9 @@ const HomeStackScreen = () => {
       <Stack.Screen name="AllServices" component={AllServices} />
       <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
       <Stack.Screen name="Availablejobs" component={Availablejobs} />
+      <Stack.Screen name="ViewJob" component={ViewJob} />
+      <Stack.Screen name="SendBid" component={SendBid} />
+      <Stack.Screen name="OfferSent" component={OfferSent} />
     </Stack.Navigator>
   );
 };
@@ -129,6 +135,9 @@ const AvailableJobsStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Availablejobs" component={Availablejobs} />
+      <Stack.Screen name="ViewJob" component={ViewJob} />
+      <Stack.Screen name="SendBid" component={SendBid} />
+      <Stack.Screen name="OfferSent" component={OfferSent} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
