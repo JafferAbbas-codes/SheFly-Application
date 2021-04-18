@@ -17,3 +17,4 @@ export const getRecommendedJobs = 'order/recommended/';
 export const getBidsBySeller = 'bid/seller/';
 export const getBidsByOrder = 'bid/order/';
 export const getSellerOffers = 'order/offer/seller/';
+export const createBid = 'bid/create/';
