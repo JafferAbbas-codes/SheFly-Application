@@ -14,10 +14,17 @@ const Header2 = (props) => {
   // }
   return (
     <View>
-      <View style={{marginVertical: 20}}>
+      <View
+        style={{
+          marginVertical: 20,
+          paddingHorizontal: 15,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
         <MaterialIcons
           name="bars"
           size={28}
+          color={'white'}
           /*onPress={openMenu}*/ style={styles.icon}
         />
         {/* <TouchableOpacity
@@ -26,19 +33,23 @@ const Header2 = (props) => {
               ...props.route.params,
             });
           }}> */}
-        <Image
-          style={{
-            width: 150,
-            height: 150,
-            // position: 'absolute',
-            alignSelf: 'center',
-          }}
-          source={require('../assets/logo/shefly1.png')}
-        />
+        <View style={{paddingTop: 20}}>
+          <Image
+            style={{
+              width: 125,
+              height: 165,
+
+              // position: 'absolute',
+              alignSelf: 'center',
+            }}
+            source={require('../assets/logo/shefly1.png')}
+          />
+        </View>
         <Image
           source={{
             uri: props.user.profileImage,
           }}
+          // source={require('../assets/i.jpg')}
           style={styles.headerImage}
         />
         {/* </TouchableOpacity> */}
@@ -62,8 +73,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   icon: {
-    position: 'absolute',
-    left: 16,
+    // position: 'absolute',
+    // left: 16,
+    width: 50,
   },
   headerTitle: {
     flexDirection: 'row',
@@ -71,9 +83,9 @@ const styles = StyleSheet.create({
   headerImage: {
     width: 50,
     height: 50,
-    right: 30,
-    alignSelf: 'flex-end',
-    borderRadius: 12,
+    // right: 30,
+    // alignSelf: 'flex-end',
+    borderRadius: 20,
   },
 });
 
