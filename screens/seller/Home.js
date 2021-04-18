@@ -73,7 +73,7 @@ const Home = (props) => {
   );
 
   const OnPressService = (id, name) => {
-    props.navigation.navigate('ServiceSeller', {
+    props.navigation.navigate('ServiceJobs', {
       ...props.route.params,
       id,
       name,
@@ -146,63 +146,84 @@ const Home = (props) => {
       description={item.description}
     />
   );
+
+  const OnPressJobs = (name, service, location, budget, description, image) => {
+    props.navigation.navigate('ViewJob', {
+      ...props.route.params,
+      name,
+      service,
+      location,
+      budget,
+      description,
+      image,
+    });
+  };
+
   const ItemRecom = ({name, service, location, budget, description, image}) => (
-    <View
-      style={{
-        // height: 150,
-        width: 300,
-        borderRadius: 25,
-        backgroundColor: 'white',
-        marginHorizontal: 5,
-      }}>
-      {/* {console.log('To test')} */}
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={styles.headerImage}
-        />
-        <View>
-          <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
-            {name}
-          </Text>
-          <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
-            {service}
-          </Text>
-          <Text style={{fontSize: 10, color: '#A28FA1'}}>
-            <MaterialIcons
-              name="map-marker"
-              size={10}
-              /*onPress={openMenu}*/ style={styles.icon}
-            />
-            {' ' + location}
-          </Text>
-        </View>
-        <View>
-          <Text
-            style={{
-              fontSize: 15,
-              // width: 130,
-              // textAlign: 'right',
-              // textAlignVertical: 'center',
-              fontWeight: 'bold',
-              marginTop: 20,
-            }}>
-            {'Rs. ' + budget}
-          </Text>
-        </View>
-      </View>
-      <Text
+    <TouchableOpacity
+      onPress={
+        () => {
+          OnPressJobs(name, service.name, location, budget, description, image);
+        }
+        // console.log('on click', item._id),
+      }>
+      <View
         style={{
-          fontSize: 15,
-          textAlignVertical: 'center',
-          marginHorizontal: 10,
-          marginBottom: 15,
+          // height: 150,
+          width: 300,
+          borderRadius: 25,
+          backgroundColor: 'white',
+          marginHorizontal: 5,
         }}>
-        {description}
-      </Text>
-    </View>
+        {/* {console.log('To test')} */}
+        <View style={{flexDirection: 'row'}}>
+          <Image
+            source={{
+              uri: image,
+            }}
+            style={styles.headerImage}
+          />
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
+              {name}
+            </Text>
+            <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
+              {service.name}
+            </Text>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+              <MaterialIcons
+                name="map-marker"
+                size={10}
+                /*onPress={openMenu}*/ style={styles.icon}
+              />
+              {' ' + location}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 15,
+                // width: 130,
+                // textAlign: 'right',
+                // textAlignVertical: 'center',
+                fontWeight: 'bold',
+                marginTop: 20,
+              }}>
+              {'Rs. ' + budget}
+            </Text>
+          </View>
+        </View>
+        <Text
+          style={{
+            fontSize: 15,
+            textAlignVertical: 'center',
+            marginHorizontal: 10,
+            marginBottom: 15,
+          }}>
+          {description}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
   return (
     <TouchableWithoutFeedback

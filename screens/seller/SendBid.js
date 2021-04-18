@@ -21,7 +21,7 @@ import {Formik} from 'formik';
 import MultiSelect from 'react-native-multiple-select';
 import * as yup from 'yup';
 
-export default function yourBid() {
+export default function yourBid(props) {
   // const [value, onChangeText] = React.useState('42|');
   const reviewSchema = yup.object({
     budget: yup.string().required(),
@@ -77,6 +77,21 @@ export default function yourBid() {
       service={item.service}
     />
   );
+
+  const OnPressBack = () => {
+    console.log('in on Press Back');
+    props.navigation.navigate('ViewJob', {
+      ...props.route.params,
+    });
+  };
+
+  const onPressSendOffer = () => {
+    // console.log('in on Press Back');
+    props.navigation.navigate('OfferSent', {
+      ...props.route.params,
+    });
+  };
+
   const [name, onChangeName] = useState('');
   const [email, onChangeBudget] = useState('');
   const [pass, onChangePass] = useState('');
@@ -90,39 +105,62 @@ export default function yourBid() {
         Keyboard.dismiss();
       }}>
       <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 30,
+            marginHorizontal: 30,
+            justifyContent: 'space-between',
+          }}>
+          <MaterialIcons
+            onPress={() => OnPressBack()}
+            name="arrow-left"
+            size={20}
+            color="#4A4A4A"
+          />
+        </View>
         <View>
           <View
             style={{
               margin: 30,
               padding: 10,
-              borderWidth: 2,
+              borderWidth: 1,
+              borderColor: '#707070',
             }}>
             <Text
               style={{
                 color: '#000000',
                 fontWeight: 'bold',
-                fontSize: 25,
+                fontSize: 24,
                 // margin: 25,
               }}>
-              Bridal Makeup Required
+              Job Details
             </Text>
             <View style={{flexDirection: 'row'}}>
-              <Text style={{fontSize: 10, marginRight: 10}}>Make Up</Text>
+              <Text style={{fontSize: 10, marginRight: 10, color: '#A28FA1'}}>
+                {props.route.params.service}
+              </Text>
               <MaterialIcons
                 name="map-marker"
                 size={10}
                 /*onPress={openMenu}*/
-                style={{marginRight: 2}}
+                style={{marginTop: 2}}
+                color="#A28FA1"
               />
-              <Text style={{fontSize: 10}}>ABC, Karachi</Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                {' ' + props.route.params.location}
+              </Text>
             </View>
-            <Text style={{fontSize: 18, marginVertical: 20}}>Description</Text>
+            <Text style={{fontSize: 16, marginVertical: 20}}>
+              {props.route.params.description}
+            </Text>
           </View>
           <View
             style={{
-              borderWidth: 2,
+              borderWidth: 1,
               marginHorizontal: 30,
-              marginVertical: 10,
+              borderColor: '#707070',
+              // marginVertical: 5,
               padding: 15,
             }}>
             <Formik
@@ -142,7 +180,9 @@ export default function yourBid() {
                     }}>
                     Your bidding
                   </Text>
-                  <Text style={{marginBottom: 5}}>Budget</Text>
+                  <Text style={{marginBottom: 5, color: '#A28FA1'}}>
+                    Budget
+                  </Text>
                   <View
                     style={{
                       alignSelf: 'center',
@@ -156,7 +196,9 @@ export default function yourBid() {
                       onBlur={props.handleBlur('budget')}
                     />
                   </View>
-                  <Text>Description</Text>
+                  <Text style={{marginBottom: 5, color: '#A28FA1'}}>
+                    Description
+                  </Text>
                   <View
                     style={{
                       alignSelf: 'center',
@@ -166,7 +208,12 @@ export default function yourBid() {
                       <TextInput style={{fontSize: 16}} />
                     </View>
                   </View>
-                  <FlatButton text="Send Offer" />
+                  <FlatButton
+                    text="Send Offer"
+                    onPress={() => {
+                      onPressSendOffer();
+                    }}
+                  />
                 </View>
               )}
             </Formik>
@@ -192,8 +239,9 @@ const styles = StyleSheet.create({
     // marginVertical: 30,
   },
   option: {
-    borderColor: 'gray',
-    borderWidth: 2,
+    borderColor: '#D2D2D2',
+    borderWidth: 1,
+    borderRadius: 5,
     marginTop: 5,
     marginBottom: 15,
     width: 320,
@@ -201,8 +249,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 2,
+    borderColor: '#D2D2D2',
+    borderRadius: 5,
+    borderWidth: 1,
     marginBottom: 20,
     width: 320,
   },

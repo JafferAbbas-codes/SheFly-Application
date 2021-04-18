@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -18,32 +18,29 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {URL, getRecommendedJobs} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
+import {URL, getRecommendedJobs} from '../../config/const';
 
-const AvailableJobs = (props) => {
-  const [Recommendation, setRecommendation] = useState([]);
+const ServiceJobs = (props) => {
+  const [JobsByService, setJobsByService] = useState([]);
 
-  const getAllAvailableJobs = async () => {
+  const getAllJobsByService = async (id) => {
+    // return {};
+    console.log('In getAllJobsByService ' + id);
     try {
-      console.log('props in available jobs', props);
-      if (props.route.params && props.route.params.Recommendation) {
-        setRecommendation(props.route.params.Recommendation);
-      } else {
-        let response = await axios.post(
-          `${URL}${getRecommendedJobs}${props.user._id}`,
-          {services: props.user.services},
-          {
-            headers: {
-              Authorization: `Bearer ${props.token}`,
-            },
+      let response = await axios.post(
+        `${URL}${getRecommendedJobs}${props.user._id}`,
+        {services: [{_id: id}]},
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
           },
-        );
-        console.log('response of getAllRecommendedJobs', response.data.result);
-        setRecommendation(response.data.result);
-        return response.data.result;
-      }
+        },
+      );
+      console.log('response of getAllRecommendedJobs', response.data.result);
+      setJobsByService(response.data.result);
+      return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
         console.log('propss in getAllRecommendedJobs', props);
@@ -53,12 +50,7 @@ const AvailableJobs = (props) => {
     }
   };
 
-  useEffect(() => {
-    getAllAvailableJobs();
-  }, []);
-
   const renderRecommendation = ({item}) => (
-    // console.log('item in availableJob', item);
     <ItemRecom
       name={item.buyer.name}
       image={item.buyer.profileImage}
@@ -81,7 +73,6 @@ const AvailableJobs = (props) => {
       image,
     });
   };
-
   const ItemRecom = ({name, service, location, budget, description, image}) => (
     <TouchableOpacity
       onPress={
@@ -151,35 +142,42 @@ const AvailableJobs = (props) => {
     </TouchableOpacity>
   );
 
+  useEffect(() => {
+    getAllJobsByService(props.route.params.id);
+  }, []);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View style={styles.back}>
-        <Header />
-        <Card>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
-              }}>
-              Available Jobs
-            </Text>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              data={Recommendation}
-              renderItem={renderRecommendation}
-              keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
-            />
-          </SafeAreaView>
-        </Card>
-      </View>
+      <ScrollView>
+        {/* {console.log('Props in Service Seller', props)} */}
+        <View style={styles.back}>
+          <Header />
+          <Card>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  // marginBottom: 10,
+                  // width: 200,
+                }}>
+                Available Jobs for {props.route.params.name}
+              </Text>
+            </View>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                data={JobsByService}
+                renderItem={renderRecommendation}
+                keyExtractor={(item) => item.key}
+                style={{borderRadius: 20}}
+              />
+            </SafeAreaView>
+          </Card>
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -212,4 +210,4 @@ const mapStateToProps = (state) => ({
   token: state.userDetails.token,
 });
 
-export default connect(mapStateToProps)(AvailableJobs);
+export default connect(mapStateToProps)(ServiceJobs);

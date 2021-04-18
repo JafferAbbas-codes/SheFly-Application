@@ -69,9 +69,9 @@ const Profile = (props) => {
       let inProgess = [];
       let completed = [];
       response.data.result.map((order) => {
-        if (order.status == 'confirmed') {
+        if (order.status == 'Confirmed') {
           inProgess.push(order);
-        } else if (order.status == 'completed') {
+        } else if (order.status == 'Completed') {
           completed.push(order);
         }
       });
@@ -114,6 +114,27 @@ const Profile = (props) => {
     getAllBidsBySeller();
   }, []);
 
+  const OnPressJobsDone = (jobsDone) => {
+    props.navigation.navigate('JobsDone', {
+      ...props.route.params,
+      jobsDone,
+    });
+  };
+
+  const OnPressJobsInProgress = (jobsInProgress) => {
+    props.navigation.navigate('JobsInProgress', {
+      ...props.route.params,
+      jobsInProgress,
+    });
+  };
+
+  const OnPressBids = (bids) => {
+    props.navigation.navigate('AllBids', {
+      ...props.route.params,
+      bids,
+    });
+  };
+
   return (
     <View style={styles.back}>
       {console.log('Inprofile', props)}
@@ -125,88 +146,112 @@ const Profile = (props) => {
       <Card>
         <ScrollView>
           <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
-              <Text
+            <TouchableOpacity
+              onPress={
+                () => {
+                  OnPressJobsDone(jobsDone);
+                }
+                // console.log('on click', item._id),
+              }>
+              <View
                 style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
+                  flexDirection: 'column',
+                  borderRadius: 20,
+                  width: 100,
+                  margin: 8,
+                  padding: 15,
+                  backgroundColor: 'white',
                 }}>
-                {jobsDone.length}
-              </Text>
-              <Text
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {jobsDone.length}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  Jobs Done
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={
+                () => {
+                  OnPressJobsInProgress(jobsInProgress);
+                }
+                // console.log('on click', item._id),
+              }>
+              <View
                 style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
+                  flexDirection: 'column',
+                  borderRadius: 20,
+                  width: 100,
+                  margin: 8,
+                  padding: 15,
+                  backgroundColor: 'white',
                 }}>
-                Jobs Done
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
-              <Text
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {jobsInProgress.length}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  In Progress
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={
+                () => {
+                  OnPressBids(bids);
+                }
+                // console.log('on click', item._id),
+              }>
+              <View
                 style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
+                  flexDirection: 'column',
+                  borderRadius: 20,
+                  width: 100,
+                  margin: 8,
+                  padding: 15,
+                  backgroundColor: 'white',
                 }}>
-                {jobsInProgress.length}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
-                }}>
-                In Progress
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
-                }}>
-                {bids.length}
-              </Text>
-              {/* {console.log('To test')} */}
-              <Text
-                style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
-                }}>
-                Bids
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {bids.length}
+                </Text>
+                {/* {console.log('To test')} */}
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  Bids
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
             Expertise
