@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {SearchBar} from 'react-native-elements';
+import axios from 'axios';
+import {connect} from 'react-redux';
+import {TouchableOpacity} from 'react-native';
 
-export default function Header() {
+const Header2 = (props) => {
+  console.log(props);
   // {navigation, title}
   // const openMenu=()=>{
   //     navigation.openDrawer();
   // }
-  const [search, updateSearch] = useState('');
   return (
     <View>
       <View style={{marginVertical: 20}}>
@@ -17,29 +20,32 @@ export default function Header() {
           size={28}
           /*onPress={openMenu}*/ style={styles.icon}
         />
-        <Image source={require('../assets/i.jpg')} style={styles.headerImage} />
+        {/* <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate('Profile', {
+              ...props.route.params,
+            });
+          }}> */}
+        <Image
+          style={{
+            width: 150,
+            height: 150,
+            // position: 'absolute',
+            alignSelf: 'center',
+          }}
+          source={require('../assets/logo/shefly1.png')}
+        />
+        <Image
+          source={{
+            uri: props.user.profileImage,
+          }}
+          style={styles.headerImage}
+        />
+        {/* </TouchableOpacity> */}
       </View>
-      <SearchBar
-        placeholder="Search for job"
-        onChangeText={updateSearch}
-        value={search}
-        containerStyle={{
-          backgroundColor: '#BC53AE',
-          borderColor: '#BC53AE',
-          borderRadius: 20,
-          marginHorizontal: 20,
-          marginVertical: 20,
-          paddingVertical: 3,
-          borderTopColor: '#BC53AE',
-          borderBottomColor: '#BC53AE',
-        }}
-        inputContainerStyle={{backgroundColor: '#BC53AE'}}
-        leftIconContainerStyle={{backgroundColor: '#BC53AE'}}
-        rightIconContainerStyle={{backgroundColor: '#BC53AE'}}
-      />
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   header: {
     width: '100%',
@@ -63,10 +69,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerImage: {
-    width: 30,
-    height: 30,
-    right: 16,
+    width: 50,
+    height: 50,
+    right: 30,
     alignSelf: 'flex-end',
-    borderRadius: 10,
+    borderRadius: 12,
   },
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(Header2);

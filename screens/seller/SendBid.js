@@ -11,6 +11,8 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  Alert,
+  Modal,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
@@ -28,44 +30,18 @@ export default function yourBid(props) {
     description: yup.string().required('No description provided.'),
   });
 
-  const [Servises, setServises] = useState([
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      user: 'Salman',
-      key: '1',
-    },
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Nursing',
-      user: 'Salman',
-      key: '2',
-    },
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      user: 'Salman',
-      key: '3',
-    },
-    {
-      bookingno: '1',
-      status: 'completed',
-      serviceprovider: 'Narjis',
-      date: '6-06-2021',
-      service: 'Cooking',
-      user: 'Salman',
-      key: '4',
-    },
-  ]);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const displayModal = (show) => {
+    setIsVisible(show);
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 2000);
+    // props.navigation.navigate('Home', {
+    //   ...props.route.params,
+    // });
+  };
+
   const renderItem = ({item}) => (
     <Item
       text={item.text}
@@ -85,13 +61,6 @@ export default function yourBid(props) {
     });
   };
 
-  const onPressSendOffer = () => {
-    // console.log('in on Press Back');
-    props.navigation.navigate('OfferSent', {
-      ...props.route.params,
-    });
-  };
-
   const [name, onChangeName] = useState('');
   const [email, onChangeBudget] = useState('');
   const [pass, onChangePass] = useState('');
@@ -105,6 +74,37 @@ export default function yourBid(props) {
         Keyboard.dismiss();
       }}>
       <View>
+        <Modal
+          animationType={'fade'}
+          transparent={false}
+          visible={isVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+          {/* <Text
+            style={styles.closeText}
+            onPress={() => {
+              displayModal(!isVisible);
+            }}>
+            {' '}
+            x{' '}
+          </Text> */}
+          <View
+            style={{
+              flex: 1,
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}>
+            <MaterialIcons
+              name="check-circle"
+              size={180}
+              style={{
+                color: '#AD379D',
+              }}
+            />
+            <Text style={{textAlign: 'center', fontSize: 30}}>Offer Sent</Text>
+          </View>
+        </Modal>
         <View
           style={{
             flexDirection: 'row',
@@ -211,7 +211,7 @@ export default function yourBid(props) {
                   <FlatButton
                     text="Send Offer"
                     onPress={() => {
-                      onPressSendOffer();
+                      displayModal(true);
                     }}
                   />
                 </View>
@@ -264,6 +264,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
   },
+  closeText: {
+    fontSize: 24,
+    color: '#00479e',
+    textAlign: 'right',
+    paddingVertical: 50,
+    paddingHorizontal: 20,
+  },
   header: {
     paddingLeft: 35,
     flexDirection: 'row',
@@ -277,6 +284,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     // position: 'absolute',
+  },
+  image: {
+    // marginTop: 150,
+    marginBottom: 10,
+    // width: 100,
+    // height: 350,
+  },
+  text: {
+    fontSize: 24,
+    // marginBottom: 30,
+    // padding: 40,
   },
   headerTitle: {},
 });

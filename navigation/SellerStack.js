@@ -140,6 +140,7 @@ const AvailableJobsStackScreen = () => {
       <Stack.Screen name="ViewJob" component={ViewJob} />
       <Stack.Screen name="SendBid" component={SendBid} />
       <Stack.Screen name="OfferSent" component={OfferSent} />
+      {/* <Stack.Screen name="Home" component={Home} /> */}
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
