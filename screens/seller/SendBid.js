@@ -14,6 +14,7 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import {StackActions} from '@react-navigation/native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
@@ -28,6 +29,7 @@ import {connect, useDispatch} from 'react-redux';
 
 const SendBid = (props) => {
   // const [value, onChangeText] = React.useState('42|');
+  const [buttonLoading, setButtonLoading] = useState(false);
   console.log('props in sendBidd', props);
   const reviewSchema = yup.object({
     budget: yup.string().required(),
@@ -38,6 +40,7 @@ const SendBid = (props) => {
   const createBidAPI = async (budget, description) => {
     try {
       console.log('props in createBidAPI', props);
+      setButtonLoading(true);
       let response = await axios.post(
         `${URL}${createBid}`,
         {
@@ -52,9 +55,11 @@ const SendBid = (props) => {
           },
         },
       );
+      setButtonLoading(false);
       console.log('response of createBidAPI', response.data.result);
       displayModal(true);
     } catch (error) {
+      setButtonLoading(false);
       console.log('propss in createBidAPI', error);
       if (error?.response?.data?.result) {
         console.log('propss in createBidAPI', error);
@@ -68,6 +73,7 @@ const SendBid = (props) => {
     setIsVisible(show);
     setTimeout(() => {
       setIsVisible(false);
+      props.navigation.dispatch(StackActions.popToTop());
     }, 2000);
     // props.navigation.navigate('Home', {
     //   ...props.route.params,
@@ -134,7 +140,9 @@ const SendBid = (props) => {
                 color: '#AD379D',
               }}
             />
-            <Text style={{textAlign: 'center', fontSize: 30}}>Offer Sent</Text>
+            <Text style={{textAlign: 'center', fontSize: 30}}>
+              Bid Successful
+            </Text>
           </View>
         </Modal>
         <View
@@ -249,7 +257,11 @@ const SendBid = (props) => {
                       />
                     </View>
                   </View>
-                  <FlatButton text="Send Offer" onPress={propss.handleSubmit} />
+                  <FlatButton
+                    text="Submit"
+                    loading={buttonLoading}
+                    onPress={propss.handleSubmit}
+                  />
                 </View>
               )}
             </Formik>
