@@ -12,6 +12,7 @@ import AllServices from '../screens/buyer/AllService';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
 import Messaging from '../screens/buyer/Messaging';
 import BuyerRequests from '../screens/buyer/BuyerRequests';
+import BuyerProfile from '../screens/buyer/BuyerProfile';
 // import About from '../screens/About';
 // import Notifications from '../screens/Notifications';
 // import Profile from '../screens/buyer/Profile';
@@ -25,6 +26,8 @@ import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
 import RequestDetails from '../screens/buyer/RequestDetails';
 import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
 import {TouchableOpacity} from 'react-native';
+import ConfirmedBooking from '../screens/buyer/ConfirmedBooking';
+import CompletedBooking from '../screens/buyer/CompletedBooking';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -225,7 +228,11 @@ const ProfileStackScreen = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Messaging" component={Messaging} />
+      <Stack.Screen name="BuyerProfile" component={BuyerProfile} />
+      <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="ConfirmedBookings" component={ConfirmedBooking} />
+      <Stack.Screen name="CompletedBookings" component={CompletedBooking} />
+      {/* <Stack.Screen name="RequestDetails" component={RequestDetails} /> */}
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
