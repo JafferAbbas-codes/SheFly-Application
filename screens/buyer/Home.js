@@ -24,11 +24,7 @@ import {TouchableOpacity} from 'react-native';
 
 const Home = (props) => {
   // const [value, onChangeText] = React.useState('42|');
-  const [services, setServices] = useState([
-    // {name: 'Cooking', _id: '1'},
-    // {name: 'Makeup', _id: '2'},
-    // {name: 'Nursing', _id: '3'},
-  ]);
+  const [services, setServices] = useState([]);
   const renderItem = (item) => <Item item={item.item} />;
   const Item = ({item}) => (
     <TouchableOpacity
@@ -137,34 +133,9 @@ const Home = (props) => {
     getAllServices();
     getAllSellers();
   }, []);
-  const [availableSellers, setAvailableSellers] = useState([
-    // {
-    //   name: 'Mashama Hafeez',
-    //   rating: '5.0',
-    //   service: 'Make up Artist',
-    //   description:
-    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio. ',
-    //   text: 'Makeup',
-    //   _id: '1',
-    // },
-    // {
-    //   name: 'Mashama Hafeez',
-    //   rating: '5.0',
-    //   service: 'Make up Artist',
-    //   description:
-    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id placerat odio.',
-    //   text: 'Makeup',
-    //   _id: '2',
-    // },
-    // {
-    //   name: 'Mashama Hafeez',
-    //   rating: '5.0',
-    //   service: 'Make up Artist',
-    //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-    //   text: 'Makeup',
-    //   _id: '3',
-    // },
-  ]);
+
+  const [availableSellers, setAvailableSellers] = useState([]);
+
   const renderAvailableSellers = (props) => (
     // console.log('item in ItemRecom seller', props);
     <ItemRecom
