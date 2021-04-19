@@ -24,117 +24,60 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getBuyerRequests} from '../../config/const';
 
-const confirmedBookings = (props) => {
+const Bookings = (props) => {
   // const [value, onChangeText] = React.useState('42|');
-  const [ConfBookings, setRequests] = useState([]);
+  const [bookings, setBookings] = useState(props.route.params.bookings);
   console.log('in props c.b', props);
 
-  const getAllBuyerRequests = async () => {
-    try {
-      let response = await axios.get(
-        `${URL}${getBuyerRequests}${props.user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-          },
-        },
-      );
-      console.log('response', response.data.result);
-      setRequests(
-        response.data.result.filter((req) => req.status == 'Pending'),
-      );
-      return response.data.result;
-    } catch (error) {
-      if (error?.response?.data?.result) {
-        console.log('error123 in getAllBuyerRequests : ', error.response.data);
-        return {error: error.response.data.result};
-      }
-    }
-  };
-
-  useEffect(() => {
-    getAllBuyerRequests();
-  }, []);
-
-  const OnPressRequest = (
-    id,
-    requestNo,
-    date,
-    buyer,
-    status,
-    seller,
-    service,
-    budget,
-    address,
-    description,
-  ) => {
-    props.navigation.navigate('RequestDetails', {
-      ...props.route.params,
-      id,
-      requestNo,
-      date,
-      buyer,
-      status,
-      seller,
-      service,
-      budget,
-      address,
-      description,
+  const OnPressRequest = (order) => {
+    props.navigation.navigate('BookingDetails', {
+      order,
+      // ...props.route.params,
+      // id,
+      // requestNo,
+      // date,
+      // buyer,
+      // updatedAt,
+      // buyerNumber,
+      // status,
+      // seller,
+      // service,
+      // budget,
+      // address,
+      // description,
     });
   };
 
   const renderItem = ({item}) => {
-    var date = moment(item.dateAndTime).format('ll');
+    // var date = moment(item.dateAndTime).format('ll');
     // var requestNo = parseInt(`${item._id}`, 10);
     return (
       <Item
-        requestNo={item._id.substring(
-          item._id.length - 10,
-          item._id.length - 3,
-        )}
-        buyer={item.buyer.name}
-        date={date}
-        // buyer={item.buyer}
-        seller={item.seller}
-        status={item.status}
-        service={item.service.name}
-        id={item._id}
-        budget={item.budget}
-        address={item.address}
-        description={item.description}
-        //sellername
-        // index={item.index}
+        order={item}
+        // requestNo={
+        //   item._id.substring(
+        //   item._id.length - 10,
+        //   item._id.length - 3,
+        // )}
+        // buyer={item.buyer.name}
+        // buyerNumber={item.buyer.phoneNumber}
+        // date={date}
+        // seller={item.seller}
+        // updatedAt={item.updatedAt}
+        // status={item.status}
+        // service={item.service.name}
+        // id={item._id}
+        // budget={item.budget}
+        // address={item.address}
+        // description={item.description}
       />
     );
   };
-  const Item = ({
-    id,
-    requestNo,
-    date,
-    buyer,
-    status,
-    seller,
-    service,
-    budget,
-    address,
-    description,
-    // index,
-  }) => (
+  const Item = ({order}) => (
     <TouchableOpacity
       onPress={
         () => {
-          OnPressRequest(
-            id,
-            requestNo,
-            date,
-            buyer,
-            status,
-            seller,
-            service,
-            budget,
-            address,
-            description,
-          );
+          OnPressRequest(order);
         }
         // console.log('on click', item._id),
       }>
@@ -167,14 +110,16 @@ const confirmedBookings = (props) => {
               fontWeight: 'bold',
               fontSize: 15,
             }}>
-            Request ID:{' ' + requestNo}
+            Request ID:
+            {' ' +
+              order._id.substring(order._id.length - 10, order._id.length - 3)}
           </Text>
           <Text
             style={{
               fontWeight: '900',
               fontSize: 12,
             }}>
-            Requested on{' ' + date}
+            Requested on{' ' + moment(order.dateAndTime).format('ll')}
           </Text>
         </View>
         <View style={{paddingVertical: 5}}>
@@ -190,7 +135,7 @@ const confirmedBookings = (props) => {
                 size={16}
                 style={{color: 'black'}}
               />
-              {'  ' + buyer}
+              {'  ' + order.buyer.name}
             </Text>
             <Text
               style={{
@@ -200,7 +145,7 @@ const confirmedBookings = (props) => {
                 padding: 3,
                 paddingHorizontal: 15,
               }}>
-              {status}
+              {order.status}
             </Text>
           </View>
           <View
@@ -210,8 +155,8 @@ const confirmedBookings = (props) => {
             }}>
             <Text>
               <Zocial name="stripe" size={16} />
-              {seller != undefined ? ' ' + seller.name : '  TBD'}
-              {console.log('seller after TBD', seller)}
+              {order.seller != undefined ? ' ' + order.seller.name : '  TBD'}
+              {console.log('seller after TBD', order.seller)}
             </Text>
             <Text
               style={{
@@ -219,7 +164,7 @@ const confirmedBookings = (props) => {
                 padding: 3,
                 paddingHorizontal: 10,
               }}>
-              {service}
+              {order.service.name}
             </Text>
           </View>
         </View>
@@ -248,7 +193,7 @@ const confirmedBookings = (props) => {
               justifyContent: 'space-between',
               margin: 25,
             }}>
-            Confirmed Bookings
+            {props.route.params.headerTitle}
           </Text>
         </View>
         <MainCard>
@@ -258,7 +203,7 @@ const confirmedBookings = (props) => {
               props.route.params.confirmedBookings,
             )}
             <FlatList
-              data={props.route.params.confirmedBookings}
+              data={bookings}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
               style={{borderRadius: 20}}
@@ -316,4 +261,4 @@ const mapStateToProps = (state) => ({
   token: state.userDetails.token,
 });
 
-export default connect(mapStateToProps)(confirmedBookings);
+export default connect(mapStateToProps)(Bookings);

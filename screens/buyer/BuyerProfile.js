@@ -233,23 +233,26 @@ const BuyerProfile = (props) => {
   }, []);
 
   const OnPressConfirmedBookings = (confirmedBookings) => {
-    props.navigation.navigate('ConfirmedBookings', {
+    props.navigation.navigate('Bookings', {
       ...props.route.params,
-      confirmedBookings,
+      bookings: confirmedBookings,
+      headerTitle: 'Confirmed Bookings',
     });
   };
 
   const OnPressCompletedBookings = (completedBookings) => {
-    props.navigation.navigate('CompletedBookings', {
+    props.navigation.navigate('Bookings', {
       ...props.route.params,
-      completedBookings,
+      bookings: completedBookings,
+      headerTitle: 'Completed Bookings',
     });
   };
 
   const OnPressPendingBookings = (pendingBookings) => {
-    props.navigation.navigate('BuyerRequests', {
+    props.navigation.navigate('Bookings', {
       ...props.route.params,
-      pendingBookings,
+      bookings: pendingBookings,
+      headerTitle: 'Pending Bookings',
     });
   };
 
