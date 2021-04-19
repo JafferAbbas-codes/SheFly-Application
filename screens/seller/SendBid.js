@@ -232,7 +232,7 @@ const SendBid = (props) => {
                   </View>
                   <Text
                     style={
-                      propss.errors.budget && propss.touched.budget
+                      propss.errors.description && propss.touched.description
                         ? styles.errorInputTitle
                         : styles.inputTitle
                     }>
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   },
   errorInputTitle: {
     marginBottom: 5,
-    color: '#red',
+    color: 'red',
   },
   inputBudget: {
     height: 40,
