@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // marginBottom: 50,
     backgroundColor: '#FEF8FF',
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     // width: width,
     fontSize: 16,
     padding: 10,

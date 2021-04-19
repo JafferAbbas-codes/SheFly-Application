@@ -30,6 +30,7 @@ import {connect, useDispatch} from 'react-redux';
 const SendBid = (props) => {
   // const [value, onChangeText] = React.useState('42|');
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [error, setError] = useState({responseCode: 200, message: ''});
   console.log('props in sendBidd', props);
   const reviewSchema = yup.object({
     budget: yup.string().required(),
@@ -80,31 +81,11 @@ const SendBid = (props) => {
     // });
   };
 
-  const renderItem = ({item}) => (
-    <Item
-      text={item.text}
-      bookingno={item.bookingno}
-      date={item.date}
-      serviceprovider={item.serviceprovider}
-      status={item.status}
-      user={item.user}
-      service={item.service}
-    />
-  );
-
   const OnPressBack = () => {
     console.log('in on Press Back');
     props.navigation.navigate('ViewJobDetails', {
       ...props.route.params,
     });
-  };
-
-  const [name, onChangeName] = useState('');
-  const [budget, setBudget] = useState('');
-  const [pass, onChangePass] = useState('');
-  const [confirmpass, onChangeConf] = useState('');
-  const changeNameHandler = (val) => {
-    setText(val);
   };
   return (
     <TouchableWithoutFeedback
@@ -224,8 +205,13 @@ const SendBid = (props) => {
                     }}>
                     Your bidding
                   </Text>
-                  <Text style={{marginBottom: 5, color: '#A28FA1'}}>
-                    Budget
+                  <Text
+                    style={
+                      propss.errors.budget && propss.touched.budget
+                        ? styles.errorInputTitle
+                        : styles.inputTitle
+                    }>
+                    Budget*
                   </Text>
                   <View
                     style={{
@@ -234,21 +220,35 @@ const SendBid = (props) => {
                       fontSize: 25,
                     }}>
                     <TextInput
-                      style={styles.input}
+                      style={
+                        propss.errors.budget && propss.touched.budget
+                          ? styles.errorInputBudget
+                          : styles.inputBudget
+                      }
                       onChangeText={propss.handleChange('budget')}
                       value={propss.values.budget}
                       onBlur={propss.handleBlur('budget')}
                     />
                   </View>
-                  <Text style={{marginBottom: 5, color: '#A28FA1'}}>
-                    Description
+                  <Text
+                    style={
+                      propss.errors.budget && propss.touched.budget
+                        ? styles.errorInputTitle
+                        : styles.inputTitle
+                    }>
+                    Description*
                   </Text>
                   <View
                     style={{
                       alignSelf: 'center',
                       fontSize: 25,
                     }}>
-                    <View style={styles.option}>
+                    <View
+                      style={
+                        propss.errors.description && propss.touched.description
+                          ? styles.errorInputDescription
+                          : styles.inputDescription
+                      }>
                       <TextInput
                         style={{fontSize: 16}}
                         onChangeText={propss.handleChange('description')}
@@ -295,13 +295,49 @@ const styles = StyleSheet.create({
     width: 320,
     height: 130,
   },
-  input: {
+  inputTitle: {
+    marginBottom: 5,
+    color: '#A28FA1',
+  },
+  errorInputTitle: {
+    marginBottom: 5,
+    color: '#red',
+  },
+  inputBudget: {
     height: 40,
     borderColor: '#D2D2D2',
     borderRadius: 5,
     borderWidth: 1,
     marginBottom: 20,
     width: 320,
+  },
+  errorInputBudget: {
+    height: 40,
+    borderColor: '#D2D2D2',
+    borderRadius: 5,
+    borderWidth: 1,
+    marginBottom: 20,
+    width: 320,
+    borderColor: 'red',
+  },
+  inputDescription: {
+    borderColor: '#D2D2D2',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 15,
+    width: 320,
+    height: 130,
+  },
+  errorInputDescription: {
+    // borderColor: '#D2D2D2',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 15,
+    width: 320,
+    height: 130,
+    borderColor: 'red',
   },
   item: {
     // backgroundColor: '#f9c2ff',
