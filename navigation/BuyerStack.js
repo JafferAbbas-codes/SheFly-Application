@@ -26,8 +26,8 @@ import SellerProfileForBuyer from '../screens/buyer/SellerProfile';
 import RequestDetails from '../screens/buyer/RequestDetails';
 import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
 import {TouchableOpacity} from 'react-native';
-import ConfirmedBooking from '../screens/buyer/ConfirmedBooking';
-import CompletedBooking from '../screens/buyer/CompletedBooking';
+import Bookings from '../screens/buyer/Booking';
+import BookingDetails from '../screens/buyer/BookingDetails';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -230,8 +230,8 @@ const ProfileStackScreen = () => {
       }}>
       <Stack.Screen name="BuyerProfile" component={BuyerProfile} />
       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
-      <Stack.Screen name="ConfirmedBookings" component={ConfirmedBooking} />
-      <Stack.Screen name="CompletedBookings" component={CompletedBooking} />
+      <Stack.Screen name="Bookings" component={Bookings} />
+      <Stack.Screen name="BookingDetails" component={BookingDetails} />
       {/* <Stack.Screen name="RequestDetails" component={RequestDetails} /> */}
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>

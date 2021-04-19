@@ -24,14 +24,7 @@ import {connect} from 'react-redux';
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
   console.log('props', props);
-  // const [accountInfo, setAccountInfo] = useState({
-  //   name: '',
-  //   email: '',
-  //   password: '',
-  // });
-  // const [email, setEmail] = useState('');
-  // const [pass, setPass] = useState('');
-  // const [confirmpass, setConfirmPass] = useState('');
+
   const [isSelected, setSelection] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
