@@ -3,32 +3,23 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
-  Image,
   TouchableWithoutFeedback,
-  ImageBackground,
   Keyboard,
   ScrollView,
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import Header from '../../shared/Header2';
 import MainCard from '../../shared/MainCard';
-import FlatButton from '../../shared/Button.js';
-import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {URL, getOrdersBySeller, getBidsByOrder} from '../../config/const';
+import {URL, getBidsByOrder} from '../../config/const';
 
 const BidsOnBuyerRequests = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
-  console.log('props in bidsonbuyerrequest', props);
   const [Bids, setBids] = useState([]);
 
   const getAllBidsByOrder = async () => {
-    console.log('in Api call', props.route.params.id);
     try {
       let response = await axios.get(
         `${URL}${getBidsByOrder}${props.route.params.id}`,
@@ -38,14 +29,10 @@ const BidsOnBuyerRequests = (props) => {
           },
         },
       );
-      console.log('response of getAllBidsByOrder', response.data.result);
-
       setBids(response.data.result);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('propss in getAllBidsByOrder', props);
-        console.log('error123 getAllBidsByOrder : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -57,24 +44,12 @@ const BidsOnBuyerRequests = (props) => {
 
   const renderItem = ({item}) => (
     <Item
-      text={item.text}
-      bookingno={item.bookingno}
       description={item.description}
       seller={item.seller}
       budget={item.budget}
-      user={item.user}
-      service={item.service}
     />
   );
-  const Item = ({
-    text,
-    bookingno,
-    description,
-    seller,
-    budget,
-    user,
-    service,
-  }) => (
+  const Item = ({description, seller, budget}) => (
     <View
       style={{
         margin: 5,
@@ -88,12 +63,9 @@ const BidsOnBuyerRequests = (props) => {
         shadowOpacity: 0.5,
         shadowRadius: 5,
         elevation: 5,
-        // marginHorizontal: 10,
       }}>
       <View
         style={{
-          //   flexDirection: 'row',
-          //   justifyContent: 'space-between',
           borderBottomColor: '#D3D6DB',
           borderBottomWidth: 2,
           paddingBottom: 5,
@@ -130,46 +102,13 @@ const BidsOnBuyerRequests = (props) => {
             paddingBottom: 3,
             paddingHorizontal: 8,
           }}>
-          <MaterialIcons
-            name="comment"
-            size={22}
-            // style={styles.icon}
-            // style={{
-            //   margin: 22,
-            //   paddingLeft: 5,
-            //   paddingRight: 5,
-            //   paddingBottom: 4,
-            //   paddingTop: 1,
-            //   backgroundColor: '#BC53AE',
-            //   color: 'white',
-            //   borderRadius: 8,
-            // }}
-          />
+          <MaterialIcons name="comment" size={22} />
         </Text>
       </View>
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <Text>
-          <MaterialIcons name="user" />
-          {user}
-        </Text>
-        <Text
-          style={{
-            color: '#B0389F',
-            padding: 3,
-            paddingHorizontal: 10,
-          }}>
-          {service}
-        </Text>
-      </View> */}
       <View
         style={{
           flexDirection: 'row',
           paddingTop: 5,
-          //   justifyContent: 'space-between',
         }}>
         <Text style={{paddingLeft: 8, fontWeight: 'bold', fontSize: 12}}>
           Description:{' '}
@@ -191,20 +130,16 @@ const BidsOnBuyerRequests = (props) => {
           </Text>
         </View>
 
-        {/* <FlatButton text="View all Bids" /> */}
         <TouchableOpacity>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Accept</Text>
           </View>
         </TouchableOpacity>
       </View>
-
-      {/* <Text style={{paddingHorizontal: 8}}>Budget: {budget}</Text> */}
     </View>
   );
 
   const OnPressBack = () => {
-    console.log('in on Press Edit');
     props.navigation.navigate('RequestDetails', {
       ...props.route.params,
     });
@@ -219,7 +154,6 @@ const BidsOnBuyerRequests = (props) => {
         <View
           style={{
             flexDirection: 'row',
-            // justifyContent: 'space-evenly',
             padding: 35,
           }}>
           <MaterialIcons
@@ -233,7 +167,6 @@ const BidsOnBuyerRequests = (props) => {
               color: 'white',
               fontWeight: 'bold',
               fontSize: 30,
-              // justifyContent: 'space-between',
               paddingTop: 25,
             }}>
             Bids
@@ -268,13 +201,6 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    // marginVertical: 30,
-  },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
   },
   title: {
     fontSize: 32,
@@ -293,26 +219,17 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
   },
-  headerTitle: {},
   button: {
-    // height: 20.5,
-    // height: 46,
     borderRadius: 30,
     textAlign: 'center',
     paddingVertical: 2,
-    // marginHorizontal: 70,
     paddingHorizontal: 24,
     backgroundColor: '#43C58D',
   },
   buttonText: {
     color: 'white',
-    // fontWeight: 'bold',
-    // textTransform: 'uppercase',
     fontSize: 12,
     textAlign: 'center',
-    // flexDirection: 'row',
-    // alignContent: 'center',
-    // justifyContent: 'center',
   },
 });
 

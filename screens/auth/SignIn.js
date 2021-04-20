@@ -38,7 +38,6 @@ const SignIn = (props) => {
         console.log('result.error', result.error);
         setError(result.error);
         if (result.error.responseCode == 403) {
-          console.log('in Alert');
           Alert.alert(
             'Ops!',
             result.error.message,
@@ -55,8 +54,6 @@ const SignIn = (props) => {
             },
           );
         }
-
-        //do something here
       }
     } catch (error) {
       console.log('error : ', error);
@@ -84,7 +81,6 @@ const SignIn = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {/* {console.log('To Test')} */}
       <View style={styles.back}>
         <Header />
         <Stepper
@@ -100,9 +96,6 @@ const SignIn = (props) => {
                   email: values.email,
                   password: values.password,
                 });
-
-                // console.log('form values', values);
-                // actions.resetForm();
               }}>
               {(propss) => (
                 <View>
@@ -125,18 +118,11 @@ const SignIn = (props) => {
                       <View
                         style={{
                           flexDirection: 'row',
-                          // backgroundColor: 'red',
                           justifyContent: 'space-between',
                         }}>
                         <Text>Email</Text>
                       </View>
-                      <View
-                        style={{
-                          // backgroundColor: 'yellow',
-                          // alignSelf: 'center',
-                          // marginHorizontal: 50,
-                          fontSize: 25,
-                        }}>
+                      <View style={{}}>
                         <View>
                           <TextInput
                             style={
@@ -150,9 +136,7 @@ const SignIn = (props) => {
                             value={propss.values.email}
                             onBlur={propss.handleBlur('email')}
                           />
-                          <View
-                          // style={{ width: 215 }}
-                          >
+                          <View>
                             <Text style={{color: 'red'}}>
                               {error.responseCode == 404
                                 ? 'Email not found'
@@ -168,15 +152,12 @@ const SignIn = (props) => {
                       <View
                         style={{
                           flexDirection: 'row',
-                          // backgroundColor: 'red',
                           justifyContent: 'space-between',
                         }}>
                         <Text>Password</Text>
                       </View>
                       <View
                         style={{
-                          // alignSelf: 'center',
-                          // marginHorizontal: 50,
                           fontSize: 25,
                         }}>
                         <View>
@@ -197,9 +178,7 @@ const SignIn = (props) => {
                             onBlur={propss.handleBlur('password')}
                           />
 
-                          <View
-                          // style={{ width: 215 }}
-                          >
+                          <View>
                             <Text
                               style={{
                                 color: 'red',
@@ -250,11 +229,8 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 55,
     backgroundColor: '#FEF8FF',
-    // width: 250,
     padding: 10,
-    // paddingVertical: 0,
     fontSize: 16,
   },
   input: {
@@ -262,10 +238,7 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 50,
     backgroundColor: '#FEF8FF',
-    // alignSelf: 'stretch',
-    // width: width,
     fontSize: 16,
     padding: 10,
   },

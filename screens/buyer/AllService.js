@@ -3,9 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
-  Image,
-  TouchableWithoutFeedback,
   ImageBackground,
   Keyboard,
   ScrollView,
@@ -14,38 +11,21 @@ import {
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
-import FlatButton from '../../shared/Button.js';
-import {gStyles} from '../../styles/global';
-import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getAllServicesRoute} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
-import {TouchableHighlight} from 'react-native';
 
 const AllServices = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
-  const [Services, setServices] = useState([
-    // { text: 'Cooking', key: '1' },
-    // { text: 'Makeup', key: '2' },
-    // { text: 'Sewing', key: '3' },
-    // { text: 'Henna Arts', key: '4' },
-    // { text: 'Nursing', key: '5' },
-    // { text: 'Teaching', key: '6' },
-  ]);
+  const [Services, setServices] = useState([]);
   const renderItem = (item) => <Item item={item.item} />;
 
   const Item = ({item}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressService(item._id, item.name);
-        }
-        // console.log('on click', item._id),
-      }>
-      {/* {console.log('To test')} */}
+      onPress={() => {
+        OnPressService(item._id, item.name);
+      }}>
       <ImageBackground
-        //   source={require('../../assets/i.jpg')}
         source={{
           uri: item.image,
         }}
@@ -56,7 +36,6 @@ const AllServices = (props) => {
           flex: 1,
           overflow: 'hidden',
         }}>
-        {console.log('item in Item', item)}
         <Text
           style={{
             fontSize: 25,
@@ -88,12 +67,10 @@ const AllServices = (props) => {
           Authorization: `Bearer ${props.token}`,
         },
       });
-      console.log('response', response);
       setServices(response.data.result);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('error123 signin : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -109,7 +86,6 @@ const AllServices = (props) => {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
-        {console.log('in return', Services)}
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
@@ -117,8 +93,6 @@ const AllServices = (props) => {
               style={{
                 fontWeight: 'bold',
                 fontSize: 25,
-                // marginBottom: 15,
-                // width: 200,
               }}>
               Services
             </Text>
@@ -152,12 +126,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginVertical: 30,
   },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
-  },
+
   title: {
     fontSize: 32,
   },

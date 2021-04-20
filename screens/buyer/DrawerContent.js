@@ -1,17 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-// import {AuthContext} from '../navigation/AuthProvider.android';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {
-  Avatar,
   Title,
   Caption,
   Paragraph,
   Drawer,
   Text,
-  TouchableRipple,
   Switch,
-  DarkTheme,
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,13 +16,6 @@ import {logout} from '../../redux/authActions';
 import {connect} from 'react-redux';
 
 const DrawerContent = (props) => {
-  useEffect(() => {
-    // console.log("props.state---->",props)
-  });
-  // console.log("props",props)
-  // console.log("props.state---->",props.reduxstate)
-  // console.log("props.user DrawerContent",props.user)
-  // const {user, logout} = useContext(AuthContext);
   const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   const toggleTheme = () => {
@@ -40,7 +29,6 @@ const DrawerContent = (props) => {
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View style={{flexDirection: 'row', marginTop: 15}}>
-              {/* <Avatar.Image source={{uri: `${user.photoURL}`}} size={50} /> */}
               <View style={{marginLeft: 15, flexDirection: 'column'}}>
                 <Title style={styles.title}>
                   {props.user.name ? props.user.name : 'User'}

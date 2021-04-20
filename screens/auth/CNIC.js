@@ -13,11 +13,9 @@ import Header from '../../shared/Header';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import Stepper from '../../shared/Stepper';
-import {gStyles} from '../../styles/global';
 import {ActivityIndicator} from 'react-native';
 import {verifyCNIC} from '../../redux/authActions';
 
-// import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const EnterCNIC = (props) => {
   const [cnic, setCNIC] = React.useState('');
   const [loading, setLoading] = React.useState({status: false, message: ''});
@@ -44,10 +42,8 @@ const EnterCNIC = (props) => {
     try {
       const result = await verifyCNIC({cnic});
       setLoading(false);
-      console.log('result', result);
       setLoading({status: false, message: 'Sending Request'});
       if (result.error) {
-        console.log('result.error', result.error);
         setError({status: true, message: result.error.message});
       } else {
         nextPressHandler();
@@ -71,17 +67,9 @@ const EnterCNIC = (props) => {
       <ScrollView
         style={styles.back}
         contentContainerStyle={{justifyContent: 'space-between'}}>
-        {/* <View
-          style={{
-
-          }}> */}
         <View>
           <Header />
           <Stepper step={2} />
-          {/* <Image
-            source={require('../../assets/stepper2.png')}
-            style={gStyles.stepImg}
-          /> */}
         </View>
         <View style={{justifyContent: 'flex-end'}}>
           <Card style={{}}>
@@ -96,8 +84,6 @@ const EnterCNIC = (props) => {
             </View>
             <View
               style={{
-                // alignSelf: 'center',
-                // marginHorizontal: 50,
                 fontSize: 25,
                 marginBottom: 30,
               }}>
@@ -109,7 +95,6 @@ const EnterCNIC = (props) => {
                 disabled={loading.status}
                 placeholder="eg. 4210112345678"
               />
-              {/* loader */}
 
               {error.status ? (
                 <View
@@ -150,16 +135,9 @@ const EnterCNIC = (props) => {
                 </View>
               )}
             </View>
-            <FlatButton
-              text="Next"
-              onPress={
-                // nextPressHandler
-                onNextClick
-              }
-            />
+            <FlatButton text="Next" onPress={onNextClick} />
           </Card>
         </View>
-        {/* </View> */}
       </ScrollView>
     </TouchableWithoutFeedback>
   );
@@ -168,9 +146,7 @@ const EnterCNIC = (props) => {
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
-    // backgroundColor: 'yellow',
     flexDirection: 'column',
-    // justifyContent: 'space-between',
   },
   header: {
     paddingLeft: 35,
@@ -201,11 +177,8 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 55,
     backgroundColor: '#FEF8FF',
-    // width: 250,
     padding: 10,
-    // paddingVertical: 0,
     fontSize: 16,
   },
   input: {
@@ -213,10 +186,8 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 50,
     backgroundColor: '#FEF8FF',
     alignSelf: 'stretch',
-    // width: width,
     fontSize: 16,
     padding: 10,
   },

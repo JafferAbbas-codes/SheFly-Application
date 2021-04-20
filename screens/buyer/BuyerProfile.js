@@ -2,26 +2,22 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
 import Header from '../../shared/BuyerProfileHead';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {SearchBar} from 'react-native-elements';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import Zocial from 'react-native-vector-icons/Zocial';
-import {URL, getBuyerRequests, getBidsBySeller} from '../../config/const';
+import {URL, getBuyerRequests} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import moment from 'moment';
 
 const BuyerProfile = (props) => {
   const [confirmedBookings, setConfirmedBookings] = useState([]);
   const [pendingBookings, setPendingBookings] = useState([]);
   const [completedBookings, setCompletedBookings] = useState([]);
-  console.log('props in buyer profile', props);
 
   const renderItem = ({item}) => {
     var date = moment(item.dateAndTime).format('ll');
-    // var requestNo = parseInt(`${item._id}`, 10);
     return (
       <Item
         requestNo={item._id.substring(
@@ -30,7 +26,6 @@ const BuyerProfile = (props) => {
         )}
         buyer={item.buyer.name}
         date={date}
-        // buyer={item.buyer}
         seller={item.seller}
         status={item.status}
         service={item.service.name}
@@ -38,8 +33,6 @@ const BuyerProfile = (props) => {
         budget={item.budget}
         address={item.address}
         description={item.description}
-        //sellername
-        // index={item.index}
       />
     );
   };
@@ -82,26 +75,22 @@ const BuyerProfile = (props) => {
     budget,
     address,
     description,
-    // index,
   }) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressRequest(
-            id,
-            requestNo,
-            date,
-            buyer,
-            status,
-            seller,
-            service,
-            budget,
-            address,
-            description,
-          );
-        }
-        // console.log('on click', item._id),
-      }>
+      onPress={() => {
+        OnPressRequest(
+          id,
+          requestNo,
+          date,
+          buyer,
+          status,
+          seller,
+          service,
+          budget,
+          address,
+          description,
+        );
+      }}>
       <View
         style={{
           marginBottom: 10,
@@ -116,14 +105,12 @@ const BuyerProfile = (props) => {
           shadowRadius: 10,
           elevation: 10,
         }}>
-        {/* {console.log('in Item', index)} */}
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             borderBottomColor: 'black',
             borderBottomWidth: 2,
-            // paddingBottom: 5,
             marginBottom: 5,
           }}>
           <Text
@@ -146,7 +133,6 @@ const BuyerProfile = (props) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              // margin: 2,
             }}>
             <Text style={{color: '#B0389F'}}>
               <FontAwesome5
@@ -175,7 +161,6 @@ const BuyerProfile = (props) => {
             <Text>
               <Zocial name="stripe" size={16} />
               {seller != undefined ? ' ' + seller.name : '  TBD'}
-              {console.log('seller after TBD', seller)}
             </Text>
             <Text
               style={{
@@ -201,7 +186,6 @@ const BuyerProfile = (props) => {
           },
         },
       );
-      console.log('response of getBookingsByBuyer', response.data.result);
       let confirmedBookings = [];
       let pendingBookings = [];
       let completedBookings = [];
@@ -216,13 +200,10 @@ const BuyerProfile = (props) => {
       });
       setCompletedBookings(completedBookings);
       setConfirmedBookings(confirmedBookings);
-      console.log('Confirmed Bookings', confirmedBookings);
       setPendingBookings(pendingBookings);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('propss in OrdersByBuyer', props);
-        console.log('error123 OrdersByBuyer : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -266,12 +247,9 @@ const BuyerProfile = (props) => {
       <Card>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
-            onPress={
-              () => {
-                OnPressConfirmedBookings(confirmedBookings);
-              }
-              // console.log('on click', item._id),
-            }>
+            onPress={() => {
+              OnPressConfirmedBookings(confirmedBookings);
+            }}>
             <View
               style={{
                 flexDirection: 'column',
@@ -301,12 +279,9 @@ const BuyerProfile = (props) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={
-              () => {
-                OnPressPendingBookings(pendingBookings);
-              }
-              // console.log('on click', item._id),
-            }>
+            onPress={() => {
+              OnPressPendingBookings(pendingBookings);
+            }}>
             <View
               style={{
                 flexDirection: 'column',
@@ -336,12 +311,9 @@ const BuyerProfile = (props) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={
-              () => {
-                OnPressCompletedBookings(completedBookings);
-              }
-              // console.log('on click', item._id),
-            }>
+            onPress={() => {
+              OnPressCompletedBookings(completedBookings);
+            }}>
             <View
               style={{
                 flexDirection: 'column',
