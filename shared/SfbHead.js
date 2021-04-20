@@ -4,75 +4,82 @@ import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {SearchBar} from 'react-native-elements';
 import FlatButton from './Button';
 import {FlatList} from 'react-native';
+import {TouchableHighlight} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
-export default function Header() {
-  // {navigation, title}
-  // const openMenu=()=>{
-  //     navigation.openDrawer();
-  // }
-  const [search, updateSearch] = useState('');
+export default function Header(propss) {
+  const props = propss.profile.route.params.index;
+  console.log('Props in SFB hedaers', props);
   return (
-    <View style={{margin: 40}}>
+    <View style={{margin: 25, paddingTop: 20}}>
+      <MaterialIcons></MaterialIcons>
       <View style={{flexDirection: 'row'}}>
-        <Image source={require('../assets/i.jpg')} style={styles.headerImage} />
+        <Image source={{uri: props.profileImage}} style={styles.headerImage} />
         <View style={{margin: 5}}>
           <Text
             style={{
-              fontSize: 25,
+              fontSize: 24,
               color: 'white',
               fontWeight: 'bold',
-              margin: 2,
+              paddingTop: 20,
             }}>
-            Ibrahim
+            {props.name}
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 15, color: 'white', margin: 2}}>
-              Make Up Artist
-            </Text>
-            <Text style={{fontSize: 15, color: 'white', margin: 2}}>
+            <Text style={{fontSize: 12, color: 'white'}}>{props.title}</Text>
+            <Text style={{fontSize: 12, color: 'white', paddingLeft: 10}}>
               <MaterialIcons
                 name="star"
-                size={15}
+                size={12}
                 /*onPress={openMenu}*/ style={styles.icon}
               />
-              5.0
+              {' ' + parseFloat(props.rating).toFixed(1)}
             </Text>
           </View>
         </View>
       </View>
       <Text
         style={{
-          fontSize: 20,
+          fontSize: 15,
           textAlignVertical: 'center',
           margin: 10,
           color: 'white',
         }}>
-        I am a professional
+        {props.bio}
       </Text>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text
-          style={{
-            backgroundColor: 'white',
-            borderRadius: 10,
-            color: 'black',
-            paddingVertical: 15,
-            paddingHorizontal: 60,
-            margin: 5,
-          }}>
-          Offer
-        </Text>
-        <Text
-          style={{
-            backgroundColor: '#B0389F',
-            borderRadius: 10,
-            borderColor: 'white',
-            borderWidth: 1,
-            color: 'white',
-            paddingVertical: 15,
-            paddingHorizontal: 50,
-          }}>
-          Message
-        </Text>
+        <TouchableOpacity>
+          <Text
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 10,
+              color: 'black',
+              paddingVertical: 15,
+              paddingHorizontal: 60,
+              margin: 5,
+              fontSize: 14,
+              fontWeight: 'bold',
+            }}>
+            Offer
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text
+            style={{
+              // backgroundColor: 'white',
+              borderRadius: 10,
+              color: 'white',
+              paddingVertical: 13,
+              paddingHorizontal: 60,
+              margin: 5,
+              fontSize: 14,
+              borderWidth: 2,
+              borderColor: 'white',
+              fontWeight: 'bold',
+            }}>
+            Message
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -106,12 +113,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerImage: {
-    width: 100,
-    height: 100,
-    alignSelf: 'flex-end',
+    width: 80,
+    height: 80,
+    // alignSelf: 'flex-end',
     borderRadius: 15,
     margin: 10,
-    borderWidth: 3,
+    borderWidth: 1.6,
     borderColor: 'white',
   },
 });

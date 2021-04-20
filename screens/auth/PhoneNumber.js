@@ -9,15 +9,11 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
-import {gStyles} from '../../styles/global';
 import Header from '../../shared/Header';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {Dimensions} from 'react-native';
 import Stepper from '../../shared/Stepper';
-
-var width = Dimensions.get('window').width; //full width
-var height = Dimensions.get('window').height; //full height
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const PhoneNumber = (props) => {
@@ -27,16 +23,11 @@ const PhoneNumber = (props) => {
   const handleNumberChange = (inputValue) => {
     setError({status: false, message: ''});
 
-    console.log(typeof inputValue);
     let reg = /^\d+$/;
     if (reg.test(inputValue) || inputValue == '') {
       setPhoneNumber(inputValue);
     }
   };
-
-  // const validatePhoneNumber = () => {
-
-  // }
 
   const nextPressHandler = () => {
     if (phoneNumber.length == 11) {
@@ -53,17 +44,10 @@ const PhoneNumber = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      {/* {console.log('To Test')} */}
-      <ScrollView
-        style={styles.back}
-        // contentContainerStyle={styles.temp}
-      >
+      <ScrollView style={styles.back}>
         <Header />
         <Stepper step={1} />
-        {/* <Image
-          source={require('../../assets/stepper1.png')}
-          style={gStyles.stepImg}
-        /> */}
+
         <Card>
           <View>
             <Text style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
@@ -75,7 +59,6 @@ const PhoneNumber = (props) => {
           </View>
           <View
             style={{
-              // backgroundColor: 'red',
               flexDirection: 'row',
               marginBottom: 50,
               justifyContent: 'flex-start',
@@ -88,7 +71,6 @@ const PhoneNumber = (props) => {
             <View
               style={{
                 flexDirection: 'column',
-                // backgroundColor: 'yellow',
                 flex: 7,
               }}>
               <TextInput
@@ -120,9 +102,6 @@ const PhoneNumber = (props) => {
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
-
-    // alignItems: 'flex-end'
-    // textAlignVertical: "bottom"
   },
   temp: {
     alignContent: 'flex-end',
@@ -152,32 +131,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     marginRight: 7,
     flex: 1,
-    // paddingVertical: 12
-    // marginTop: 7,
-    // flex: 2
   },
   errorInput: {
     height: 40,
     borderColor: 'red',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 55,
     backgroundColor: '#FEF8FF',
-    // width: 250,
     padding: 10,
-    // paddingVertical: 0,
     fontSize: 16,
   },
   input: {
-    // flex: 1,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    // marginBottom: 50,
     backgroundColor: '#FEF8FF',
     alignSelf: 'stretch',
-    // width: width,
     fontSize: 16,
     padding: 10,
   },

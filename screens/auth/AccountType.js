@@ -14,7 +14,6 @@ import {
 
 const AccountType = (props) => {
   const [userType, setUserType] = useState(null);
-  console.log('props', props);
 
   const handleTypeSelect = (inputValue) => {
     setUserType(inputValue);

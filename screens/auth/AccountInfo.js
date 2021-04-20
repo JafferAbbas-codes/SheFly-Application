@@ -23,20 +23,13 @@ import {connect} from 'react-redux';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
-  console.log('props', props);
-
   const [isSelected, setSelection] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const handleSubmit = (values) => {
-    console.log(
-      'props in AccountInfo',
-      Object.assign({isActivated: true}, values, props.route.params),
-    );
     signupFunction(
       Object.assign({isActivated: true}, values, props.route.params),
     );
-    console.log('values');
   };
 
   const signupFunction = async (body) => {
@@ -45,8 +38,6 @@ const AccountInfo = (props) => {
       setButtonLoading(true);
       const result = await props.signup(body);
       setButtonLoading(false);
-      // await props.setLoading(false);
-      console.log('result', result);
       if (result.error) {
         console.log('result.error', result.error);
       }
@@ -116,9 +107,6 @@ const AccountInfo = (props) => {
                   password: values.password,
                 });
               }
-
-              // console.log('form values', values);
-              // actions.resetForm();
             }}>
             {(propss) => (
               <View>
@@ -315,26 +303,6 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
                 </View>
-                {/* <View style={styles.checkbox}>
-                  <Checkbox
-                    value={isSelected}
-                    onValueChange={setSelection}
-                    onPress={
-                      () =>
-                        console.log(
-                          'pressed',
-                          propss.errors.password,
-                          'pressed',
-                        )
-                      // this.handleClick
-                    }
-                    onClick={() => console.log('123', propss)}
-                  />
-                  <Text>
-                    I confirm that the above information is right and that i
-                    agree to term and conditions and privacy policies of She-Fly
-                  </Text>
-                </View> */}
                 <FlatButton
                   text="Join"
                   loading={buttonLoading}

@@ -8,7 +8,7 @@ import {store} from './redux/configureStore.js';
 // import Welcomeback from './components/welback';
 // import GetStart from './components/getstarted';
 // import WantTo from './components/wantto';
-// import Bio from './components/bio';
+// import Bio from './screens/auth/SellerBio';
 // import Home from './components/home';
 // import Services from './components/services';
 // import AvailableJobs from './components/availjobs';
@@ -44,7 +44,7 @@ export default function App() {
   // <EnterNic/>
   // <Welcomeback/>
   // <WantTo/>
-  // <Bio/>
+  // <Bio />
   // <Home/>
   // <Services/>
   // <AvailableJobs/>

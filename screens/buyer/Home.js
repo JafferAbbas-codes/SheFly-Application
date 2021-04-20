@@ -136,23 +136,15 @@ const Home = (props) => {
 
   const [availableSellers, setAvailableSellers] = useState([]);
 
-  const renderAvailableSellers = (props) => (
+  const renderAvailableSellers = (item) => (
     // console.log('item in ItemRecom seller', props);
-    <ItemRecom
-      name={props.item.name}
-      profileImage={props.item.profileImage}
-      bio={props.item.bio}
-      rating={props.item.rating}
-      title={props.item.title}
-      _id={props.item._id}
-      index={props.index}
-    />
+    <ItemRecom item={item.item} />
   );
 
-  const ItemRecom = ({name, profileImage, bio, rating, title, _id, index}) => (
+  const ItemRecom = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        OnPressSeller(index);
+        OnPressSeller(item);
         // console.log('on click in seller box', _id);
       }}>
       <View
@@ -164,13 +156,13 @@ const Home = (props) => {
           marginHorizontal: 5,
         }}>
         <View style={{height: 75, width: 300, flexDirection: 'row'}}>
-          <Image source={{uri: profileImage}} style={styles.headerImage} />
+          <Image source={{uri: item.profileImage}} style={styles.headerImage} />
           <View>
             <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
-              {name}
+              {item.name}
             </Text>
             <Text style={{fontSize: 10, color: '#C0C0C0', fontWeight: 'bold'}}>
-              {title}
+              {item.title}
             </Text>
             <Text style={{fontSize: 10, color: '#FFB266'}}>
               <MaterialIcons
@@ -178,7 +170,7 @@ const Home = (props) => {
                 size={10}
                 /*onPress={openMenu}*/ style={styles.icon}
               />
-              {' ' + rating}
+              {' ' + item.rating}
             </Text>
           </View>
           <View>
@@ -206,7 +198,7 @@ const Home = (props) => {
             margin: 10,
             marginTop: 0,
           }}>
-          {bio}
+          {item.bio}
         </Text>
       </View>
     </TouchableOpacity>

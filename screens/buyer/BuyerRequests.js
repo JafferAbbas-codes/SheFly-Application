@@ -4,28 +4,20 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
-  Image,
   TouchableWithoutFeedback,
-  ImageBackground,
   Keyboard,
-  ScrollView,
   FlatList,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import Header from '../../shared/Header2';
 import MainCard from '../../shared/MainCard';
-import FlatButton from '../../shared/Button.js';
-import {gStyles} from '../../styles/global';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Zocial from 'react-native-vector-icons/Zocial';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getBuyerRequests} from '../../config/const';
 
 const BuyerRequests = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
   const [Requests, setRequests] = useState([]);
 
   const getAllBuyerRequests = async () => {
@@ -38,14 +30,12 @@ const BuyerRequests = (props) => {
           },
         },
       );
-      console.log('response', response.data.result);
       setRequests(
         response.data.result.filter((req) => req.status == 'Pending'),
       );
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('error123 in getAllBuyerRequests : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -83,8 +73,7 @@ const BuyerRequests = (props) => {
   };
 
   const renderItem = ({item}) => {
-    var date = moment(item.dateAndTime).format('ll');
-    // var requestNo = parseInt(`${item._id}`, 10);
+    var date = moment(item.createdAt).format('ll');
     return (
       <Item
         requestNo={item._id.substring(
@@ -93,7 +82,6 @@ const BuyerRequests = (props) => {
         )}
         buyer={item.buyer.name}
         date={date}
-        // buyer={item.buyer}
         seller={item.seller}
         status={item.status}
         service={item.service.name}
@@ -101,8 +89,6 @@ const BuyerRequests = (props) => {
         budget={item.budget}
         address={item.address}
         description={item.description}
-        //sellername
-        // index={item.index}
       />
     );
   };
@@ -117,26 +103,22 @@ const BuyerRequests = (props) => {
     budget,
     address,
     description,
-    // index,
   }) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressRequest(
-            id,
-            requestNo,
-            date,
-            buyer,
-            status,
-            seller,
-            service,
-            budget,
-            address,
-            description,
-          );
-        }
-        // console.log('on click', item._id),
-      }>
+      onPress={() => {
+        OnPressRequest(
+          id,
+          requestNo,
+          date,
+          buyer,
+          status,
+          seller,
+          service,
+          budget,
+          address,
+          description,
+        );
+      }}>
       <View
         style={{
           marginBottom: 10,
@@ -151,14 +133,12 @@ const BuyerRequests = (props) => {
           shadowRadius: 10,
           elevation: 10,
         }}>
-        {/* {console.log('in Item', index)} */}
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             borderBottomColor: 'black',
             borderBottomWidth: 2,
-            // paddingBottom: 5,
             marginBottom: 5,
           }}>
           <Text
@@ -181,7 +161,6 @@ const BuyerRequests = (props) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              // margin: 2,
             }}>
             <Text style={{color: '#B0389F'}}>
               <FontAwesome5
@@ -210,7 +189,6 @@ const BuyerRequests = (props) => {
             <Text>
               <Zocial name="stripe" size={16} />
               {seller != undefined ? ' ' + seller.name : '  TBD'}
-              {console.log('seller after TBD', seller)}
             </Text>
             <Text
               style={{
@@ -232,7 +210,6 @@ const BuyerRequests = (props) => {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
-        {/* {console.log(props)} */}
         <View
           style={{
             flexDirection: 'row',
@@ -252,7 +229,6 @@ const BuyerRequests = (props) => {
         </View>
         <MainCard>
           <SafeAreaView style={styles.container}>
-            {console.log('In return print requests', Requests)}
             <FlatList
               data={Requests}
               renderItem={renderItem}
@@ -278,13 +254,6 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    // marginVertical: 30,
-  },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
   },
   title: {
     fontSize: 32,
@@ -303,7 +272,6 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
   },
-  headerTitle: {},
 });
 
 const mapStateToProps = (state) => ({

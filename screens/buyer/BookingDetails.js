@@ -3,21 +3,14 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
-  Image,
   TouchableWithoutFeedback,
-  ImageBackground,
   Keyboard,
-  ScrollView,
-  FlatList,
-  SafeAreaView,
 } from 'react-native';
 import moment from 'moment';
 import Card from '../../shared/Card';
 import {TouchableOpacity} from 'react-native';
 
 export default function BookingDetails(props) {
-  console.log('props in cfd', props);
   const [order, setOrder] = useState(props.route.params.order);
 
   return (
@@ -133,12 +126,23 @@ export default function BookingDetails(props) {
                 }}>
                 Requested on {' ' + moment(order.createdAt).format('ll')}
               </Text>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                }}>
-                Confirmed on {' ' + moment(order.updatedAt).format('ll')}
-              </Text>
+              {order.status == 'Confirmed' ? (
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                  }}>
+                  {'Confirmed on  ' + moment(order.updatedAt).format('ll')}
+                </Text>
+              ) : (
+                order.status == 'Completed' && (
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                    }}>
+                    {'Completed on  ' + moment(order.updatedAt).format('ll')}
+                  </Text>
+                )
+              )}
             </View>
             <Text
               style={{
@@ -167,14 +171,6 @@ export default function BookingDetails(props) {
               Address: {order.address}
             </Text>
           </View>
-          {/* <SafeAreaView style={styles.container}>
-            <FlatList
-              data={Servises}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
-            />
-          </SafeAreaView> */}
           <View style={{margin: 10}}>
             <Text
               style={{
@@ -225,6 +221,38 @@ export default function BookingDetails(props) {
               Amount: Rs. {order.budget}
             </Text>
           </View>
+          {order.status == 'Completed' && (
+            <View style={{flexDirection: 'row-reverse', marginLeft: 7}}>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('Report clicked');
+                }}>
+                <Text
+                  style={{
+                    backgroundColor: '#FF0404',
+                    borderRadius: 10,
+                    color: 'white',
+                    width: 80,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    paddingHorizontal: 4,
+                    paddingVertical: 4,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    padding: 5,
+                    shadowOpacity: 0.5,
+                    shadowRadius: 5,
+                    elevation: 10,
+                    padding: 20,
+                  }}>
+                  Report
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </Card>
       </View>
     </TouchableWithoutFeedback>
@@ -243,13 +271,6 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    // marginVertical: 30,
-  },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
   },
   title: {
     fontSize: 32,
@@ -268,5 +289,4 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
   },
-  headerTitle: {},
 });
