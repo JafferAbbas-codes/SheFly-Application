@@ -18,4 +18,6 @@ export const getBidsBySeller = 'bid/seller/';
 export const getBidsByOrder = 'bid/order/';
 export const getSellerOffers = 'order/offer/seller/';
 export const createBid = 'bid/create/';
+export const rateSeller = 'user/rate/';
+export const createComplain = 'complain/create';
 // export const getOrdersByBuyer = 'order/buyer/';

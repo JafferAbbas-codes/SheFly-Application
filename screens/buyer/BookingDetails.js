@@ -5,19 +5,189 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
+  Alert,
+  ScrollView,
 } from 'react-native';
 import moment from 'moment';
 import Card from '../../shared/Card';
 import {TouchableOpacity} from 'react-native';
+import {Rating, AirbnbRating} from 'react-native-ratings';
+import {StackActions} from '@react-navigation/native';
+import StarImage from '../../assets/star.png';
+import {URL, rateSeller} from '../../config/const';
+import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import {TouchableHighlight} from 'react-native';
+import axios from 'axios';
+import {connect, useDispatch} from 'react-redux';
+import Complain from './Complain';
 
-export default function BookingDetails(props) {
+const BookingDetails = (props) => {
   const [order, setOrder] = useState(props.route.params.order);
+  const [rating, setRating] = useState('3');
+  const [isVisibleRateModal, setIsVisibleRateModal] = useState(false);
+  const [isVisibleReportModal, setIsVisibleReportModal] = useState(false);
+
+  const onPressRate = () => {
+    console.log('rating is in onPressRate', rating);
+    rateAPI(order.seller._id, order.buyer._id, rating);
+  };
+
+  const onPressReport = () => {
+    console.log(' in onPressReport');
+    // rateAPI(order.seller._id, order.buyer._id, rating);
+    Alert.alert(
+      'Thankyou, we will email you within 2 days to look forward to your complain.',
+    );
+    setIsVisibleReportModal(false);
+    props.navigation.dispatch(StackActions.popToTop());
+  };
+  const rateAPI = async (seller, buyer, rating) => {
+    try {
+      // console.log('props in createBidAPI', props);
+      // setButtonLoading(true);
+      let response = await axios.put(
+        `${URL}${rateSeller}${seller}`,
+        {
+          buyer,
+          rating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      // setButtonLoading(false);
+      console.log('response of rateAPI', response.data.result);
+      displayRateModal(true);
+      Alert.alert(
+        'You have given ' +
+          rating +
+          ' stars to the seller.Thankyou for feedback!',
+      );
+      setIsVisibleRateModal(false);
+      props.navigation.dispatch(StackActions.popToTop());
+      // props.navigation.navigate('Profile', {
+      //   ...props.route.params,
+      // });
+    } catch (error) {
+      // setButtonLoading(false);
+      console.log('propss in rateAPI', error);
+      if (error?.response?.data?.result) {
+        console.log('propss in rateAPI', error);
+        console.log('error123 rateAPI : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  const displayRateModal = (show) => {
+    setIsVisibleRateModal(show);
+  };
+
+  const displayReportModal = (show) => {
+    setIsVisibleReportModal(show);
+  };
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}>
+    // <TouchableWithoutFeedback
+    //   onPress={() => {
+    //     Keyboard.dismiss();
+    //   }}>
+    <View>
+      <Modal
+        animationType={'fade'}
+        transparent={false}
+        visible={isVisibleRateModal}
+        onRequestClose={() => {
+          props.navigation.dispatch(StackActions.pop());
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+          }}>
+          <MaterialIcons
+            name="check-circle"
+            size={100}
+            style={{
+              color: '#AD379D',
+              alignSelf: 'center',
+            }}
+          />
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              paddingVertical: 15,
+            }}>
+            Let the seller know how was her service!
+          </Text>
+          {/* <AirbnbRating /> */}
+          {/* <AirbnbRating
+              count={5}
+              reviews={['Terrible', 'Bad', 'OK', 'Good', 'Very Good']}
+              defaultRating={3}
+              size={20}
+            /> */}
+          <Rating
+            type="custom"
+            ratingImage={StarImage}
+            showRating
+            // imageSize={30}
+            // ratingCount={10}
+            onFinishRating={setRating}
+            // style={{paddingVertical: 10}}
+            ratingColor="#AB369B"
+            ratingBackgroundColor="white"
+            fractions="1"
+            startingValue={3}
+            // defaultRating={3}
+          />
+          <TouchableOpacity
+            style={{alignItems: 'center', paddingVertical: 20}}
+            onPress={onPressRate}>
+            <Text
+              style={{
+                textAlign: 'center',
+                backgroundColor: '#C040AE',
+                borderColor: '#C040AE',
+                borderRadius: 15,
+                color: 'white',
+                width: 100,
+                paddingVertical: 10,
+              }}>
+              Submit
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType={'fade'}
+        transparent={false}
+        visible={isVisibleReportModal}
+        onRequestClose={() => {
+          props.navigation.dispatch(StackActions.popToTop());
+        }}>
+        <View
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+          }}>
+          <Complain
+            order={order}
+            onPress={onPressReport}
+            displayReportModal={displayReportModal}
+            token={props.token}
+          />
+        </View>
+      </Modal>
+
       <View style={styles.back}>
         <View
           style={{
@@ -37,6 +207,7 @@ export default function BookingDetails(props) {
           </Text>
         </View>
         <Card>
+          {/* <ScrollView> */}
           <View>
             <Text
               style={{
@@ -69,8 +240,9 @@ export default function BookingDetails(props) {
                 <TouchableOpacity
                   onPress={() => {
                     order.status == 'Completed'
-                      ? console.log('Rate clicked')
-                      : console.log('Pay Now clicked');
+                      ? displayRateModal(true)
+                      : //modal for rate
+                        console.log('Pay Now clicked');
                   }}>
                   <Text
                     style={{
@@ -221,12 +393,15 @@ export default function BookingDetails(props) {
               Amount: Rs. {order.budget}
             </Text>
           </View>
-          {order.status == 'Completed' && (
-            <View style={{flexDirection: 'row-reverse', marginLeft: 7}}>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('Report clicked');
-                }}>
+          <TouchableOpacity onPress={() => displayReportModal(true)}>
+            <View
+              style={{
+                // backgroundColor: 'blue',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                // marginLeft: 7,
+              }}>
+              {order.status == 'Completed' && (
                 <Text
                   style={{
                     backgroundColor: '#FF0404',
@@ -250,14 +425,16 @@ export default function BookingDetails(props) {
                   }}>
                   Report
                 </Text>
-              </TouchableOpacity>
+              )}
             </View>
-          )}
+          </TouchableOpacity>
+          {/* </ScrollView> */}
         </Card>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
+    // </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -290,3 +467,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+
+const mapStateToProps = (state) => ({
+  temp: state,
+  user: state.userDetails.user,
+  token: state.userDetails.token,
+  loading: state.userDetails.loading,
+});
+
+export default connect(mapStateToProps)(BookingDetails);

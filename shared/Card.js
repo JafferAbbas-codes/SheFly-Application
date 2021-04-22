@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     padding: 30,
     width: width, //120,//108//1
-    height: 0.6 * height,
+    // height: 0.6 * height,
     bottom: 0,
     // alignItems: 'center',
     // alignContent: 'space-between',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     padding: 30,
     width: width, //120,//108//1
-    height: 0.7 * height,
+    // height: 0.7 * height,
     bottom: 0,
     // alignItems: 'center',
     // alignContent: 'space-between',
