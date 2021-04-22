@@ -5,79 +5,375 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 import Card from '../../shared/Card';
 import {TouchableOpacity} from 'react-native';
+import {Rating, AirbnbRating} from 'react-native-ratings';
+import {StackActions} from '@react-navigation/native';
+import StarImage from '../../assets/star.png';
+import {URL, rateSeller} from '../../config/const';
+import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import {TouchableHighlight} from 'react-native';
+import axios from 'axios';
+import {connect, useDispatch} from 'react-redux';
 
-export default function BookingDetails(props) {
+const BookingDetails = (props) => {
   const [order, setOrder] = useState(props.route.params.order);
+  const [rating, setRating] = useState('3');
+  const [isVisible, setIsVisible] = useState(false);
+
+  const onPressRate = () => {
+    console.log('rating is in onPressRate', rating);
+    rateAPI(order.seller._id, order.buyer._id, rating);
+    Alert.alert(
+      'You have given ' +
+        rating +
+        ' stars to the seller.Thankyou for feedback!',
+    );
+    setIsVisible(false);
+    props.navigation.dispatch(StackActions.popToTop());
+    props.navigation.navigate('Home', {
+      ...props.route.params,
+    });
+  };
+
+  const rateAPI = async (seller, buyer, rating) => {
+    try {
+      // console.log('props in createBidAPI', props);
+      // setButtonLoading(true);
+      let response = await axios.put(
+        `${URL}${rateSeller}${seller}`,
+        {
+          buyer,
+          rating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      // setButtonLoading(false);
+      console.log('response of createBidAPI', response.data.result);
+      displayModal(true);
+    } catch (error) {
+      // setButtonLoading(false);
+      console.log('propss in createBidAPI', error);
+      if (error?.response?.data?.result) {
+        console.log('propss in createBidAPI', error);
+        console.log('error123 createBidAPI : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  const displayModal = (show) => {
+    setIsVisible(show);
+    // setTimeout(() => {
+
+    //   ;
+    // }, 2000);
+  };
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View style={styles.back}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            margin: 15,
+      <View>
+        <Modal
+          animationType={'fade'}
+          transparent={false}
+          visible={isVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
           }}>
-          <Text
+          <View
             style={{
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: 25,
-              justifyContent: 'space-between',
-              margin: 25,
+              flex: 1,
+              alignSelf: 'center',
+              justifyContent: 'center',
             }}>
-            BOOKING DETAIL
-          </Text>
-        </View>
-        <Card>
-          <View>
+            <MaterialIcons
+              name="check-circle"
+              size={100}
+              style={{
+                color: '#AD379D',
+                alignSelf: 'center',
+              }}
+            />
             <Text
               style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                paddingVertical: 15,
+              }}>
+              Let the seller know how was her service!
+            </Text>
+            {/* <AirbnbRating /> */}
+            {/* <AirbnbRating
+              count={5}
+              reviews={['Terrible', 'Bad', 'OK', 'Good', 'Very Good']}
+              defaultRating={3}
+              size={20}
+            /> */}
+            <Rating
+              type="custom"
+              ratingImage={StarImage}
+              showRating
+              // imageSize={30}
+              // ratingCount={10}
+              onFinishRating={setRating}
+              // style={{paddingVertical: 10}}
+              ratingColor="#AB369B"
+              ratingBackgroundColor="white"
+              fractions="1"
+              startingValue={3}
+              // defaultRating={3}
+            />
+            <TouchableOpacity
+              style={{alignItems: 'center', paddingVertical: 20}}
+              onPress={onPressRate}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  backgroundColor: '#C040AE',
+                  borderColor: '#C040AE',
+                  borderRadius: 15,
+                  color: 'white',
+                  width: 100,
+                  paddingVertical: 10,
+                }}>
+                Submit
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+        <View style={styles.back}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              margin: 15,
+            }}>
+            <Text
+              style={{
+                color: 'white',
                 fontWeight: 'bold',
                 fontSize: 25,
-                marginBottom: 5,
+                justifyContent: 'space-between',
+                margin: 25,
               }}>
-              Booking #{' '}
-              {order._id.substring(order._id.length - 10, order._id.length - 3)}
+              BOOKING DETAIL
             </Text>
+          </View>
+          <Card>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  marginBottom: 5,
+                }}>
+                Booking #{' '}
+                {order._id.substring(
+                  order._id.length - 10,
+                  order._id.length - 3,
+                )}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                }}>
+                <Text
+                  style={{
+                    backgroundColor: '#B0389F',
+                    borderRadius: 10,
+                    color: 'white',
+                    width: 80,
+                    textAlign: 'center',
+                    paddingHorizontal: 4,
+                    paddingVertical: 4,
+                  }}>
+                  {order.status}
+                </Text>
+                {order.status != 'Pending' && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      order.status == 'Completed'
+                        ? displayModal(true)
+                        : //modal for rate
+                          console.log('Pay Now clicked');
+                    }}>
+                    <Text
+                      style={{
+                        backgroundColor: '#D3D6DB',
+                        borderRadius: 10,
+                        color: '#B0389F',
+                        width: 80,
+                        textAlign: 'center',
+                        paddingHorizontal: 4,
+                        paddingVertical: 4,
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        padding: 5,
+                        shadowOpacity: 0.5,
+                        shadowRadius: 5,
+                        elevation: 10,
+                        padding: 20,
+                      }}>
+                      {order.status == 'Completed' ? 'Rate' : 'Pay Now'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
+                margin: 15,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                padding: 5,
+                shadowOpacity: 0.5,
+                shadowRadius: 5,
+                elevation: 10,
+                padding: 20,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  borderBottomColor: 'black',
+                  borderBottomWidth: 2,
+                  paddingBottom: 5,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                  }}>
+                  Requested on {' ' + moment(order.createdAt).format('ll')}
+                </Text>
+                {order.status == 'Confirmed' ? (
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                    }}>
+                    {'Confirmed on  ' + moment(order.updatedAt).format('ll')}
+                  </Text>
+                ) : (
+                  order.status == 'Completed' && (
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                      }}>
+                      {'Completed on  ' + moment(order.updatedAt).format('ll')}
+                    </Text>
+                  )
+                )}
+              </View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Seller Name:{' '}
+                {order.seller != undefined ? ' ' + order.seller.name : '  TBD'}
+              </Text>
+
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Buyer Name: {order.buyer.name}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Buyer No: {order.buyer.phoneNumber}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Address: {order.address}
+              </Text>
+            </View>
+            <View style={{margin: 10}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  margin: 5,
+                }}>
+                Service Details
+              </Text>
+            </View>
+            <View
+              style={{
+                margin: 15,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                padding: 5,
+                shadowOpacity: 0.5,
+                shadowRadius: 5,
+                elevation: 10,
+                padding: 20,
               }}>
               <Text
                 style={{
-                  backgroundColor: '#B0389F',
-                  borderRadius: 10,
-                  color: 'white',
-                  width: 80,
-                  textAlign: 'center',
-                  paddingHorizontal: 4,
-                  paddingVertical: 4,
+                  fontWeight: 'bold',
                 }}>
-                {order.status}
+                Service: {order.service.name}
               </Text>
-              {order.status != 'Pending' && (
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Description: {order.description}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Service Date: {' ' + moment(order.dateAndTime).format('ll')}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Amount: Rs. {order.budget}
+              </Text>
+            </View>
+            {order.status == 'Completed' && (
+              <View style={{flexDirection: 'row-reverse', marginLeft: 7}}>
                 <TouchableOpacity
                   onPress={() => {
-                    order.status == 'Completed'
-                      ? console.log('Rate clicked')
-                      : console.log('Pay Now clicked');
+                    console.log('Report clicked');
                   }}>
                   <Text
                     style={{
-                      backgroundColor: '#D3D6DB',
+                      backgroundColor: '#FF0404',
                       borderRadius: 10,
-                      color: '#B0389F',
+                      color: 'white',
                       width: 80,
+                      fontWeight: 'bold',
                       textAlign: 'center',
                       paddingHorizontal: 4,
                       paddingVertical: 4,
@@ -92,172 +388,17 @@ export default function BookingDetails(props) {
                       elevation: 10,
                       padding: 20,
                     }}>
-                    {order.status == 'Completed' ? 'Rate' : 'Pay Now'}
+                    Report
                   </Text>
                 </TouchableOpacity>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              margin: 15,
-              backgroundColor: 'white',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              padding: 5,
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              elevation: 10,
-              padding: 20,
-            }}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                borderBottomColor: 'black',
-                borderBottomWidth: 2,
-                paddingBottom: 5,
-              }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                }}>
-                Requested on {' ' + moment(order.createdAt).format('ll')}
-              </Text>
-              {order.status == 'Confirmed' ? (
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                  }}>
-                  {'Confirmed on  ' + moment(order.updatedAt).format('ll')}
-                </Text>
-              ) : (
-                order.status == 'Completed' && (
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                    }}>
-                    {'Completed on  ' + moment(order.updatedAt).format('ll')}
-                  </Text>
-                )
-              )}
-            </View>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Seller Name:{' '}
-              {order.seller != undefined ? ' ' + order.seller.name : '  TBD'}
-            </Text>
-
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Buyer Name: {order.buyer.name}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Buyer No: {order.buyer.phoneNumber}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Address: {order.address}
-            </Text>
-          </View>
-          <View style={{margin: 10}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                margin: 5,
-              }}>
-              Service Details
-            </Text>
-          </View>
-          <View
-            style={{
-              margin: 15,
-              backgroundColor: 'white',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              padding: 5,
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              elevation: 10,
-              padding: 20,
-            }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Service: {order.service.name}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Description: {order.description}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Service Date: {' ' + moment(order.dateAndTime).format('ll')}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Amount: Rs. {order.budget}
-            </Text>
-          </View>
-          {order.status == 'Completed' && (
-            <View style={{flexDirection: 'row-reverse', marginLeft: 7}}>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('Report clicked');
-                }}>
-                <Text
-                  style={{
-                    backgroundColor: '#FF0404',
-                    borderRadius: 10,
-                    color: 'white',
-                    width: 80,
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    paddingHorizontal: 4,
-                    paddingVertical: 4,
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    padding: 5,
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5,
-                    elevation: 10,
-                    padding: 20,
-                  }}>
-                  Report
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </Card>
+              </View>
+            )}
+          </Card>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -290,3 +431,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+
+const mapStateToProps = (state) => ({
+  temp: state,
+  user: state.userDetails.user,
+  token: state.userDetails.token,
+  loading: state.userDetails.loading,
+});
+
+export default connect(mapStateToProps)(BookingDetails);
