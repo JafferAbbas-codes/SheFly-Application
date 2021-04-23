@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {
   Title,
@@ -16,119 +16,96 @@ import {logout} from '../../redux/authActions';
 import {connect} from 'react-redux';
 
 const DrawerContent = (props) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-
-  const toggleTheme = () => {
-    console.log('helloo');
-    setIsDarkTheme(!isDarkTheme);
-  };
-
   return (
     <View style={{flex: 1}}>
+      {console.log('Props in drawer', props)}
       <DrawerContentScrollView {...props}>
+        {console.log('Props in drawer2', props)}
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            <View style={{flexDirection: 'row', marginTop: 15}}>
-              <View style={{marginLeft: 15, flexDirection: 'column'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 15,
+                paddingTop: 40,
+                justifyContent: 'center',
+              }}>
+              <View style={{justifyContent: 'center'}}>
+                <Image
+                  source={{uri: props.user.profileImage}}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderColor: '#AB369B',
+                    borderRadius: 30,
+                    borderWidth: 5,
+                    marginBottom: 20,
+                  }}
+                />
                 <Title style={styles.title}>
                   {props.user.name ? props.user.name : 'User'}
                 </Title>
                 <Caption style={styles.caption}>{props.user.email}</Caption>
               </View>
             </View>
-            <View style={styles.row}>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  80
-                </Paragraph>
-                <Caption style={styles.caption}>Following</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  100
-                </Paragraph>
-                <Caption style={styles.caption}>Follower</Caption>
-              </View>
-            </View>
           </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              icon={({color, size}) => (
-                <MaterialCommunityIcons
-                  name="home-outline"
-                  color={color}
-                  size={size}
-                />
+              icon={() => (
+                <MaterialCommunityIcons name="home" color="black" size={25} />
               )}
               label="Home"
-              onPress={() => {}}
+              onPress={() =>
+                props.navigation.navigate('Home', {
+                  // ...props.route.params,
+                })
+              }
             />
             <DrawerItem
-              icon={({color, size}) => (
+              icon={() => (
                 <MaterialCommunityIcons
-                  name="account-outline"
-                  color={color}
-                  size={size}
+                  name="account"
+                  color="black"
+                  size={25}
                 />
               )}
               label="Profile"
-              onPress={() => {}}
             />
             <DrawerItem
-              icon={({color, size}) => (
+              icon={() => (
                 <MaterialCommunityIcons
-                  name="bookmark-outline"
-                  color={color}
-                  size={size}
+                  name="message-text"
+                  color="black"
+                  size={25}
                 />
               )}
-              label="Bookmarks"
+              label="Inbox"
               onPress={() => {}}
             />
             <DrawerItem
-              icon={({color, size}) => (
-                <Ionicons name="settings-outline" color={color} size={size} />
-              )}
-              label="Settings"
-              onPress={() => {}}
-            />
-            <DrawerItem
-              icon={({color, size}) => (
+              icon={() => (
                 <MaterialCommunityIcons
-                  name="account-check-outline"
-                  color={color}
-                  size={size}
+                  name="clipboard-list"
+                  color="black"
+                  size={25}
                 />
               )}
-              label="Support"
+              label="My Requests"
               onPress={() => {}}
             />
-          </Drawer.Section>
-          <Drawer.Section title="Preferences">
-            <View style={styles.preference}>
-              <Text>Dark Theme</Text>
-              <TouchableWithoutFeedback onPress={() => toggleTheme()}>
-                <View pointerEvents="none">
-                  <Switch
-                    value={isDarkTheme}
-                    onValueChange={() => toggleTheme()}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
-          icon={({color, size}) => (
+          icon={() => (
             <MaterialCommunityIcons
               name="exit-to-app"
-              color={color}
-              size={size}
+              color="black"
+              size={25}
             />
           )}
-          label="Sign Out"
+          label="Log Out"
           onPress={props.logout}
         />
       </Drawer.Section>
@@ -138,19 +115,20 @@ const DrawerContent = (props) => {
 
 const styles = StyleSheet.create({
   drawerContent: {
-    flex: 1,
+    paddingTop: 30,
   },
   userInfoSection: {
-    paddingLeft: 20,
+    // paddingLeft: 20,
   },
   title: {
-    fontSize: 16,
+    fontSize: 25,
     marginTop: 3,
     fontWeight: 'bold',
+    // justifyContent: 'flex-start',
   },
   caption: {
     fontSize: 14,
-    lineHeight: 14,
+    // lineHeight: 14,
   },
   row: {
     marginTop: 20,
@@ -167,12 +145,14 @@ const styles = StyleSheet.create({
     marginRight: 3,
   },
   drawerSection: {
-    marginTop: 15,
+    marginTop: 45,
+    paddingHorizontal: 20,
   },
   bottomDrawerSection: {
     marginBottom: 15,
-    borderTopColor: '#f4f4f4',
-    borderTopWidth: 1,
+    paddingHorizontal: 20,
+    // borderTopColor: '#f4f4f4',
+    // borderTopWidth: 1,
   },
   preference: {
     flexDirection: 'row',

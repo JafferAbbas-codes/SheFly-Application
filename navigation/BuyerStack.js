@@ -28,6 +28,7 @@ import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
 import {TouchableOpacity} from 'react-native';
 import Bookings from '../screens/buyer/Booking';
 import BookingDetails from '../screens/buyer/BookingDetails';
+import PostRequest from '../screens/buyer/PostRequest';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -204,7 +205,7 @@ const PostRequestStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="PostRequest" component={PostRequest} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
