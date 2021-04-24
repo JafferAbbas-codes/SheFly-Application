@@ -20,4 +20,5 @@ export const getSellerOffers = 'order/offer/seller/';
 export const createBid = 'bid/create/';
 export const rateSeller = 'user/rate/';
 export const createComplain = 'complain/create';
+export const createOrder = 'order/create';
 // export const getOrdersByBuyer = 'order/buyer/';

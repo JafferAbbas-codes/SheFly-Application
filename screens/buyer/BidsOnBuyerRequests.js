@@ -50,7 +50,7 @@ const BidsOnBuyerRequests = (props) => {
     setIsVisible(show);
     setTimeout(() => {
       setIsVisible(false);
-      props.navigation.dispatch(StackActions.popToTop());
+      props.navigation.dispatch(StackActions.pop(0));
     }, 2000);
     // props.navigation.navigate('Home', {
     //   ...props.route.params,
@@ -145,9 +145,7 @@ const BidsOnBuyerRequests = (props) => {
           </Text>
         </View>
 
-        <TouchableOpacity
-        // onPress={displayModal(true)}
-        >
+        <TouchableOpacity onPress={() => displayModal(true)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Accept</Text>
           </View>
