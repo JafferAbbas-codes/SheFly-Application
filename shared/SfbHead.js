@@ -9,7 +9,9 @@ import {TouchableOpacity} from 'react-native';
 
 export default function Header(propss) {
   const props = propss.profile.route.params.index;
-  console.log('Props in SFB hedaers', props);
+  const id = props._id;
+  const name = props._name;
+  console.log('Props in SFB hedaers', propss);
   return (
     <View style={{margin: 25, paddingTop: 20}}>
       <MaterialIcons></MaterialIcons>
@@ -48,7 +50,14 @@ export default function Header(propss) {
         {props.bio}
       </Text>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            propss.profile.navigation.navigate('SendOfferToSeller', {
+              ...propss.profile.route.params,
+              id,
+              name,
+            });
+          }}>
           <Text
             style={{
               backgroundColor: 'white',

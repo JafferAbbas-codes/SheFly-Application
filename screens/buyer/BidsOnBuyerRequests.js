@@ -8,7 +8,10 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  Modal,
+  Alert,
 } from 'react-native';
+import {StackActions} from '@react-navigation/native';
 import MainCard from '../../shared/MainCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native';
@@ -18,6 +21,7 @@ import {URL, getBidsByOrder} from '../../config/const';
 
 const BidsOnBuyerRequests = (props) => {
   const [Bids, setBids] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   const getAllBidsByOrder = async () => {
     try {
@@ -41,6 +45,17 @@ const BidsOnBuyerRequests = (props) => {
   useEffect(() => {
     getAllBidsByOrder();
   }, []);
+
+  const displayModal = (show) => {
+    setIsVisible(show);
+    setTimeout(() => {
+      setIsVisible(false);
+      props.navigation.dispatch(StackActions.pop(0));
+    }, 2000);
+    // props.navigation.navigate('Home', {
+    //   ...props.route.params,
+    // });
+  };
 
   const renderItem = ({item}) => (
     <Item
@@ -130,7 +145,7 @@ const BidsOnBuyerRequests = (props) => {
           </Text>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => displayModal(true)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Accept</Text>
           </View>
@@ -151,6 +166,39 @@ const BidsOnBuyerRequests = (props) => {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
+        <Modal
+          animationType={'fade'}
+          transparent={false}
+          visible={isVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+          {/* <Text
+            style={styles.closeText}
+            onPress={() => {
+              displayModal(!isVisible);
+            }}>
+            {' '}
+            x{' '}
+          </Text> */}
+          <View
+            style={{
+              flex: 1,
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}>
+            <MaterialIcons
+              name="check-circle"
+              size={180}
+              style={{
+                color: '#AD379D',
+              }}
+            />
+            <Text style={{textAlign: 'center', fontSize: 30}}>
+              Bid Accepted!
+            </Text>
+          </View>
+        </Modal>
         <View
           style={{
             flexDirection: 'row',

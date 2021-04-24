@@ -28,6 +28,8 @@ import BidsOnBuyerRequest from '../screens/buyer/BidsOnBuyerRequests';
 import {TouchableOpacity} from 'react-native';
 import Bookings from '../screens/buyer/Booking';
 import BookingDetails from '../screens/buyer/BookingDetails';
+import PostRequest from '../screens/buyer/PostRequest';
+import SendOfferToSeller from '../screens/buyer/SendOfferToSeller';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -184,6 +186,7 @@ const HomeStackScreen = () => {
         name="SellerProfileForBuyer"
         component={SellerProfileForBuyer}
       />
+      <Stack.Screen name="SendOfferToSeller" component={SendOfferToSeller} />
     </Stack.Navigator>
   );
 };
@@ -204,7 +207,7 @@ const PostRequestStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="PostRequest" component={PostRequest} />
       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
     </Stack.Navigator>
   );
