@@ -22,7 +22,6 @@ const Header = (props) => {
     });
   };
 
-  const [search, updateSearch] = useState('');
   return (
     <View style={{alignSelf: 'center', margin: 40}}>
       {console.log('In header', props)}
@@ -62,17 +61,6 @@ const Header = (props) => {
               {' ' + parseFloat(props.user.rating).toFixed(1)}
             </Text>
           </View>
-        </View>
-        <View>
-          <MaterialIcons
-            onPress={() => OnPressEdit()}
-            name="pencil"
-            // backgroundColor="#3b5998"
-            size={14}
-            // size="small"
-            style={styles.icon}
-            // iconStyle={{padding: 0, alignContent: 'stretch'}}
-          />
         </View>
       </View>
       <Text

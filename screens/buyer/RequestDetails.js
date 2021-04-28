@@ -119,7 +119,6 @@ export default function requestDetails(props) {
               }}>
               Request Details
             </Text>
-            <MaterialIcons name="pencil" size={15} style={{marginTop: 8}} />
           </View>
           <View
             style={{

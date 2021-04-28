@@ -36,32 +36,28 @@ const Home = (props) => {
 
   const Item = ({item}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressService(item._id, item.name);
-        }
-        // console.log('on click', item._id),
-      }>
-      {/* {console.log('To test')} */}
+      onPress={() => {
+        OnPressService(item._id, item.name);
+      }}>
       <ImageBackground
-        // source={require('../../assets/i.jpg')}
         source={{
           uri: item.image,
         }}
         style={{
-          width: 120,
-          height: 120,
-          borderRadius: 20,
+          width: 128,
+          height: 128,
+          borderRadius: 32,
           marginHorizontal: 5,
           overflow: 'hidden',
+          backgroundColor: 'black',
+          opacity: 0.9,
         }}>
-        {console.log('item in Item', item)}
         <Text
           style={{
             fontSize: 25,
             color: 'white',
             fontWeight: 'bold',
-            width: 120,
+            width: 130,
             textAlign: 'center',
             textAlignVertical: 'center',
             height: 120,
@@ -128,99 +124,87 @@ const Home = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('propss in getAllRecommendedJobs', props);
         console.log('error123 getAllRecommendedJobs : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
   };
 
-  const renderRecommendation = ({item}) => (
-    <ItemRecom
-      name={item.buyer.name}
-      image={item.buyer.profileImage}
-      service={item.service}
-      location={item.address}
-      // service={item.service}
-      budget={item.budget}
-      description={item.description}
-    />
-  );
+  const renderRecommendation = ({item}) => <ItemRecom job={item} />;
 
-  const OnPressJobs = (name, service, location, budget, description, image) => {
-    props.navigation.navigate('ViewJob', {
-      ...props.route.params,
-      name,
-      service,
-      location,
-      budget,
-      description,
-      image,
+  const OnPressJobs = (job) => {
+    props.navigation.navigate('ViewJobDetails', {
+      job,
     });
   };
 
-  const ItemRecom = ({name, service, location, budget, description, image}) => (
+  const ItemRecom = ({job}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressJobs(name, service.name, location, budget, description, image);
-        }
-        // console.log('on click', item._id),
-      }>
+      onPress={() => {
+        OnPressJobs(job);
+      }}>
       <View
         style={{
-          // height: 150,
           width: 300,
-          borderRadius: 25,
+          borderRadius: 16,
           backgroundColor: 'white',
-          marginHorizontal: 5,
+          paddingHorizontal: 15,
+          marginRight: 10,
         }}>
-        {/* {console.log('To test')} */}
-        <View style={{flexDirection: 'row'}}>
-          <Image
-            source={{
-              uri: image,
-            }}
-            style={styles.headerImage}
-          />
-          <View>
-            <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
-              {name}
-            </Text>
-            <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
-              {service.name}
-            </Text>
-            <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              <MaterialIcons
-                name="map-marker"
-                size={10}
-                /*onPress={openMenu}*/ style={styles.icon}
-              />
-              {' ' + location}
-            </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={{
+                uri: job.buyer.profileImage,
+              }}
+              style={styles.headerImage}
+            />
+            <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                }}>
+                {job.buyer.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                {job.service.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                <MaterialIcons
+                  name="map-marker"
+                  size={10}
+                  style={styles.icon}
+                />
+                {' ' + job.address}
+              </Text>
+            </View>
           </View>
           <View>
             <Text
               style={{
                 fontSize: 15,
-                // width: 130,
-                // textAlign: 'right',
-                // textAlignVertical: 'center',
                 fontWeight: 'bold',
-                marginTop: 20,
+                paddingVertical: 15,
               }}>
-              {'Rs. ' + budget}
+              {'Rs. ' + job.budget}
             </Text>
           </View>
         </View>
         <Text
           style={{
             fontSize: 15,
+            // width: 300,
+
             textAlignVertical: 'center',
-            marginHorizontal: 10,
             marginBottom: 15,
-          }}>
-          {description}
+            textOverflow: 'ellipsis',
+            // flex: 1,
+            // flexWrap: 'wrap',
+            // flexShrink: 1,
+          }}
+          numberOfLines={2}>
+          {job.description}
         </Text>
       </View>
     </TouchableOpacity>
@@ -233,19 +217,20 @@ const Home = (props) => {
       <View style={styles.back}>
         <Header />
         <Card>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
+                fontSize: 24,
+                // fontFamily: 'Poppins-SemiBoldItalic',
               }}>
               Popular Services
             </Text>
             <TouchableOpacity
               onPress={seeAllServicesPressHandler}
-              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              style={{
+                fontSize: 16,
+              }}>
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -255,22 +240,22 @@ const Home = (props) => {
               data={services}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
           </SafeAreaView>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
+                fontSize: 24,
+                width: 290,
               }}>
-              Recommendation For You
+              Recommended For You
             </Text>
             <TouchableOpacity
               onPress={seeAllJobsPressHandler}
-              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              style={{
+                fontSize: 16,
+              }}>
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -296,37 +281,13 @@ const styles = StyleSheet.create({
   headerImage: {
     width: 56,
     height: 56,
-    margin: 10,
+    marginVertical: 10,
     borderRadius: 50,
   },
   container: {
     borderRadius: 20,
     marginVertical: 30,
   },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-  header: {
-    paddingLeft: 35,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  HeaderText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'black',
-    letterSpacing: 1,
-  },
-  icon: {
-    position: 'absolute',
-  },
-  headerTitle: {},
 });
 
 const mapStateToProps = (state) => ({

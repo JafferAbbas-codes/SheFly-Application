@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Header from '../../shared/ProfileHead';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {SearchBar} from 'react-native-elements';
 import Card from '../../shared/Card';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -22,12 +21,8 @@ const Profile = (props) => {
   const [jobsDone, setJobsDone] = useState([]);
   const [jobsInProgress, setJobsInProgress] = useState([]);
   const [bids, setBids] = useState([]);
-  // console.log('services print', Services);
-  // console.log('services print', Samples);
-  console.log('props in profile', props);
 
   const renderItem = (item, i) => <Item item={item.item} i={i} />;
-  // console.log('In render Item', i, item);
   const Item = ({item, i}) => (
     <ImageBackground
       source={{
@@ -115,16 +110,18 @@ const Profile = (props) => {
   }, []);
 
   const OnPressJobsDone = (jobsDone) => {
-    props.navigation.navigate('JobsDone', {
+    props.navigation.navigate('Jobs', {
       ...props.route.params,
-      jobsDone,
+      jobs: jobsDone,
+      headerTitle: 'Jobs Done',
     });
   };
 
   const OnPressJobsInProgress = (jobsInProgress) => {
-    props.navigation.navigate('JobsInProgress', {
+    props.navigation.navigate('Jobs', {
       ...props.route.params,
-      jobsInProgress,
+      jobs: jobsInProgress,
+      headerTitle: 'Jobs In Progress',
     });
   };
 
@@ -147,17 +144,12 @@ const Profile = (props) => {
         <ScrollView>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
-              onPress={
-                () => {
-                  OnPressJobsDone(jobsDone);
-                }
-                // console.log('on click', item._id),
-              }>
+              onPress={() => {
+                OnPressJobsDone(jobsDone);
+              }}>
               <View
                 style={{
-                  flexDirection: 'column',
-                  borderRadius: 20,
-                  width: 100,
+                  borderRadius: 24,
                   margin: 8,
                   padding: 15,
                   backgroundColor: 'white',
@@ -182,17 +174,12 @@ const Profile = (props) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={
-                () => {
-                  OnPressJobsInProgress(jobsInProgress);
-                }
-                // console.log('on click', item._id),
-              }>
+              onPress={() => {
+                OnPressJobsInProgress(jobsInProgress);
+              }}>
               <View
                 style={{
-                  flexDirection: 'column',
-                  borderRadius: 20,
-                  width: 100,
+                  borderRadius: 24,
                   margin: 8,
                   padding: 15,
                   backgroundColor: 'white',
@@ -217,17 +204,13 @@ const Profile = (props) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={
-                () => {
-                  OnPressBids(bids);
-                }
-                // console.log('on click', item._id),
-              }>
+              onPress={() => {
+                OnPressBids(bids);
+              }}>
               <View
                 style={{
-                  flexDirection: 'column',
-                  borderRadius: 20,
-                  width: 100,
+                  borderRadius: 24,
+                  width: 90,
                   margin: 8,
                   padding: 15,
                   backgroundColor: 'white',
@@ -241,7 +224,6 @@ const Profile = (props) => {
                   }}>
                   {bids.length}
                 </Text>
-                {/* {console.log('To test')} */}
                 <Text
                   style={{
                     fontSize: 13,
@@ -257,15 +239,12 @@ const Profile = (props) => {
             Expertise
           </Text>
           <View style={{flexDirection: 'row'}}>
-            {/* <SafeAreaView style={styles.container}> */}
             <FlatList
               horizontal
               data={props.user.services}
               renderItem={(item) => renderItem(item, 0)}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
-            {/* </SafeAreaView> */}
           </View>
 
           <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
@@ -277,7 +256,6 @@ const Profile = (props) => {
               data={props.user.samples}
               renderItem={(item) => renderItem(item, 1)}
               keyExtractor={(item) => item.index}
-              style={{borderRadius: 20}}
             />
           </View>
         </ScrollView>

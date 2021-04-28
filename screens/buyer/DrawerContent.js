@@ -18,9 +18,9 @@ import {connect} from 'react-redux';
 const DrawerContent = (props) => {
   return (
     <View style={{flex: 1}}>
-      {console.log('Props in drawer', props)}
+      {/* {console.log('Props in drawer', props)} */}
       <DrawerContentScrollView {...props}>
-        {console.log('Props in drawer2', props)}
+        {/* {console.log('Props in drawer2', props)} */}
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
             <View

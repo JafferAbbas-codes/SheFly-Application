@@ -15,15 +15,13 @@ import Offers from '../screens/seller/Offers';
 import Availablejobs from '../screens/seller/Availablejobs';
 import Profile from '../screens/seller/Profile';
 import ServiceSeller from '../screens/buyer/ServiceSeller';
-import EditProfile from '../screens/seller/EditProfile';
-import JobsDone from '../screens/seller/JobsDone';
-import JobsInProgress from '../screens/seller/JobsInProgress';
+import Jobs from '../screens/seller/Jobs';
 import AllBids from '../screens/seller/Bids';
-import ViewJobDetails from '../screens/seller/ViewJobDetails';
+import JobDetails from '../screens/seller/JobDetails';
 import ViewOfferDetails from '../screens/seller/ViewOfferDetails';
 import SendBid from '../screens/seller/SendBid';
-import OfferSent from '../screens/seller/OfferSent';
 import ServiceJobs from '../screens/seller/ServiceJobs';
+import ViewJobDetails from '../screens/seller/ViewJobDetails';
 // import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons';
 
@@ -164,7 +162,6 @@ const HomeStackScreen = () => {
       <Stack.Screen name="Availablejobs" component={Availablejobs} />
       <Stack.Screen name="ViewJobDetails" component={ViewJobDetails} />
       <Stack.Screen name="SendBid" component={SendBid} />
-      <Stack.Screen name="OfferSent" component={OfferSent} />
       <Stack.Screen name="ServiceJobs" component={ServiceJobs} />
     </Stack.Navigator>
   );
@@ -186,9 +183,8 @@ const AvailableJobsStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Availablejobs" component={Availablejobs} />
-      <Stack.Screen name="ViewJobDetails" component={ViewJobDetails} />
+      <Stack.Screen name="JobDetails" component={JobDetails} />
       <Stack.Screen name="SendBid" component={SendBid} />
-      <Stack.Screen name="OfferSent" component={OfferSent} />
     </Stack.Navigator>
   );
 };
@@ -200,8 +196,6 @@ const SellerOffers = () => {
       }}>
       <Stack.Screen name="Offers" component={Offers} />
       <Stack.Screen name="ViewOfferDetails" component={ViewOfferDetails} />
-      {/* <Stack.Screen name="SendBid" component={SendBid} />
-      <Stack.Screen name="OfferSent" component={OfferSent} /> */}
     </Stack.Navigator>
   );
 };
@@ -212,9 +206,8 @@ const ProfileStackScreen = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="JobsDone" component={JobsDone} />
-      <Stack.Screen name="JobsInProgress" component={JobsInProgress} />
+      <Stack.Screen name="Jobs" component={Jobs} />
+      <Stack.Screen name="JobDetails" component={JobDetails} />
       <Stack.Screen name="AllBids" component={AllBids} />
     </Stack.Navigator>
   );
