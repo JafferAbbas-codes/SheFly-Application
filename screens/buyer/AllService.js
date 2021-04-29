@@ -30,21 +30,24 @@ const AllServices = (props) => {
           uri: item.image,
         }}
         style={{
-          height: 120,
-          borderRadius: 20,
-          margin: 10,
-          flex: 1,
+          width: 159,
+          height: 159,
+          borderRadius: 32,
+          marginHorizontal: 5,
           overflow: 'hidden',
+          backgroundColor: 'black',
+          opacity: 0.9,
+          marginBottom: 10,
         }}>
         <Text
           style={{
             fontSize: 25,
             color: 'white',
             fontWeight: 'bold',
-            width: 120,
+            width: 160,
             textAlign: 'center',
             textAlignVertical: 'center',
-            height: 120,
+            height: 160,
           }}>
           {item.name}
         </Text>
@@ -92,7 +95,7 @@ const AllServices = (props) => {
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
+                fontSize: 24,
               }}>
               Services
             </Text>
@@ -103,7 +106,6 @@ const AllServices = (props) => {
               data={Services}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
           </SafeAreaView>
         </Card>
@@ -116,35 +118,9 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
   },
-  headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
-    borderRadius: 50,
-  },
   container: {
-    borderRadius: 20,
     marginVertical: 30,
   },
-
-  title: {
-    fontSize: 32,
-  },
-  header: {
-    paddingLeft: 35,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  HeaderText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'black',
-    letterSpacing: 1,
-  },
-  icon: {
-    position: 'absolute',
-  },
-  headerTitle: {},
 });
 const mapStateToProps = (state) => ({
   user: state.userDetails.user,

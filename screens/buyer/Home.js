@@ -17,6 +17,7 @@ import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -28,32 +29,28 @@ const Home = (props) => {
   const renderItem = (item) => <Item item={item.item} />;
   const Item = ({item}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressService(item._id, item.name);
-        }
-        // console.log('on click', item._id),
-      }>
-      {/* {console.log('To test')} */}
+      onPress={() => {
+        OnPressService(item._id, item.name);
+      }}>
       <ImageBackground
-        // source={require('../../assets/i.jpg')}
         source={{
           uri: item.image,
         }}
         style={{
-          width: 120,
-          height: 120,
-          borderRadius: 20,
+          width: 128,
+          height: 128,
+          borderRadius: 32,
           marginHorizontal: 5,
           overflow: 'hidden',
+          backgroundColor: 'black',
+          opacity: 0.9,
         }}>
-        {console.log('item in Item', item)}
         <Text
           style={{
             fontSize: 25,
             color: 'white',
             fontWeight: 'bold',
-            width: 120,
+            width: 130,
             textAlign: 'center',
             textAlignVertical: 'center',
             height: 120,
@@ -136,68 +133,66 @@ const Home = (props) => {
 
   const [availableSellers, setAvailableSellers] = useState([]);
 
-  const renderAvailableSellers = (item) => (
-    // console.log('item in ItemRecom seller', props);
-    <ItemRecom item={item.item} />
-  );
+  const renderAvailableSellers = (item) => <ItemRecom item={item.item} />;
 
   const ItemRecom = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         OnPressSeller(item);
-        // console.log('on click in seller box', _id);
       }}>
       <View
         style={{
-          height: 150,
-          // width: 300,
-          borderRadius: 25,
+          width: 300,
+          borderRadius: 16,
           backgroundColor: 'white',
-          marginHorizontal: 5,
+          paddingHorizontal: 8,
+          marginRight: 10,
         }}>
-        <View style={{height: 75, width: 300, flexDirection: 'row'}}>
-          <Image source={{uri: item.profileImage}} style={styles.headerImage} />
-          <View>
-            <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
-              {item.name}
-            </Text>
-            <Text style={{fontSize: 10, color: '#C0C0C0', fontWeight: 'bold'}}>
-              {item.title}
-            </Text>
-            <Text style={{fontSize: 10, color: '#FFB266'}}>
-              <MaterialIcons
-                name="star"
-                size={10}
-                /*onPress={openMenu}*/ style={styles.icon}
-              />
-              {' ' + item.rating}
-            </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={{uri: item.profileImage}}
+              style={styles.headerImage}
+            />
+            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
+                {item.name}
+              </Text>
+              <Text
+                style={{fontSize: 10, color: '#A28FA1', fontWeight: 'bold'}}>
+                {item.title}
+              </Text>
+              <Text style={{fontSize: 10, color: '#FFB266'}}>
+                <MaterialIcons name="star" size={10} />
+                {' ' + item.rating.toFixed(2)}
+              </Text>
+            </View>
           </View>
           <View>
-            <MaterialIcons
-              name="comment"
-              size={22}
-              style={styles.icon}
+            <MaterialCommunityIcons
+              name="message-text"
+              size={19}
               style={{
-                margin: 22,
-                paddingLeft: 5,
-                paddingRight: 5,
-                paddingBottom: 4,
-                paddingTop: 1,
-                backgroundColor: '#BC53AE',
+                backgroundColor: '#C543B3',
+                borderRadius: 12,
                 color: 'white',
-                borderRadius: 8,
+                marginVertical: 10,
+                paddingHorizontal: 8,
+                paddingVertical: 5,
               }}
             />
           </View>
         </View>
+
         <Text
           style={{
             fontSize: 15,
             textAlignVertical: 'center',
             margin: 10,
             marginTop: 0,
-          }}>
+            // width: 200,
+          }}
+          numberOfLines={3}>
           {item.bio}
         </Text>
       </View>
@@ -211,19 +206,18 @@ const Home = (props) => {
       <View style={styles.back}>
         <Header />
         <Card>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text
               style={{
                 fontWeight: 'bold',
                 fontSize: 25,
-                marginBottom: 15,
-                width: 200,
               }}>
               Popular Services
             </Text>
             <TouchableOpacity
               onPress={seeAllServicesPressHandler}
-              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              // style={{textAlignVertical: 'center'}}
+            >
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -233,22 +227,23 @@ const Home = (props) => {
               data={services}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
+              // style={{borderRadius: 20}}
             />
           </SafeAreaView>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text
               style={{
                 fontWeight: 'bold',
                 fontSize: 25,
-                marginBottom: 15,
-                width: 200,
+                // marginBottom: 15,
+                // width: 200,
               }}>
               Available Sellers
             </Text>
             <TouchableOpacity
               onPress={seeAllSellersPressHandler}
-              style={{textAlignVertical: 'center', marginLeft: 90}}>
+              // style={{textAlignVertical: 'center', marginLeft: 90}}
+            >
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -258,7 +253,6 @@ const Home = (props) => {
               data={availableSellers}
               renderItem={renderAvailableSellers}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
           </ScrollView>
         </Card>
@@ -272,39 +266,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
+    width: 56,
+    height: 56,
+    marginVertical: 10,
     borderRadius: 50,
   },
   container: {
     borderRadius: 20,
     marginVertical: 30,
   },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-  header: {
-    paddingLeft: 35,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  HeaderText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'black',
-    letterSpacing: 1,
-  },
-  icon: {
-    position: 'absolute',
-  },
-  headerTitle: {},
 });
 
 const mapStateToProps = (state) => ({
