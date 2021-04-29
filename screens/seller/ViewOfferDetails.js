@@ -11,76 +11,54 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import {URL, confirmOffer} from '../../config/const';
+import axios from 'axios';
+import {connect} from 'react-redux';
 
-export default function ViewOfferDetails(props) {
-  // const [value, onChangeText] = React.useState('42|');
+const ViewOfferDetails = (props) => {
   console.log(props);
-  // const [Services, setServices] = useState([
-  //   {
-  //     bookingno: '1',
-  //     status: 'completed',
-  //     serviceprovider: 'Narjis',
-  //     date: '6-06-2021',
-  //     service: 'Cooking',
-  //     budget: '3000',
-  //     user: 'Salman',
-  //     location: 'FB Area,Karachi',
-  //     description:
-  //       'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
-  //     key: '1',
-  //   },
-  // ]);
-  const renderItem = ({item}) => (
-    <Item
-      text={item.text}
-      bookingno={item.bookingno}
-      date={item.date}
-      serviceprovider={item.serviceprovider}
-      status={item.status}
-      user={item.user}
-      service={item.service}
-      location={item.location}
-    />
-  );
+
+  const OnPressConfirmOffer = async () => {
+    console.log('In OnPress COnfirm');
+    try {
+      let response = await axios.put(
+        `${URL}${confirmOffer}${props.route.params.orderId}`,
+        {
+          seller: props.user._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      Alert.alert('Success', 'Offer Sent');
+      props.navigation.navigate('Profile', {
+        ...props.route.params,
+      });
+    } catch (error) {
+      // setButtonLoading(false);
+      console.log('propss in OnPressConfirmOffer', error);
+      if (error?.response?.data?.result) {
+        console.log('propss in OnPressConfirmOffer', error);
+        console.log('error123 OnPressConfirmOffer : ', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
 
   const OnPressBack = () => {
     console.log('in on Press Back');
     props.navigation.navigate('Offers', {
       ...props.route.params,
     });
-  };
-
-  const OnPressBid = (
-    id,
-    requestNo,
-    date,
-    buyer,
-    status,
-    service,
-    budget,
-    address,
-    description,
-    orderId,
-  ) => {
-    // props.navigation.navigate('SendBid', {
-    //   ...props.route.params,
-    //   id,
-    //   requestNo,
-    //   date,
-    //   buyer,
-    //   status,
-    //   service,
-    //   budget,
-    //   address,
-    //   description,
-    //   orderId,
-    // });
   };
 
   return (
@@ -120,7 +98,6 @@ export default function ViewOfferDetails(props) {
               }}>
               Job Details
             </Text>
-            <MaterialIcons name="pencil" size={15} style={{marginTop: 8}} />
           </View>
           <View
             style={{
@@ -202,18 +179,7 @@ export default function ViewOfferDetails(props) {
               text="Confirm Offer"
               onPress={
                 () => {
-                  OnPressConfirmOffer(
-                    props.route.params.id,
-                    props.route.params.requestNo,
-                    props.route.params.date,
-                    props.route.params.buyer,
-                    props.route.params.status,
-                    props.route.params.service,
-                    props.route.params.budget,
-                    props.route.params.address,
-                    props.route.params.description,
-                    props.route.params.orderId,
-                  );
+                  OnPressConfirmOffer();
                 }
                 // console.log('on click', item._id),
               }
@@ -223,7 +189,7 @@ export default function ViewOfferDetails(props) {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   back: {
@@ -260,3 +226,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
 });
+
+const mapStateToProps = (state) => ({
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+  token: state.userDetails.token,
+});
+
+export default connect(mapStateToProps)(ViewOfferDetails);

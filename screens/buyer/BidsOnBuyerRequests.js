@@ -17,7 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {URL, getBidsByOrder} from '../../config/const';
+import {URL, getBidsByOrder, confirmOrder} from '../../config/const';
 
 const BidsOnBuyerRequests = (props) => {
   const [Bids, setBids] = useState([]);
@@ -37,6 +37,36 @@ const BidsOnBuyerRequests = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  const AcceptBid = async (_id) => {
+    try {
+      console.log('props in AcceptBidAPI', props);
+      // setButtonLoading(true);
+      let response = await axios.put(
+        `${URL}${confirmOrder}${props.route.params.id}`,
+        {
+          buyer: props.user._id,
+          bid: _id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      // setButtonLoading(false);
+      console.log('response of AcceptBid', response.data.result);
+      displayModal(true);
+    } catch (error) {
+      // setButtonLoading(false);
+      console.log('propss in AcceptBid', error);
+      if (error?.response?.data?.result) {
+        console.log('propss in AcceptBid', error);
+        console.log('error123 AcceptBid : ', error.response.data);
         return {error: error.response.data.result};
       }
     }
@@ -62,9 +92,10 @@ const BidsOnBuyerRequests = (props) => {
       description={item.description}
       seller={item.seller}
       budget={item.budget}
+      _id={item._id}
     />
   );
-  const Item = ({description, seller, budget}) => (
+  const Item = ({description, seller, budget, _id}) => (
     <View
       style={{
         margin: 5,
@@ -145,7 +176,7 @@ const BidsOnBuyerRequests = (props) => {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={() => displayModal(true)}>
+        <TouchableOpacity onPress={() => AcceptBid(_id)}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Accept</Text>
           </View>

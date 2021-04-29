@@ -23,48 +23,37 @@ import {URL, getAllServicesRoute} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
 
 const AllServices = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
-  const [Services, setServices] = useState([
-    // { text: 'Cooking', key: '1' },
-    // { text: 'Makeup', key: '2' },
-    // { text: 'Sewing', key: '3' },
-    // { text: 'Henna Arts', key: '4' },
-    // { text: 'Nursing', key: '5' },
-    // { text: 'Teaching', key: '6' },
-  ]);
+  const [Services, setServices] = useState([]);
   const renderItem = (item) => <Item item={item.item} />;
 
   const Item = ({item}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressService(item._id, item.name);
-        }
-        // console.log('on click', item._id),
-      }>
-      {/* {console.log('To test')} */}
+      onPress={() => {
+        OnPressService(item._id, item.name);
+      }}>
       <ImageBackground
-        //   source={require('../../assets/i.jpg')}
         source={{
           uri: item.image,
         }}
         style={{
-          height: 120,
-          borderRadius: 20,
-          margin: 10,
-          flex: 1,
+          width: 159,
+          height: 159,
+          borderRadius: 32,
+          marginHorizontal: 5,
           overflow: 'hidden',
+          backgroundColor: 'black',
+          opacity: 0.9,
+          marginBottom: 10,
         }}>
-        {console.log('item in Item', item)}
         <Text
           style={{
             fontSize: 25,
             color: 'white',
             fontWeight: 'bold',
-            width: 120,
+            width: 160,
             textAlign: 'center',
             textAlignVertical: 'center',
-            height: 120,
+            height: 160,
           }}>
           {item.name}
         </Text>
@@ -95,16 +84,13 @@ const AllServices = (props) => {
         Keyboard.dismiss();
       }}>
       <View style={styles.back}>
-        {console.log('in return', Services)}
         <Header />
         <Card>
           <View style={{flexDirection: 'row'}}>
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
-                // marginBottom: 15,
-                // width: 200,
+                fontSize: 24,
               }}>
               Services
             </Text>
@@ -115,7 +101,6 @@ const AllServices = (props) => {
               data={Services}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
           </SafeAreaView>
         </Card>
@@ -128,40 +113,9 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
   },
-  headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
-    borderRadius: 50,
-  },
   container: {
-    borderRadius: 20,
     marginVertical: 30,
   },
-  item: {
-    // backgroundColor: '#f9c2ff',
-    // padding: 20,
-    // marginVertical: 8,
-    // marginHorizontal: 16,
-  },
-  title: {
-    fontSize: 32,
-  },
-  header: {
-    paddingLeft: 35,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  HeaderText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'black',
-    letterSpacing: 1,
-  },
-  icon: {
-    position: 'absolute',
-  },
-  headerTitle: {},
 });
 const mapStateToProps = (state) => ({
   user: state.userDetails.user,

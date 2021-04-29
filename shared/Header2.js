@@ -13,7 +13,7 @@ const Header2 = (props) => {
   //     navigation.openDrawer();
   // }
   return (
-    <View>
+    <View style={{backgroundColor: '#AB369B'}}>
       <View
         style={{
           marginVertical: 20,

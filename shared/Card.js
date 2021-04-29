@@ -23,9 +23,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F9FE',
     shadowColor: '#333',
     padding: 30,
-    width: width, //120,//108//1
-    // height: 0.6 * height,
+    // width: width, //120,//108//1
+    height: height,
     bottom: 0,
+    // flexDirection: 'column',
+    // flex: 3,
     // alignItems: 'center',
     // alignContent: 'space-between',
     // alignSelf: 'center',
@@ -39,8 +41,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F9FE',
     shadowColor: '#333',
     padding: 30,
-    width: width, //120,//108//1
-    // height: 0.7 * height,
+    // width: width, //120,//108//1
+    height: height,
     bottom: 0,
     // alignItems: 'center',
     // alignContent: 'space-between',
@@ -54,5 +56,7 @@ const styles = StyleSheet.create({
     // marginVertical: 30,
     // textAlignVertical: 'top',
     // backgroundColor: 'blue'
+    // flexDirection: 'column',
+    // flex: 3,
   },
 });

@@ -27,7 +27,6 @@ const AvailableJobs = (props) => {
 
   const getAllAvailableJobs = async () => {
     try {
-      console.log('props in available jobs', props);
       if (props.route.params && props.route.params.Recommendation) {
         setRecommendation(props.route.params.Recommendation);
       } else {
@@ -46,7 +45,6 @@ const AvailableJobs = (props) => {
       }
     } catch (error) {
       if (error?.response?.data?.result) {
-        console.log('propss in getAllRecommendedJobs', props);
         console.log('error123 getAllRecommendedJobs : ', error.response.data);
         return {error: error.response.data.result};
       }
@@ -57,121 +55,76 @@ const AvailableJobs = (props) => {
     getAllAvailableJobs();
   }, []);
 
-  const renderRecommendation = ({item}) => (
-    // console.log('item in availableJob', item);
-    <ItemRecom
-      name={item.buyer.name}
-      image={item.buyer.profileImage}
-      service={item.service.name}
-      location={item.address}
-      // service={item.service}
-      orderId={item._id}
-      budget={item.budget}
-      description={item.description}
-    />
-  );
+  const renderRecommendation = ({item}) => <ItemRecom job={item} />;
 
-  const OnPressJobs = (
-    name,
-    service,
-    location,
-    budget,
-    description,
-    image,
-    orderId,
-  ) => {
+  const OnPressJobs = (job) => {
     props.navigation.navigate('ViewJobDetails', {
-      ...props.route.params,
-      name,
-      service,
-      location,
-      budget,
-      description,
-      image,
-      orderId,
+      job,
     });
   };
 
-  const ItemRecom = ({
-    name,
-    service,
-    location,
-    budget,
-    description,
-    image,
-    orderId,
-  }) => (
+  const ItemRecom = ({job}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressJobs(
-            name,
-            service,
-            location,
-            budget,
-            description,
-            image,
-            orderId,
-          );
-        }
-        // console.log('on click', item._id),
-      }>
+      onPress={() => {
+        OnPressJobs(job);
+      }}>
       <View
         style={{
-          // height: 150,
           // width: 300,
-          borderRadius: 25,
+          borderRadius: 16,
           backgroundColor: 'white',
-          marginHorizontal: 5,
+          paddingHorizontal: 15,
+          marginBottom: 10,
         }}>
-        {/* {console.log('To test')} */}
-        <View style={{flexDirection: 'row'}}>
-          <Image
-            source={{
-              uri: image,
-            }}
-            style={styles.headerImage}
-          />
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View>
-              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
-                {name}
-              </Text>
-              <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
-                {service}
-              </Text>
-              <Text style={{fontSize: 10, color: '#A28FA1'}}>
-                <MaterialIcons
-                  name="map-marker"
-                  size={10}
-                  /*onPress={openMenu}*/ style={styles.icon}
-                />
-                {' ' + location}
-              </Text>
-            </View>
-            <View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={{
+                uri: job.buyer.profileImage,
+              }}
+              style={styles.headerImage}
+            />
+            <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
               <Text
                 style={{
-                  fontSize: 15,
-                  // width: 130,
-                  // textAlign: 'right',
-                  // textAlignVertical: 'center',
+                  fontSize: 16,
                   fontWeight: 'bold',
-                  marginTop: 20,
                 }}>
-                {'Rs. ' + budget}
+                {job.buyer.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                {job.service.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                <MaterialIcons name="map-marker" size={10} />
+                {' ' + job.address}
               </Text>
             </View>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                paddingVertical: 15,
+              }}>
+              {'Rs. ' + job.budget}
+            </Text>
           </View>
         </View>
         <Text
           style={{
             fontSize: 15,
+            // width: 300,
             textAlignVertical: 'center',
-            marginHorizontal: 10,
             marginBottom: 15,
-          }}>
-          {description}
+            textOverflow: 'ellipsis',
+            // flex: 1,
+            // flexWrap: 'wrap',
+            // flexShrink: 1,
+          }}
+          numberOfLines={2}>
+          {job.description}
         </Text>
       </View>
     </TouchableOpacity>
@@ -182,30 +135,29 @@ const AvailableJobs = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <View style={styles.back}>
-        <Header />
-        <Card>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
-              }}>
-              Available Jobs
-            </Text>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              data={Recommendation}
-              renderItem={renderRecommendation}
-              keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
-            />
-          </SafeAreaView>
-        </Card>
-      </View>
+      <ScrollView>
+        <View style={styles.back}>
+          <Header />
+          <Card>
+            <View style={{flexDirection: 'row'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                }}>
+                Available Jobs
+              </Text>
+            </View>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                data={Recommendation}
+                renderItem={renderRecommendation}
+                keyExtractor={(item) => item.key}
+              />
+            </SafeAreaView>
+          </Card>
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -215,20 +167,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
+    width: 56,
+    height: 56,
+    marginVertical: 10,
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
     marginVertical: 30,
   },
   title: {
     fontSize: 32,
-  },
-  icon: {
-    position: 'absolute',
   },
 });
 

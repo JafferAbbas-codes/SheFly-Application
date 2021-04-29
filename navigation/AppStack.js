@@ -10,6 +10,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Profile from '../screens/seller/Profile';
 import BuyerStack from './BuyerStack';
 import SellerStack from './SellerStack';
+import AdminStack from './AdminStack';
 
 // import {DrawerContent} from '../screens/DrawerContent';
 
@@ -26,7 +27,7 @@ const AppStack = (props) => {
   ) : props.user.userType == 'seller' ? (
     <SellerStack />
   ) : (
-    <Text>AdminStack not ready</Text>
+    <AdminStack />
   );
 };
 

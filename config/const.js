@@ -1,11 +1,11 @@
 export const URL = 'https://she-fly-application-server.herokuapp.com/';
-// export const URL = 'http://192.168.43.248:4000/';
+// export const URL = 'http://192.168.43.13:4000/';
 
 export const loginRoute = 'auth/login/';
 export const signupRoute = 'auth/signup/';
 export const verifyCNICRoute = 'auth/verifyCNIC';
 export const getAllServicesRoute = 'service/';
-export const getAllUsers = 'user/';
+export const getAllUsers = 'user';
 export const connectToChat = 'chat/join';
 export const sendMessageToServer = 'chat/sendMessage';
 export const getSellersByService = 'user/byService/';
@@ -22,3 +22,8 @@ export const rateSeller = 'user/rate/';
 export const createComplain = 'complain/create';
 export const createOrder = 'order/create';
 // export const getOrdersByBuyer = 'order/buyer/';
+export const confirmOrder = 'order/confirmOrder/';
+export const updateOrderStatus = 'order/';
+export const confirmOffer = 'order/confirmOffer/';
+export const getAllOrders = 'order';
+export const getAllComplains = 'complain';

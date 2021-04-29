@@ -78,22 +78,23 @@ const PostRequest = (props) => {
     }
   };
 
-  // const displayModal = (show) => {
-  //   setIsVisible(show);
-  //   setTimeout(() => {
-  //     setIsVisible(false);
-  //     props.navigation.navigate(
-  //       'YourRequestsStackScreen',
-  //       {},
-  //       NavigationActions.navigate({
-  //         routeName: 'BuyerRequests',
-  //       }),
-  //     );
-  //   }, 2000);
-  //   // props.navigation.navigate('Home', {
-  //   //   ...props.route.params,
-  //   // });
-  // };
+  const displayModal = (show) => {
+    setIsVisible(show);
+    setIsVisible(false);
+    // setTimeout(() => {
+    //   setIsVisible(false);
+    //   props.navigation.navigate(
+    //     'YourRequestsStackScreen',
+    //     {},
+    //     NavigationActions.navigate({
+    //       routeName: 'BuyerRequests',
+    //     }),
+    //   );
+    // }, 2000);
+    props.navigation.navigate('Home', {
+      ...props.route.params,
+    });
+  };
 
   const getAllServices = async () => {
     try {

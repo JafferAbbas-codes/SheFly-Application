@@ -11,12 +11,14 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getSellersByService} from '../../config/const';
@@ -46,82 +48,78 @@ const ServiceSeller = (props) => {
     }
   };
 
-  const renderRecommendation = ({item}) => (
-    <ItemRecom
-      name={item.name}
-      bio={item.bio}
-      rating={item.rating}
-      title={item.title}
-      profileImage={item.profileImage}
-    />
-  );
-  const ItemRecom = ({name, bio, rating, title, profileImage, key}) => (
-    <View
-      style={{
-        // height: 150,
-        // width: 300,
-        borderRadius: 15,
-        backgroundColor: 'white',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 7,
-        },
-        shadowOpacity: 0.43,
-        shadowRadius: 9.51,
+  const OnPressSeller = (index) => {
+    props.navigation.navigate('SellerProfileForBuyer', {
+      ...props.route.params,
+      index,
+    });
+  };
 
-        elevation: 5,
-        margin: 5,
+  const renderRecommendation = ({item}) => <ItemRecom item={item} />;
+
+  const ItemRecom = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        OnPressSeller(item);
       }}>
-      <View style={{flexDirection: 'row'}}>
-        <Image
-          source={require('../../assets/i.jpg')}
-          style={styles.headerImage}
-        />
-        <View>
-          <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 6}}>
-            {name}
-          </Text>
-          <Text style={{fontSize: 10, color: '#C0C0C0', fontWeight: 'bold'}}>
-            {title}
-          </Text>
-          <Text style={{fontSize: 10, color: '#FFB266'}}>
-            <MaterialIcons
-              name="star"
-              size={10}
-              /*onPress={openMenu}*/ style={styles.icon}
-            />
-            {' ' + rating}
-          </Text>
-        </View>
-        <View>
-          <MaterialIcons
-            name="comment"
-            size={22}
-            style={styles.icon}
-            style={{
-              margin: 22,
-              paddingLeft: 5,
-              paddingRight: 5,
-              paddingBottom: 4,
-              paddingTop: 1,
-              backgroundColor: '#BC53AE',
-              color: 'white',
-              borderRadius: 8,
-            }}
-          />
-        </View>
-      </View>
-      <Text
+      {console.log('item', item)}
+      <View
         style={{
-          fontSize: 15,
-          textAlignVertical: 'center',
-          margin: 10,
-          marginTop: 0,
+          // width: 300,
+          borderRadius: 16,
+          backgroundColor: 'white',
+          paddingHorizontal: 8,
+          marginBottom: 10,
         }}>
-        {bio}
-      </Text>
-    </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={{uri: item.profileImage}}
+              style={styles.headerImage}
+            />
+            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
+                {item.name}
+              </Text>
+              <Text
+                style={{fontSize: 10, color: '#A28FA1', fontWeight: 'bold'}}>
+                {item.title}
+              </Text>
+              <Text style={{fontSize: 10, color: '#FFB266'}}>
+                <MaterialIcons name="star" size={10} />
+                {' ' + item.rating.toFixed(1)}
+              </Text>
+            </View>
+          </View>
+          <View>
+            <MaterialCommunityIcons
+              name="message-text"
+              size={19}
+              style={{
+                backgroundColor: '#C543B3',
+                borderRadius: 12,
+                color: 'white',
+                marginVertical: 10,
+                paddingHorizontal: 8,
+                paddingVertical: 5,
+              }}
+            />
+          </View>
+        </View>
+
+        <Text
+          style={{
+            fontSize: 15,
+            textAlignVertical: 'center',
+            margin: 10,
+            marginTop: 0,
+            // width: 200,
+          }}
+          numberOfLines={2}>
+          {item.bio}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 
   useEffect(() => {
@@ -134,7 +132,6 @@ const ServiceSeller = (props) => {
         Keyboard.dismiss();
       }}>
       <ScrollView>
-        {/* {console.log('Props in Service Seller', props)} */}
         <View style={styles.back}>
           <Header />
           <Card>
@@ -143,8 +140,6 @@ const ServiceSeller = (props) => {
                 style={{
                   fontWeight: 'bold',
                   fontSize: 25,
-                  // marginBottom: 10,
-                  // width: 200,
                 }}>
                 Available sellers for {props.route.params.name}
               </Text>
@@ -153,8 +148,7 @@ const ServiceSeller = (props) => {
               <FlatList
                 data={sellerByService}
                 renderItem={renderRecommendation}
-                keyExtractor={(item) => item.key}
-                style={{borderRadius: 20}}
+                keyExtractor={(item) => item._id}
               />
             </SafeAreaView>
           </Card>
@@ -169,20 +163,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
+    width: 56,
+    height: 56,
+    marginVertical: 10,
     borderRadius: 50,
   },
   container: {
     borderRadius: 20,
     marginVertical: 30,
-  },
-  title: {
-    fontSize: 32,
-  },
-  icon: {
-    position: 'absolute',
   },
 });
 

@@ -31,23 +31,22 @@ import {connect, useDispatch} from 'react-redux';
 const SendBid = (props) => {
   // const [value, onChangeText] = React.useState('42|');
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [error, setError] = useState({responseCode: 200, message: ''});
-  console.log('props in sendBidd', props);
   const reviewSchema = yup.object({
     budget: yup.string().required(),
     description: yup.string().required('No description provided.'),
   });
+  const job = props.route.params.job;
 
   const [isVisible, setIsVisible] = useState(false);
+  console.log('props in send bid', job);
   const createBidAPI = async (budget, description) => {
     try {
-      console.log('props in createBidAPI', props);
       setButtonLoading(true);
       let response = await axios.post(
         `${URL}${createBid}`,
         {
           seller: props.user._id,
-          order: props.route.params.orderId,
+          order: job._id,
           budget,
           description,
         },
@@ -62,9 +61,7 @@ const SendBid = (props) => {
       displayModal(true);
     } catch (error) {
       setButtonLoading(false);
-      console.log('propss in createBidAPI', error);
       if (error?.response?.data?.result) {
-        console.log('propss in createBidAPI', error);
         console.log('error123 createBidAPI : ', error.response.data);
         return {error: error.response.data.result};
       }
@@ -77,9 +74,6 @@ const SendBid = (props) => {
       setIsVisible(false);
       props.navigation.dispatch(StackActions.popToTop());
     }, 2000);
-    // props.navigation.navigate('Home', {
-    //   ...props.route.params,
-    // });
   };
 
   const OnPressBack = () => {
@@ -101,14 +95,6 @@ const SendBid = (props) => {
           onRequestClose={() => {
             Alert.alert('Modal has now been closed.');
           }}>
-          {/* <Text
-            style={styles.closeText}
-            onPress={() => {
-              displayModal(!isVisible);
-            }}>
-            {' '}
-            x{' '}
-          </Text> */}
           <View
             style={{
               flex: 1,
@@ -132,7 +118,6 @@ const SendBid = (props) => {
             flexDirection: 'row',
             marginTop: 30,
             marginHorizontal: 30,
-            justifyContent: 'space-between',
           }}>
           <MaterialIcons
             onPress={() => OnPressBack()}
@@ -141,7 +126,7 @@ const SendBid = (props) => {
             color="#4A4A4A"
           />
         </View>
-        <View>
+        <ScrollView>
           <View
             style={{
               margin: 30,
@@ -154,13 +139,12 @@ const SendBid = (props) => {
                 color: '#000000',
                 fontWeight: 'bold',
                 fontSize: 24,
-                // margin: 25,
               }}>
               Job Details
             </Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={{fontSize: 10, marginRight: 10, color: '#A28FA1'}}>
-                {props.route.params.service}
+                {job.service.name}
               </Text>
               <MaterialIcons
                 name="map-marker"
@@ -170,30 +154,35 @@ const SendBid = (props) => {
                 color="#A28FA1"
               />
               <Text style={{fontSize: 10, color: '#A28FA1'}}>
-                {' ' + props.route.params.location}
+                {' ' + job.address}
               </Text>
             </View>
-            <Text style={{fontSize: 16, marginVertical: 20}}>
-              {props.route.params.description}
-            </Text>
+            <View style={{paddingVertical: 10, paddingHorizontal: 5}}>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+                Description:{' '}
+              </Text>
+              <Text style={{textAlign: 'justify', fontSize: 16}}>
+                {job.description}
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row', paddingHorizontal: 5}}>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>Budget: </Text>
+              <Text style={{fontSize: 18}}>{'Rs.' + job.budget}</Text>
+            </View>
           </View>
           <View
             style={{
               borderWidth: 1,
               marginHorizontal: 30,
               borderColor: '#707070',
-              // marginVertical: 5,
-              padding: 15,
+              marginBottom: 15,
+              padding: 10,
             }}>
             <Formik
               initialValues={{budget: '', description: ''}}
               validationSchema={reviewSchema}
               onSubmit={(values, actions) => {
-                console.log('valuesss', values);
                 createBidAPI(values.budget, values.description);
-
-                // console.log('form values', values);
-                // actions.resetForm();
               }}>
               {(propss) => (
                 <View>
@@ -259,7 +248,7 @@ const SendBid = (props) => {
                     </View>
                   </View>
                   <FlatButton
-                    text="Submit"
+                    text="Bid"
                     loading={buttonLoading}
                     onPress={propss.handleSubmit}
                   />
@@ -267,7 +256,7 @@ const SendBid = (props) => {
               )}
             </Formik>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   );

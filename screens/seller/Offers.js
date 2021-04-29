@@ -27,10 +27,6 @@ const Offers = (props) => {
 
   const getAllSellerOffers = async () => {
     try {
-      console.log('props in setOffers', props);
-      //   if (props.route.params && props.route.params.Recommendation) {
-      //     setRecommendation(props.route.params.Recommendation);
-      //   } else {
       let response = await axios.get(
         `${URL}${getSellerOffers}${props.user._id}`,
         {
@@ -56,114 +52,77 @@ const Offers = (props) => {
     getAllSellerOffers();
   }, []);
 
-  const renderOffers = ({item}) => (
-    // console.log('item in availableJob', item);
-    <ItemRecom
-      name={item.buyer.name}
-      image={item.buyer.profileImage}
-      service={item.service.name}
-      location={item.address}
-      // service={item.service}
-      orderId={item._id}
-      budget={item.budget}
-      description={item.description}
-    />
-  );
+  const renderOffers = ({item}) => <ItemRecom offer={item} />;
 
-  const OnPressJobs = (name, service, location, budget, description, image) => {
+  const OnPressJobs = (offer) => {
     props.navigation.navigate('ViewOfferDetails', {
       ...props.route.params,
-      name,
-      service,
-      location,
-      budget,
-      description,
-      image,
-      orderId,
-      sellerId,
+      offer,
     });
   };
 
-  const ItemRecom = ({
-    name,
-    service,
-    location,
-    budget,
-    description,
-    image,
-    orderId,
-  }) => (
+  const ItemRecom = ({offer}) => (
     <TouchableOpacity
-      onPress={
-        () => {
-          OnPressJobs(
-            name,
-            service,
-            location,
-            budget,
-            description,
-            image,
-            orderId,
-          );
-        }
-        // console.log('on click', item._id),
-      }>
+      onPress={() => {
+        OnPressJobs(offer);
+      }}>
       <View
         style={{
-          // height: 150,
           // width: 300,
-          borderRadius: 25,
+          borderRadius: 16,
           backgroundColor: 'white',
-          marginHorizontal: 5,
+          paddingHorizontal: 15,
+          marginBottom: 10,
         }}>
-        {/* {console.log('To test')} */}
-        <View style={{flexDirection: 'row'}}>
-          <Image
-            source={{
-              uri: image,
-            }}
-            style={styles.headerImage}
-          />
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View>
-              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 9}}>
-                {name}
-              </Text>
-              <Text style={{fontSize: 10, marginTop: 2, color: '#A28FA1'}}>
-                {service}
-              </Text>
-              <Text style={{fontSize: 10, color: '#A28FA1'}}>
-                <MaterialIcons
-                  name="map-marker"
-                  size={10}
-                  /*onPress={openMenu}*/ style={styles.icon}
-                />
-                {' ' + location}
-              </Text>
-            </View>
-            <View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={{
+                uri: offer.buyer.profileImage,
+              }}
+              style={styles.headerImage}
+            />
+            <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
               <Text
                 style={{
-                  fontSize: 15,
-                  // width: 130,
-                  // textAlign: 'right',
-                  // textAlignVertical: 'center',
+                  fontSize: 16,
                   fontWeight: 'bold',
-                  marginTop: 20,
                 }}>
-                {'Rs. ' + budget}
+                {offer.buyer.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                {offer.service.name}
+              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>
+                <MaterialIcons name="map-marker" size={10} />
+                {' ' + offer.address}
               </Text>
             </View>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: 'bold',
+                paddingVertical: 15,
+              }}>
+              {'Rs. ' + offer.budget}
+            </Text>
           </View>
         </View>
         <Text
           style={{
             fontSize: 15,
+            // width: 300,
             textAlignVertical: 'center',
-            marginHorizontal: 10,
             marginBottom: 15,
-          }}>
-          {description}
+            textOverflow: 'ellipsis',
+            // flex: 1,
+            // flexWrap: 'wrap',
+            // flexShrink: 1,
+          }}
+          numberOfLines={2}>
+          {offer.description}
         </Text>
       </View>
     </TouchableOpacity>
@@ -181,9 +140,7 @@ const Offers = (props) => {
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 15,
-                width: 200,
+                fontSize: 24,
               }}>
               Job Offers
             </Text>
@@ -193,7 +150,6 @@ const Offers = (props) => {
               data={offers}
               renderItem={renderOffers}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
           </SafeAreaView>
         </Card>
@@ -207,20 +163,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   headerImage: {
-    width: 50,
-    height: 50,
-    margin: 10,
+    width: 56,
+    height: 56,
+    marginVertical: 10,
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
     marginVertical: 30,
   },
   title: {
     fontSize: 32,
-  },
-  icon: {
-    position: 'absolute',
   },
 });
 

@@ -19,35 +19,7 @@ import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
 export default function requestDetails(props) {
-  // const [value, onChangeText] = React.useState('42|');
-  console.log(props);
-  // const [Services, setServices] = useState([
-  //   {
-  //     bookingno: '1',
-  //     status: 'completed',
-  //     serviceprovider: 'Narjis',
-  //     date: '6-06-2021',
-  //     service: 'Cooking',
-  //     budget: '3000',
-  //     user: 'Salman',
-  //     location: 'FB Area,Karachi',
-  //     description:
-  //       'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
-  //     key: '1',
-  //   },
-  // ]);
-  const renderItem = ({item}) => (
-    <Item
-      text={item.text}
-      bookingno={item.bookingno}
-      date={item.date}
-      serviceprovider={item.serviceprovider}
-      status={item.status}
-      user={item.user}
-      service={item.service}
-      location={item.location}
-    />
-  );
+  const job = props.route.params.job;
 
   const OnPressBack = () => {
     console.log('in on Press Back');
@@ -56,30 +28,10 @@ export default function requestDetails(props) {
     });
   };
 
-  const OnPressBid = (
-    id,
-    requestNo,
-    date,
-    buyer,
-    status,
-    service,
-    budget,
-    address,
-    description,
-    orderId,
-  ) => {
+  const OnPressBid = (job) => {
     props.navigation.navigate('SendBid', {
       ...props.route.params,
-      id,
-      requestNo,
-      date,
-      buyer,
-      status,
-      service,
-      budget,
-      address,
-      description,
-      orderId,
+      job,
     });
   };
 
@@ -100,7 +52,7 @@ export default function requestDetails(props) {
             <MaterialIcons
               onPress={() => OnPressBack()}
               name="arrow-left"
-              size={20}
+              size={18}
               color="#4A4A4A"
             />
           </View>
@@ -116,33 +68,29 @@ export default function requestDetails(props) {
                 color: 'black',
                 fontWeight: 'bold',
                 fontSize: 24,
-                // margin: 25,
               }}>
               Job Details
             </Text>
-            <MaterialIcons name="pencil" size={15} style={{marginTop: 8}} />
           </View>
           <View
             style={{
               flexDirection: 'row',
-              // marginTop: 20,
               marginHorizontal: 30,
-              // justifyContent: 'space-around',
             }}>
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {props.route.params.service}
+              {job.service.name}
             </Text>
             <MaterialIcons
               name="map-marker"
               size={10}
               color={'#A28FA1'}
-              /*onPress={openMenu}*/ style={{
+              style={{
                 marginLeft: 20,
                 marginVertical: 2,
               }}
             />
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {' ' + props.route.params.location}
+              {' ' + job.address}
             </Text>
           </View>
           <View
@@ -152,7 +100,7 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
+            <Text style={{fontSize: 16}}>{job.description}</Text>
           </View>
 
           <View
@@ -166,7 +114,7 @@ export default function requestDetails(props) {
               Budget
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              Rs. {props.route.params.budget}
+              Rs. {job.budget}
             </Text>
           </View>
           <View
@@ -182,12 +130,12 @@ export default function requestDetails(props) {
             <View style={{flexDirection: 'row'}}>
               <Image
                 source={{
-                  uri: props.route.params.image,
+                  uri: job.buyer.profileImage,
                 }}
                 style={styles.headerImage}
               />
               <Text style={{fontWeight: 'bold', fontSize: 18}}>
-                {'  ' + props.route.params.name}
+                {'  ' + job.buyer.name}
               </Text>
             </View>
           </View>
@@ -202,18 +150,7 @@ export default function requestDetails(props) {
               text="Bid"
               onPress={
                 () => {
-                  OnPressBid(
-                    props.route.params.id,
-                    props.route.params.requestNo,
-                    props.route.params.date,
-                    props.route.params.buyer,
-                    props.route.params.status,
-                    props.route.params.service,
-                    props.route.params.budget,
-                    props.route.params.address,
-                    props.route.params.description,
-                    props.route.params.orderId,
-                  );
+                  OnPressBid(job);
                 }
                 // console.log('on click', item._id),
               }

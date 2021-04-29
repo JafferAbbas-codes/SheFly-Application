@@ -79,31 +79,32 @@ const SendOffer = (props) => {
     }
   };
 
-  // const displayModal = (show) => {
-  //   setIsVisible(show);
-  //   setTimeout(() => {
-  //     setIsVisible(false);
-  //     props.navigation.dispatch(StackActions.pop());
-  //   }, 2000);
-  //   // props.navigation.navigate('Home', {
-  //   //   ...props.route.params,
-  //   // });
-  // };
+  const displayModal = (show) => {
+    setIsVisible(show);
+    // setTimeout(() => {
+    //   setIsVisible(false);
+    //   props.navigation.dispatch(StackActions.pop());
+    // }, 2000);
+    props.navigation.navigate('Home', {
+      ...props.route.params,
+    });
+  };
 
   const getAllServices = async () => {
-    try {
-      let response = await axios.get(`${URL}${getAllServicesRoute}`, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      });
-      setServices(response.data.result);
-      return response.data.result;
-    } catch (error) {
-      if (error?.response?.data?.result) {
-        return {error: error.response.data.result};
-      }
-    }
+    setServices(props.route.params.index.services);
+    // try {
+    //   let response = await axios.get(`${URL}${getAllServicesRoute}`, {
+    //     headers: {
+    //       Authorization: `Bearer ${props.token}`,
+    //     },
+    //   });
+    //   setServices(response.data.result);
+    //   return response.data.result;
+    // } catch (error) {
+    //   if (error?.response?.data?.result) {
+    //     return {error: error.response.data.result};
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -269,6 +270,7 @@ const SendOffer = (props) => {
               </Text>
               <TextInput
                 // multiline={true}
+                keyboardType="numeric"
                 style={{
                   backgroundColor: '#fafafa',
                   borderColor: '#D2D2D2',
