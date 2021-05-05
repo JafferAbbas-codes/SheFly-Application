@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
+import {
+  URL,
+  getAllUsers,
+  getAllOrders,
+  getAllComplains,
+} from '../../config/const';
+import axios from 'axios';
+import {connect} from 'react-redux';
 
 const Item = ({item}) => (
   <View style={styles.bookings}>
     <View style={styles.details}>
-      <Text style={{fontSize: 14, fontWeight: '700'}}>Booking No:157995</Text>
+      <Text style={{fontSize: 14, fontWeight: '700'}}>
+        Booking No:{item._id}
+      </Text>
       <Text style={styles.confirm}>
         {item.status == 'Confirmed' && (
           <Text
@@ -90,13 +100,53 @@ const Item = ({item}) => (
   </View>
 );
 export default function bookingCard(props) {
-  console.log('props in Booking Card', props);
+  console.log('props in Booking Card ', props);
   const renderItem = ({item}) => <Item item={item} />;
+
+  const [pendingBookings, setPendingBookings] = useState([]);
+  const [confirmedBookings, setConfirmedBookings] = useState([]);
+  const [completedBookings, setCompletedBookings] = useState([]);
+
+  const allOrders = async () => {
+    try {
+      let response = await axios.get(`${URL}${getAllOrders}`, {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+      let pending = [];
+      let confirmed = [];
+      let completed = [];
+      response.data.result.map((bookings) => {
+        if (bookings.status == 'Pending') {
+          pending.push(bookings);
+        } else if (bookings.status == 'Confirmed') {
+          confirmed.push(bookings);
+        } else if (bookings.status == 'Completed') {
+          completed.push(bookings);
+        }
+      });
+      setPendingBookings(pending);
+      setConfirmedBookings(confirmed);
+      setCompletedBookings(completed);
+      console.log('in getAllOrdersAPI call admin home', response.data.result);
+      return response.data.result;
+    } catch (error) {
+      console.log('error', error);
+      if (error?.response?.data?.result) {
+        return {error: error.response.data.result};
+      }
+    }
+  };
+
+  useEffect(() => {
+    allOrders();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={props.bookings}
+        data={pendingBookings}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
