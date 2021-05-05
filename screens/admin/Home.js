@@ -133,7 +133,7 @@ const HomeScreen = (props) => {
 
       {/* Bookings */}
       <BookingCard bookings={orders} />
-      <View
+      {/* <View
         style={{
           display: 'flex',
           justifyContent: 'center',
@@ -148,7 +148,7 @@ const HomeScreen = (props) => {
             View more
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

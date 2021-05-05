@@ -18,7 +18,7 @@ function MyTabs() {
         component={bookingCard}
       />
       <Tab.Screen name="Confirmed" component={bookingCard} />
-      <Tab.Screen name="Cancelled" component={bookingCard} />
+      <Tab.Screen name="Completed" component={bookingCard} />
     </Tab.Navigator>
   );
 }
