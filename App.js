@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {store} from './redux/configureStore.js';
+import RNBootSplash from 'react-native-bootsplash';
 // import {StyleSheet, View, Text} from 'react-native';
 // import Navigator from './routes/homeStack';
 // import EnterCode from './components/entercode';
@@ -31,43 +32,48 @@ import {store} from './redux/configureStore.js';
 // import BidsOnBuyerRequests from './screens/buyer/BidsOnBuyerRequests';
 // import OfferSent from './screens/buyer/OfferSent';
 // import EditProfileBuyer from './screens/buyer/EditProfile';
+import SellerBio from './screens/auth/SellerBio';
 
 import Providers from './navigation';
 // import BuyerRequests from './screens/buyer/BuyerRequests.js';
 
 export default function App() {
-  // return (
-  // <EnterAccount/>
-  // <GetStart/>
-  // <Navigator />
-  // <EnterCode />
-  // <EnterNic/>
-  // <Welcomeback/>
-  // <WantTo/>
-  // <Bio />
-  // <Home/>
-  // <Services/>
-  // <AvailableJobs/>
-  // <Profile />
-  // <JobsDone />
-  // <BookingDetails />
-  // <JobsinProgress />
-  // <Bids />
-  // <BidDetails />
-  // <BuyerHome />
-  // <AllServices />
-  // <BidAccepted />
-  // <DrawerContent />
-  // < feedback />
-  // <SellerProfileforBuyer />
-  // <BuyerRequests />
-  // <BidDetails />
-  // <RequestDetails />
-  // <BidsOnBuyerRequests />;
-  // <OfferSent />
-  // <EditProfileBuyer />
-  // );
-  return <Providers store={store} />;
+  useEffect(() => {
+    RNBootSplash.hide({fade: true});
+  }, []);
+  return (
+    // <EnterAccount/>
+    // <GetStart/>
+    // <Navigator />
+    // <EnterCode />
+    // <EnterNic/>
+    // <Welcomeback/>
+    // <WantTo/>
+    // <Bio />
+    // <Home/>
+    // <Services/>
+    // <AvailableJobs/>
+    // <Profile />
+    // <JobsDone />
+    // <BookingDetails />
+    // <JobsinProgress />
+    // <Bids />
+    // <BidDetails />
+    // <BuyerHome />
+    // <AllServices />
+    // <BidAccepted />
+    // <DrawerContent />
+    // < feedback />
+    // <SellerProfileforBuyer />
+    // <BuyerRequests />
+    // <BidDetails />
+    // <RequestDetails />
+    // <BidsOnBuyerRequests />;
+    // <OfferSent />
+    // <EditProfileBuyer />
+    <SellerBio />
+  );
+  // return <Providers store={store} />;
 }
 
 // const styles = StyleSheet.create({});
