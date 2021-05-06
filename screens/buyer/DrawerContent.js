@@ -61,16 +61,7 @@ const DrawerContent = (props) => {
                 })
               }
             />
-            <DrawerItem
-              icon={() => (
-                <MaterialCommunityIcons
-                  name="account"
-                  color="black"
-                  size={25}
-                />
-              )}
-              label="Profile"
-            />
+
             <DrawerItem
               icon={() => (
                 <MaterialCommunityIcons
@@ -80,7 +71,11 @@ const DrawerContent = (props) => {
                 />
               )}
               label="Inbox"
-              onPress={() => {}}
+              onPress={() =>
+                props.navigation.navigate('ChatStackScreen', {
+                  // ...props.route.params,
+                })
+              }
             />
             <DrawerItem
               icon={() => (
@@ -91,7 +86,26 @@ const DrawerContent = (props) => {
                 />
               )}
               label="My Requests"
-              onPress={() => {}}
+              onPress={() =>
+                props.navigation.navigate('YourRequestsStackScreen', {
+                  // ...props.route.params,
+                })
+              }
+            />
+            <DrawerItem
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="account"
+                  color="black"
+                  size={25}
+                />
+              )}
+              label="Profile"
+              onPress={() =>
+                props.navigation.navigate('ProfileStackScreen', {
+                  // ...props.route.params,
+                })
+              }
             />
           </Drawer.Section>
         </View>

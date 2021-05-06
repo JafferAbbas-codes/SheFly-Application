@@ -27,3 +27,4 @@ export const updateOrderStatus = 'order/';
 export const confirmOffer = 'order/confirmOffer/';
 export const getAllOrders = 'order';
 export const getAllComplains = 'complain';
+export const blockSeller = 'user/block/';

@@ -6,86 +6,132 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {URL, getAllComplains} from '../../config/const';
+import {URL, getAllComplains, blockSeller} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
 
-const Item = ({item}) => (
-  <View style={styles.complains}>
-    <View style={styles.details}>
-      <Text style={{fontSize: 16, fontWeight: '700'}}>
-        Complain No:{' '}
-        {item._id.substring(item._id.length - 10, item._id.length - 3)}
-      </Text>
-    </View>
-    <View style={styles.BuyerDetails}>
-      <View style={styles.userdetails}>
-        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-          <Icon
-            name="user-alt"
-            color="black"
-            size={20}
-            style={{marginRight: 10}}
-          />
-          <Text style={{fontSize: 18, color: '#000', fontWeight: '400'}}>
-            {item.buyer.name}
-          </Text>
-        </View>
-
-        <TouchableOpacity style={styles.update}>
-          <Text
-            style={{
-              color: '#fff',
-            }}>
-            Block Seller
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    <View style={styles.sellerDetails}>
-      <View style={styles.userdetails}>
-        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-          <Entypo
-            name="smashing"
-            color="black"
-            size={20}
-            style={{marginRight: 10}}
-          />
-          <Text style={{fontSize: 18, fontWeight: '400', color: 'black'}}>
-            {item.seller.name}
-          </Text>
-        </View>
-
-        <View style={styles.update1}>
-          <MaterialCommunityIcons
-            name="message-text-outline"
-            size={20}
-            color="white"
-          />
-        </View>
-      </View>
-    </View>
-    <View style={styles.descriptionRow}>
-      <Text style={{fontWeight: '700'}}>Description : </Text>
-      <Text
-        style={{
-          flexWrap: 'wrap',
-          flex: 1,
-        }}>
-        {item.description}
-      </Text>
-    </View>
-  </View>
-);
 const ComplainScreen = (props) => {
   const renderItem = ({item}) => <Item item={item} />;
 
+  const Item = ({item}) => (
+    <View style={styles.complains}>
+      <View style={styles.details}>
+        <Text style={{fontSize: 16, fontWeight: '700'}}>
+          Complain No:{' '}
+          {item._id.substring(item._id.length - 10, item._id.length - 3)}
+        </Text>
+      </View>
+      <View style={styles.BuyerDetails}>
+        <View style={styles.userdetails}>
+          <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+            <Icon
+              name="user-alt"
+              color="black"
+              size={20}
+              style={{marginRight: 10}}
+            />
+            <Text style={{fontSize: 18, color: '#000', fontWeight: '400'}}>
+              {item.buyer.name}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            style={styles.update}
+            onPress={() => onPressBlockSeller(item.seller._id)}>
+            <Text
+              style={{
+                color: '#fff',
+              }}>
+              Block Seller
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.sellerDetails}>
+        <View style={styles.userdetails}>
+          <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+            <Entypo
+              name="smashing"
+              color="black"
+              size={20}
+              style={{marginRight: 10}}
+            />
+            <Text style={{fontSize: 18, fontWeight: '400', color: 'black'}}>
+              {item.seller.name}
+            </Text>
+          </View>
+
+          <View style={styles.update1}>
+            <MaterialCommunityIcons
+              name="message-text-outline"
+              size={20}
+              color="white"
+            />
+          </View>
+        </View>
+      </View>
+      <View style={styles.descriptionRow}>
+        <Text style={{fontWeight: '700'}}>Description : </Text>
+        <Text
+          style={{
+            flexWrap: 'wrap',
+            flex: 1,
+          }}>
+          {item.description}
+        </Text>
+      </View>
+    </View>
+  );
+
   const [complains, setComplains] = useState([]);
+
+  const onPressBlockSeller = async (id) => {
+    console.log('in block seller', props.token, id);
+    try {
+      let response = await axios.put(
+        `${URL}${blockSeller}${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      console.log('in blockseller', response.data.result);
+      Alert.alert(
+        'Seller Blocked',
+        'This seller has been blocked.',
+        [
+          // {
+          //   text: 'Cancel',
+          //   onPress: () => console.log('Cancel Pressed'),
+          //   style: 'cancel',
+          // },
+          {
+            text: 'Continue',
+            onPress: () => allComplains(),
+            color: 'green',
+          },
+        ],
+        {
+          cancelable: true,
+        },
+      );
+      return response.data.result;
+    } catch (error) {
+      console.log('error', error.message);
+      if (error?.response?.data?.result) {
+        console.log('error', error.response.data);
+        return {error: error.response.data.result};
+      }
+    }
+  };
 
   const allComplains = async () => {
     try {
@@ -167,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   update: {
-    backgroundColor: '#43c58d',
+    backgroundColor: 'red',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

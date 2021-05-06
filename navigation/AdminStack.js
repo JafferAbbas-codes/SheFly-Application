@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator();
 
 const AdminStack = (myProps) => {
   return (
-    <Drawer.Navigator drawerContent={(props) => <Text>Drawer Content</Text>}>
+    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="Welcome to the App" component={MainBottomTabStack} />
       {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
     </Drawer.Navigator>
@@ -31,11 +31,29 @@ const AdminStack = (myProps) => {
 const MainBottomTabStack = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="black"
-      inactiveColor="#3e2465"
-      labeled={false}
-      barStyle={{backgroundColor: 'white', height: 50}}>
+      // initialRouteName="Home"
+      // activeColor="black"
+      // inactiveColor="#3e2465"
+      tabBarOptions={{
+        showLabel: false,
+
+        style: {
+          position: 'absolute',
+          elevation: 0,
+          border: 4,
+          height: 55,
+          // backgroundColor: '#FFFFFF',
+
+          // borderColor: '#000000',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+
+          // backgroundColor: 'red',
+          ...styles.shadow,
+        },
+      }}
+      // barStyle={{backgroundColor: 'white', height: 50}}
+    >
       <Tab.Screen
         name="HomeScreen"
         options={{
@@ -153,6 +171,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  shadow: {
+    shadowColor: '#7F5Df0',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
   },
 });
 

@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 
 const Header2 = (props) => {
-  console.log(props);
+  console.log('Props in header2', props);
   // {navigation, title}
   // const openMenu=()=>{
   //     navigation.openDrawer();
@@ -25,7 +25,8 @@ const Header2 = (props) => {
           name="bars"
           size={28}
           color={'white'}
-          /*onPress={openMenu}*/ style={styles.icon}
+          // onPress={props.props.toggleDrawer()}
+          style={styles.icon}
         />
         {/* <TouchableOpacity
           onPress={() => {
