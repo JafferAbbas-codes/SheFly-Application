@@ -25,9 +25,9 @@ import {StackActions, NavigationActions} from '@react-navigation/native';
 
 const PostRequest = (props) => {
   const [selectedService, setSelectedService] = useState('');
+  const [Services, setServices] = useState([{_id: '', name: ''}]);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [Services, setServices] = useState([{_id: '', name: ''}]);
 
   const reviewSchema = yup.object({
     // service: yup.string().required(),
