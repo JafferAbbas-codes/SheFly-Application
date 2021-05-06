@@ -139,14 +139,14 @@ export default function bookingCard(props) {
     }
   };
 
-  useEffect(() => {
-    allOrders();
-  }, []);
+  // useEffect(() => {
+  //   allOrders();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={pendingBookings}
+        data={props.bookings}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />

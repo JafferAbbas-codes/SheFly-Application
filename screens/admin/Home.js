@@ -36,7 +36,9 @@ const HomeScreen = (props) => {
           sellers.push(user);
         } else if (user.userType == 'buyer') {
           buyers.push(user);
-        } else if (user.isActivated != 'true') {
+        }
+
+        if (!user.isActivated) {
           blockedusers.push(user);
         }
       });
@@ -98,6 +100,12 @@ const HomeScreen = (props) => {
     allComplains();
   }, []);
 
+  const onPressComplains = () => {
+    props.navigation.navigate('Complains', {
+      ...props.route.params,
+    });
+  };
+
   return (
     <View style={styles.container}>
       {/* <Header /> */}
@@ -121,10 +129,12 @@ const HomeScreen = (props) => {
       </View>
       {/* stats complains and blocked user */}
       <View style={[styles.mainBox, {marginBottom: 5}]}>
-        <View style={styles.stats}>
-          <Text style={styles.boxText}>{complains.length}</Text>
-          <Text style={styles.boxText1}>Complains</Text>
-        </View>
+        <TouchableOpacity onPress={() => onPressComplains()}>
+          <View style={styles.stats}>
+            <Text style={styles.boxText}>{complains.length}</Text>
+            <Text style={styles.boxText1}>Complains</Text>
+          </View>
+        </TouchableOpacity>
         <View style={styles.stats}>
           <Text style={styles.boxText}>{blockedUsers.length}</Text>
           <Text style={styles.boxText1}>Blocked Users</Text>

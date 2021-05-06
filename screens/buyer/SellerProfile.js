@@ -6,16 +6,12 @@ import {
   Image,
   ImageBackground,
   FlatList,
-  // ScrollView,
+  ScrollView,
 } from 'react-native';
 import Header from '../../shared/SfbHead';
-import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {SearchBar} from 'react-native-elements';
 import Card from '../../shared/Card';
-import {ScrollView} from 'react-native';
 
 export default function sellerProfileBuyer(propss) {
-  console.log('In SFB,', propss);
   const props = propss.route.params.index;
 
   const renderItem = (item, i) => <Item item={item.item} i={i} />;
@@ -26,16 +22,18 @@ export default function sellerProfileBuyer(propss) {
       }}
       style={{
         flexDirection: 'column',
-        borderRadius: 20,
-        width: 100,
-        margin: 8,
-        backgroundColor: 'white',
+        borderRadius: 24,
+        width: 88,
+        height: 88,
+        marginHorizontal: 5,
         overflow: 'hidden',
+        backgroundColor: 'black',
+        opacity: 0.9,
       }}>
       <Text
         style={{
           fontSize: 15,
-          height: 100,
+          height: 90,
           textAlign: 'center',
           color: 'white',
           textAlignVertical: 'center',
@@ -50,7 +48,7 @@ export default function sellerProfileBuyer(propss) {
       <Header profile={propss} />
       <Card>
         <ScrollView>
-          <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+          <Text style={{fontWeight: 'bold', fontSize: 24, margin: 10}}>
             Expertise
           </Text>
           <View style={{flexDirection: 'row'}}>
@@ -60,7 +58,6 @@ export default function sellerProfileBuyer(propss) {
               data={props.services}
               renderItem={(item) => renderItem(item, 0)}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
             />
             {/* </SafeAreaView> */}
           </View>
@@ -73,7 +70,6 @@ export default function sellerProfileBuyer(propss) {
               data={props.samples}
               renderItem={(item) => renderItem(item, 1)}
               keyExtractor={(item) => item.index}
-              style={{borderRadius: 20}}
             />
           </View>
         </ScrollView>

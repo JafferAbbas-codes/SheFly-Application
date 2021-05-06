@@ -6,7 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-export function DrawerContent(props) {
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {logout} from '../../redux/authActions';
+import {connect} from 'react-redux';
+
+const DrawerContent = (props) => {
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -29,7 +33,7 @@ export function DrawerContent(props) {
               icon={() => <Icon name="user-alt" color="black" size={20} />}
               label="BUYERS"
               onPress={() => {
-                props.navigation.navigate('Home');
+                props.navigation.navigate('users');
               }}
             />
             <DrawerItem
@@ -39,7 +43,7 @@ export function DrawerContent(props) {
               )}
               label="BOOKINGS"
               onPress={() => {
-                props.navigation.navigate('Profile');
+                props.navigation.navigate('Booking');
               }}
             />
             <DrawerItem
@@ -50,7 +54,7 @@ export function DrawerContent(props) {
               )}
               label="SELLERS"
               onPress={() => {
-                props.navigation.navigate('BookmarkScreen');
+                props.navigation.navigate('users');
               }}
             />
 
@@ -61,32 +65,33 @@ export function DrawerContent(props) {
               )}
               label="ADD A SERVICE"
               onPress={() => {
-                props.navigation.navigate('SupportScreen');
+                props.navigation.navigate('HomeScreen');
               }}
             />
           </Drawer.Section>
           <Drawer.Section style={styles.logout}>
             <DrawerItem
-              style={styles.drawerItem}
-              icon={({color, size}) => (
-                <SimpleLineIcon name="logout" color="black" size={20} />
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="exit-to-app"
+                  color="black"
+                  size={25}
+                />
               )}
-              label="LOG OUT"
-              onPress={() => {
-                props.navigation.navigate('SupportScreen');
-              }}
+              label="Log Out"
+              onPress={props.logout}
             />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
+      {/* <Drawer.Section style={styles.bottomDrawerSection}>
         <View>
           <Text style={styles.terms}>Terms and conditions</Text>
         </View>
-      </Drawer.Section>
+      </Drawer.Section> */}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   logout: {
@@ -143,3 +148,16 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
 });
+
+const mapStateToProps = (state) => ({
+  reduxstate: state,
+  user: state.userDetails.user,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent);

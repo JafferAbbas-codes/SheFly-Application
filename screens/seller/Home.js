@@ -14,8 +14,6 @@ import {
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
-import FlatButton from '../../shared/Button.js';
-import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {URL, getAllServicesRoute, getRecommendedJobs} from '../../config/const';
 import axios from 'axios';
@@ -265,7 +263,6 @@ const Home = (props) => {
               data={Recommendation}
               renderItem={renderRecommendation}
               keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
             />
           </SafeAreaView>
         </Card>

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  TextInput,
   Image,
   TouchableWithoutFeedback,
   ImageBackground,
@@ -11,22 +10,37 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/Card';
-import FlatButton from '../../shared/Button';
-import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
+import PTRView from 'react-native-pull-to-refresh';
 
 const Home = (props) => {
-  // const [value, onChangeText] = React.useState('42|');
   const [services, setServices] = useState([]);
+
+  // const pullToRefresh = () => {
+  //   console.log('in setTimeout before apicall');
+  //   getAllServicesRoute();
+  //   getUserByType();
+  //   console.log('in setTimeout after apicall');
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve();
+  //     }, 2000);
+  //   });
+  //   // getAllServicesRoute();
+  //   // getUserByType();
+  // };
+
   const renderItem = (item) => <Item item={item.item} />;
+
   const Item = ({item}) => (
     <TouchableOpacity
       onPress={() => {
@@ -145,7 +159,7 @@ const Home = (props) => {
           width: 300,
           borderRadius: 16,
           backgroundColor: 'white',
-          paddingHorizontal: 8,
+          paddingHorizontal: 15,
           marginRight: 10,
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -154,14 +168,11 @@ const Home = (props) => {
               source={{uri: item.profileImage}}
               style={styles.headerImage}
             />
-            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
+            <View style={{paddingHorizontal: 10, paddingVertical: 10}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
                 {item.name}
               </Text>
-              <Text
-                style={{fontSize: 10, color: '#A28FA1', fontWeight: 'bold'}}>
-                {item.title}
-              </Text>
+              <Text style={{fontSize: 10, color: '#A28FA1'}}>{item.title}</Text>
               <Text style={{fontSize: 10, color: '#FFB266'}}>
                 <MaterialIcons name="star" size={10} />
                 {' ' + item.rating.toFixed(2)}
@@ -187,12 +198,16 @@ const Home = (props) => {
         <Text
           style={{
             fontSize: 15,
+            // width: 300,
+
             textAlignVertical: 'center',
-            margin: 10,
-            marginTop: 0,
-            // width: 200,
+            marginBottom: 15,
+            textOverflow: 'ellipsis',
+            // flex: 1,
+            // flexWrap: 'wrap',
+            // flexShrink: 1,
           }}
-          numberOfLines={3}>
+          numberOfLines={2}>
           {item.bio}
         </Text>
       </View>
@@ -203,6 +218,7 @@ const Home = (props) => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
+      {/* <PTRView onRefresh={() => pullToRefresh()}> */}
       <View style={styles.back}>
         <Header />
         <Card>
@@ -210,14 +226,15 @@ const Home = (props) => {
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
+                fontSize: 24,
               }}>
               Popular Services
             </Text>
             <TouchableOpacity
               onPress={seeAllServicesPressHandler}
-              // style={{textAlignVertical: 'center'}}
-            >
+              style={{
+                fontSize: 16,
+              }}>
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -227,23 +244,21 @@ const Home = (props) => {
               data={services}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              // style={{borderRadius: 20}}
             />
           </SafeAreaView>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text
               style={{
                 fontWeight: 'bold',
-                fontSize: 25,
-                // marginBottom: 15,
-                // width: 200,
+                fontSize: 24,
               }}>
               Available Sellers
             </Text>
             <TouchableOpacity
               onPress={seeAllSellersPressHandler}
-              // style={{textAlignVertical: 'center', marginLeft: 90}}
-            >
+              style={{
+                fontSize: 16,
+              }}>
               <Text>see all</Text>
             </TouchableOpacity>
           </View>
@@ -257,6 +272,7 @@ const Home = (props) => {
           </ScrollView>
         </Card>
       </View>
+      {/* </PTRView> */}
     </TouchableWithoutFeedback>
   );
 };
