@@ -41,39 +41,39 @@ export default function App() {
   useEffect(() => {
     RNBootSplash.hide({fade: true});
   }, []);
-  return (
-    // <EnterAccount/>
-    // <GetStart/>
-    // <Navigator />
-    // <EnterCode />
-    // <EnterNic/>
-    // <Welcomeback/>
-    // <WantTo/>
-    // <Bio />
-    // <Home/>
-    // <Services/>
-    // <AvailableJobs/>
-    // <Profile />
-    // <JobsDone />
-    // <BookingDetails />
-    // <JobsinProgress />
-    // <Bids />
-    // <BidDetails />
-    // <BuyerHome />
-    // <AllServices />
-    // <BidAccepted />
-    // <DrawerContent />
-    // < feedback />
-    // <SellerProfileforBuyer />
-    // <BuyerRequests />
-    // <BidDetails />
-    // <RequestDetails />
-    // <BidsOnBuyerRequests />;
-    // <OfferSent />
-    // <EditProfileBuyer />
-    <SellerBio />
-  );
-  // return <Providers store={store} />;
+  // return (
+  // <EnterAccount/>
+  // <GetStart/>
+  // <Navigator />
+  // <EnterCode />
+  // <EnterNic/>
+  // <Welcomeback/>
+  // <WantTo/>
+  // <Bio />
+  // <Home/>
+  // <Services/>
+  // <AvailableJobs/>
+  // <Profile />
+  // <JobsDone />
+  // <BookingDetails />
+  // <JobsinProgress />
+  // <Bids />
+  // <BidDetails />
+  // <BuyerHome />
+  // <AllServices />
+  // <BidAccepted />
+  // <DrawerContent />
+  // < feedback />
+  // <SellerProfileforBuyer />
+  // <BuyerRequests />
+  // <BidDetails />
+  // <RequestDetails />
+  // <BidsOnBuyerRequests />;
+  // <OfferSent />
+  // <EditProfileBuyer />
+  // <SellerBio />
+  // );
+  return <Providers store={store} />;
 }
 
 // const styles = StyleSheet.create({});
