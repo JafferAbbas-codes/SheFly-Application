@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, View, Image } from 'react-native';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import {
   Title,
   Caption,
@@ -11,13 +11,13 @@ import {
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import {logout} from '../../redux/authActions';
-import {connect} from 'react-redux';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { logout } from '../../redux/authActions';
+import { connect } from 'react-redux';
 
 const DrawerContent = (props) => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       {/* {console.log('Props in drawer', props)} */}
       <DrawerContentScrollView {...props}>
         {/* {console.log('Props in drawer2', props)} */}
@@ -30,14 +30,14 @@ const DrawerContent = (props) => {
                 paddingTop: 40,
                 justifyContent: 'center',
               }}>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <Image
-                  source={{uri: props.user.profileImage}}
+                  source={{ uri: props.user.profileImage }}
                   style={{
-                    width: 100,
-                    height: 100,
+                    width: 130,
+                    height: 130,
                     borderColor: '#AB369B',
-                    borderRadius: 30,
+                    borderRadius: 45,
                     borderWidth: 5,
                     marginBottom: 20,
                   }}
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginTop: 3,
     fontWeight: 'bold',
+    textAlign: "center"
     // justifyContent: 'flex-start',
   },
   caption: {

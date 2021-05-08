@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,13 +11,13 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import {StackActions} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 import MainCard from '../../shared/MainCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import {connect} from 'react-redux';
-import {URL, getBidsByOrder, confirmOrder} from '../../config/const';
+import { connect } from 'react-redux';
+import { URL, getBidsByOrder, confirmOrder } from '../../config/const';
 
 const BidsOnBuyerRequests = (props) => {
   const [Bids, setBids] = useState([]);
@@ -37,7 +37,7 @@ const BidsOnBuyerRequests = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -67,7 +67,7 @@ const BidsOnBuyerRequests = (props) => {
       if (error?.response?.data?.result) {
         console.log('propss in AcceptBid', error);
         console.log('error123 AcceptBid : ', error.response.data);
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -87,7 +87,7 @@ const BidsOnBuyerRequests = (props) => {
     // });
   };
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <Item
       description={item.description}
       seller={item.seller}
@@ -95,7 +95,7 @@ const BidsOnBuyerRequests = (props) => {
       _id={item._id}
     />
   );
-  const Item = ({description, seller, budget, _id}) => (
+  const Item = ({ description, seller, budget, _id }) => (
     <View
       style={{
         margin: 5,
@@ -108,7 +108,8 @@ const BidsOnBuyerRequests = (props) => {
         padding: 5,
         shadowOpacity: 0.5,
         shadowRadius: 5,
-        elevation: 5,
+        elevation: 13,
+        marginHorizontal: 30
       }}>
       <View
         style={{
@@ -136,8 +137,8 @@ const BidsOnBuyerRequests = (props) => {
           paddingTop: 5,
           paddingHorizontal: 8,
         }}>
-        <Text style={{fontSize: 15}}>
-          <MaterialIcons name="female" size={18} style={{color: 'black'}} />
+        <Text style={{ fontSize: 15 }}>
+          <MaterialIcons name="female" size={18} style={{ color: 'black' }} />
           {seller != undefined ? ' ' + seller.name : '  TBD'}
         </Text>
         <Text
@@ -156,10 +157,10 @@ const BidsOnBuyerRequests = (props) => {
           flexDirection: 'row',
           paddingTop: 5,
         }}>
-        <Text style={{paddingLeft: 8, fontWeight: 'bold', fontSize: 12}}>
+        <Text style={{ paddingLeft: 8, fontWeight: 'bold', fontSize: 12 }}>
           Description:{' '}
         </Text>
-        <Text style={{fontSize: 12, textAlign: 'justify'}}>{description}</Text>
+        <Text style={{ fontSize: 12, textAlign: 'justify' }}>{description}</Text>
       </View>
       <View
         style={{
@@ -167,11 +168,11 @@ const BidsOnBuyerRequests = (props) => {
           justifyContent: 'space-between',
           paddingVertical: 5,
         }}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{paddingLeft: 8, fontWeight: 'bold', fontSize: 12}}>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ paddingLeft: 8, fontWeight: 'bold', fontSize: 12 }}>
             Budget:{' '}
           </Text>
-          <Text style={{fontSize: 12, textAlign: 'justify'}}>
+          <Text style={{ fontSize: 12, textAlign: 'justify' }}>
             {'Rs. ' + budget}
           </Text>
         </View>
@@ -225,7 +226,7 @@ const BidsOnBuyerRequests = (props) => {
                 color: '#AD379D',
               }}
             />
-            <Text style={{textAlign: 'center', fontSize: 30}}>
+            <Text style={{ textAlign: 'center', fontSize: 30 }}>
               Bid Accepted!
             </Text>
           </View>
@@ -251,14 +252,14 @@ const BidsOnBuyerRequests = (props) => {
             Bids
           </Text>
         </View>
-        <MainCard>
+        <MainCard requests={true}>
           <ScrollView>
             <SafeAreaView style={styles.container}>
               <FlatList
                 data={Bids}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.key}
-                style={{borderRadius: 20}}
+                style={{ borderRadius: 20 }}
               />
             </SafeAreaView>
           </ScrollView>
@@ -280,6 +281,7 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
+    marginVertical: 30
   },
   title: {
     fontSize: 32,
@@ -304,11 +306,19 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 24,
     backgroundColor: '#43C58D',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.9,
+    shadowRadius: 5,
+    elevation: 8,
   },
   buttonText: {
     color: 'white',
     fontSize: 12,
     textAlign: 'center',
+
   },
 });
 

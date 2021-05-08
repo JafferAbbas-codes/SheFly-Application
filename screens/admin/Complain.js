@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -18,6 +19,14 @@ import {connect} from 'react-redux';
 
 const ComplainScreen = (props) => {
   const renderItem = ({item}) => <Item item={item} />;
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      allComplains();
+    }, 2000);
+  };
 
   const Item = ({item}) => (
     <View style={styles.complains}>
@@ -40,17 +49,29 @@ const ComplainScreen = (props) => {
               {item.buyer.name}
             </Text>
           </View>
-
-          <TouchableOpacity
-            style={styles.update}
-            onPress={() => onPressBlockSeller(item.seller._id)}>
-            <Text
-              style={{
-                color: '#fff',
-              }}>
-              Block Seller
-            </Text>
-          </TouchableOpacity>
+          {item.seller.isActivated ? (
+            <TouchableOpacity
+              style={styles.update}
+              onPress={() => onPressBlockSeller(item.seller._id)}>
+              <Text
+                style={{
+                  color: '#fff',
+                }}>
+                Block
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.unblock}
+              onPress={() => console.log('seller Unblocked')}>
+              <Text
+                style={{
+                  color: '#fff',
+                }}>
+                Unblock
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View style={styles.sellerDetails}>
@@ -108,11 +129,6 @@ const ComplainScreen = (props) => {
         'Seller Blocked',
         'This seller has been blocked.',
         [
-          // {
-          //   text: 'Cancel',
-          //   onPress: () => console.log('Cancel Pressed'),
-          //   style: 'cancel',
-          // },
           {
             text: 'Continue',
             onPress: () => allComplains(),
@@ -161,6 +177,14 @@ const ComplainScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#F4F9FE']}
+            progressBackgroundColor={'#B0389F'}
+          />
+        }
         data={complains}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
@@ -213,7 +237,21 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   update: {
-    backgroundColor: 'red',
+    backgroundColor: '#FF0404',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 5,
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 25,
+  },
+  unblock: {
+    backgroundColor: '#43C58D',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

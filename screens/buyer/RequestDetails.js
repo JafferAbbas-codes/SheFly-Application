@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -13,9 +13,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
-import {gStyles} from '../../styles/global';
+import { gStyles } from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
 export default function requestDetails(props) {
@@ -36,7 +35,7 @@ export default function requestDetails(props) {
   //     key: '1',
   //   },
   // ]);
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <Item
       text={item.text}
       bookingno={item.bookingno}
@@ -127,7 +126,7 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+            <Text style={{ fontSize: 10, color: '#A28FA1' }}>
               {props.route.params.service}
             </Text>
             <MaterialIcons
@@ -139,7 +138,7 @@ export default function requestDetails(props) {
                 marginVertical: 2,
               }}
             />
-            <Text style={{fontSize: 10, color: '#A28FA1'}}>
+            <Text style={{ fontSize: 10, color: '#A28FA1' }}>
               {props.route.params.address}
             </Text>
           </View>
@@ -150,7 +149,7 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
+            <Text style={{ fontSize: 17 }}>{props.route.params.description}</Text>
           </View>
 
           <View
@@ -160,10 +159,10 @@ export default function requestDetails(props) {
               marginTop: 20,
               marginHorizontal: 30,
             }}>
-            <Text style={{fontSize: 18, color: '#A28FA1', fontWeight: 'bold'}}>
+            <Text style={{ fontSize: 18, color: '#A28FA1', fontWeight: 'bold' }}>
               Budget
             </Text>
-            <Text style={{fontWeight: 'bold', fontSize: 18}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
               Rs. {props.route.params.budget}
             </Text>
           </View>
@@ -174,10 +173,10 @@ export default function requestDetails(props) {
               marginTop: 20,
               marginHorizontal: 30,
             }}>
-            <Text style={{fontSize: 18, color: '#A28FA1', fontWeight: 'bold'}}>
+            <Text style={{ fontSize: 18, color: '#A28FA1', fontWeight: 'bold' }}>
               Date
             </Text>
-            <Text style={{fontWeight: 'bold', fontSize: 18}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
               {props.route.params.date}
             </Text>
           </View>

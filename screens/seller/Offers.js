@@ -12,9 +12,10 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +25,18 @@ import {connect} from 'react-redux';
 
 const Offers = (props) => {
   const [offers, setOffers] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllSellerOffers();
+  };
 
   const getAllSellerOffers = async () => {
     try {
@@ -50,7 +63,7 @@ const Offers = (props) => {
 
   useEffect(() => {
     getAllSellerOffers();
-  }, []);
+  }, [props]);
 
   const renderOffers = ({item}) => <ItemRecom offer={item} />;
 
@@ -147,6 +160,14 @@ const Offers = (props) => {
           </View>
           <SafeAreaView style={styles.container}>
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
               data={offers}
               renderItem={renderOffers}
               keyExtractor={(item) => item._id}
@@ -169,7 +190,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    marginVertical: 30,
+    paddingVertical: 20,
+    paddingBottom: 200,
   },
   title: {
     fontSize: 32,

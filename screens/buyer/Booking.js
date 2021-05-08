@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import {
   StyleSheet,
@@ -13,7 +13,7 @@ import {
 import MainCard from '../../shared/MainCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Zocial from 'react-native-vector-icons/Zocial';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 const Bookings = (props) => {
   const [bookings, setBookings] = useState(props.route.params.bookings);
@@ -25,27 +25,28 @@ const Bookings = (props) => {
     });
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return <Item order={item} />;
   };
-  const Item = ({order}) => (
+  const Item = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
         OnPressRequest(order);
       }}>
       <View
         style={{
-          marginBottom: 10,
           backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {
-            width: 0,
+            width: 5,
             height: 1,
           },
           padding: 5,
           shadowOpacity: 1,
           shadowRadius: 10,
-          elevation: 10,
+          marginHorizontal: 20,
+          elevation: 13,
+          marginVertical: 5
         }}>
         <View
           style={{
@@ -72,17 +73,17 @@ const Bookings = (props) => {
             Requested on{' ' + moment(order.createdAt).format('ll')}
           </Text>
         </View>
-        <View style={{paddingVertical: 5}}>
+        <View style={{ paddingVertical: 5 }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{color: '#B0389F'}}>
+            <Text style={{ color: '#B0389F' }}>
               <FontAwesome5
                 name="user-alt"
                 size={16}
-                style={{color: 'black'}}
+                style={{ color: 'black' }}
               />
               {'  ' + order.buyer.name}
             </Text>
@@ -143,13 +144,13 @@ const Bookings = (props) => {
             {props.route.params.headerTitle}
           </Text>
         </View>
-        <MainCard>
+        <MainCard requests={true}>
           <SafeAreaView style={styles.container}>
             <FlatList
               data={bookings}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
+              style={{ borderRadius: 20, marginBottom: 30 }}
             />
           </SafeAreaView>
         </MainCard>
@@ -170,6 +171,9 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
+    paddingHorizontal: 10,
+    marginTop: 20,
+    paddingBottom: 5
   },
   title: {
     fontSize: 32,

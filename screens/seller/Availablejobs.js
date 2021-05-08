@@ -12,9 +12,10 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +25,18 @@ import {connect} from 'react-redux';
 
 const AvailableJobs = (props) => {
   const [Recommendation, setRecommendation] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllAvailableJobs();
+  };
 
   const getAllAvailableJobs = async () => {
     try {
@@ -53,7 +66,7 @@ const AvailableJobs = (props) => {
 
   useEffect(() => {
     getAllAvailableJobs();
-  }, []);
+  }, [props]);
 
   const renderRecommendation = ({item}) => <ItemRecom job={item} />;
 
@@ -130,12 +143,33 @@ const AvailableJobs = (props) => {
     </TouchableOpacity>
   );
 
+  const JobList = () => {
+    console.log('here in servicelist');
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#F4F9FE']}
+              progressBackgroundColor={'#B0389F'}
+            />
+          }
+          data={Recommendation}
+          renderItem={renderRecommendation}
+          keyExtractor={(item) => item.key}
+        />
+      </SafeAreaView>
+    );
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView>
+      <View>
         <View style={styles.back}>
           <Header />
           <Card>
@@ -148,16 +182,10 @@ const AvailableJobs = (props) => {
                 Available Jobs
               </Text>
             </View>
-            <SafeAreaView style={styles.container}>
-              <FlatList
-                data={Recommendation}
-                renderItem={renderRecommendation}
-                keyExtractor={(item) => item.key}
-              />
-            </SafeAreaView>
+            <JobList />
           </Card>
         </View>
-      </ScrollView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -173,7 +201,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    marginVertical: 30,
+    flex: 1,
+    marginTop: 25,
+    // paddingBottom: 250,
   },
   title: {
     fontSize: 32,

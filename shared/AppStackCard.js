@@ -1,17 +1,17 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
-import {Dimensions} from 'react-native';
+import {StyleSheet, ScrollView, View, Text, Dimensions} from 'react-native';
+// import {Dimensions} from 'react-native';
 
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
 
-export default function MainCard(props) {
+export default function Card(props) {
   return (
     <View
       style={
         props.cardWithOutStepper
           ? styles.cardWithOutStepper
-          : props.requests
+          : props.availableSeller
           ? styles.card2
           : styles.card
       }>
@@ -26,13 +26,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 40,
     backgroundColor: '#F4F9FE',
     shadowColor: '#333',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+
+    elevation: 19,
     padding: 30,
-    width: width, //120,//108//1
-    height: height - 200,
-    // height: height,
-    // flex: 2,
-    // flexDirection: 'col',
-    // bottom: 0,
+    // width: width, //120,//108//1
+    height: height - 100,
+    bottom: 0,
+    // flexDirection: 'column',
+    // flex: 3,
     // alignItems: 'center',
     // alignContent: 'space-between',
     // alignSelf: 'center',
@@ -40,15 +47,22 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue"
   },
   cardWithOutStepper: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
     paddingTop: 50,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     backgroundColor: '#F4F9FE',
-    shadowColor: '#333',
     padding: 30,
-    // flex: 1,
-    width: width, //120,//108//1
-    // height: 0.7 * height,
+    // width: width, //120,//108//1
+    height: height,
     bottom: 0,
     // alignItems: 'center',
     // alignContent: 'space-between',
@@ -58,6 +72,7 @@ const styles = StyleSheet.create({
   },
 
   card2: {
+    paddingTop: 50,
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     backgroundColor: '#F4F9FE',
@@ -70,9 +85,9 @@ const styles = StyleSheet.create({
     shadowRadius: 8.3,
 
     elevation: 19,
-    // paddingVertical: 30,
+    paddingVertical: 30,
     // width: width, //120,//108//1
-    height: height - 160,
+    height: height - 180,
     bottom: 0,
   },
 });

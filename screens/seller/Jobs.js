@@ -10,6 +10,7 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import MainCard from '../../shared/MainCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -20,12 +21,28 @@ import {connect} from 'react-redux';
 const Jobs = (props) => {
   //   const [bookings, setBookings] = useState(props.route.params.bookings);
   console.log('In Jobs', props);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    props.route.params.getJobsDoneBySeller();
+  };
 
   const OnPressJob = (job) => {
     props.navigation.navigate('JobDetails', {
       job,
     });
   };
+
+  useEffect(() => {
+    props.route.params.getJobsDoneBySeller();
+  }, [props]);
 
   const OnPressBack = () => {
     console.log('in on Press Edit');
@@ -158,15 +175,23 @@ const Jobs = (props) => {
           </Text>
         </View>
         <MainCard>
-          <ScrollView style={styles.container}>
+          <SafeAreaView style={styles.container}>
             {/* {console.log(' in scroll view', props.route.params.jobsDone)} */}
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
               data={props.route.params.jobs}
               renderItem={renderItem}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item._id}
               style={{borderRadius: 20}}
             />
-          </ScrollView>
+          </SafeAreaView>
         </MainCard>
       </View>
     </TouchableWithoutFeedback>
@@ -184,7 +209,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
+    // paddingVertical: 20,
+    // paddingBottom: 300,
   },
   title: {
     fontSize: 32,

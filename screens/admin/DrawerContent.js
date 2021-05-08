@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {Avatar, Drawer, Text} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -7,6 +7,7 @@ import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import {logout} from '../../redux/authActions';
 import {connect} from 'react-redux';
 
@@ -15,67 +16,85 @@ const DrawerContent = (props) => {
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <View style={{flexDirection: 'row', marginTop: 70}}>
-              <Avatar.Image
-                source={require('../../assets/girl.jpg')}
-                size={100}
-                borderColor="purple"
-              />
-            </View>
-          </View>
           <View>
-            <Text style={styles.admin}>Admin</Text>
-          </View>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              style={styles.drawerItem}
-              icon={() => <Icon name="user-alt" color="black" size={20} />}
-              label="BUYERS"
-              onPress={() => {
-                props.navigation.navigate('users');
-              }}
-            />
-            <DrawerItem
-              style={styles.drawerItem}
-              icon={({color, size}) => (
-                <Icon name="shopping-cart" color="black" size={18} />
-              )}
-              label="BOOKINGS"
-              onPress={() => {
-                props.navigation.navigate('Booking');
-              }}
-            />
-            <DrawerItem
-              style={styles.drawerItem}
-              style={{paddingLeft: 10}}
-              icon={({color, size}) => (
-                <MaterialIcons name="size-s" color="black" size={24} />
-              )}
-              label="SELLERS"
-              onPress={() => {
-                props.navigation.navigate('users');
-              }}
-            />
+            <View style={styles.userInfoSection}>
+              <View style={{flexDirection: 'row', marginTop: 70}}>
+                <Image
+                  source={{uri: props.user.profileImage}}
+                  style={{
+                    width: 130,
+                    height: 130,
+                    borderColor: '#AB369B',
+                    borderRadius: 58,
+                    borderWidth: 5,
+                    marginBottom: 10,
+                  }}
+                />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.admin}>{props.user.name}</Text>
+            </View>
+            <Drawer.Section style={styles.drawerSection}>
+              <DrawerItem
+                style={styles.drawerItem}
+                icon={({color, size}) => (
+                  <MaterialCommunityIcons name="home" color={color} size={35} />
+                )}
+                label="Home"
+                labelStyle={{fontSize: 17, fontWeight: 'bold'}}
+                onPress={() => {
+                  props.navigation.navigate('HomeScreen');
+                }}
+              />
+              <DrawerItem
+                style={styles.drawerItem}
+                labelStyle={{fontSize: 17, fontWeight: 'bold'}}
+                icon={({color, size}) => (
+                  <Icon name="shopping-cart" color={color} size={24} />
+                )}
+                label="  Bookings"
+                onPress={() => {
+                  props.navigation.navigate('Booking');
+                }}
+              />
+              <DrawerItem
+                style={styles.drawerItem}
+                labelStyle={{fontSize: 17, fontWeight: 'bold'}}
+                // style={{paddingLeft: 10}}
+                icon={({color, size}) => (
+                  <MaterialCommunityIcons
+                    name="emoticon-sad"
+                    color={color}
+                    size={27}
+                  />
+                )}
+                label=" Complains"
+                onPress={() => {
+                  props.navigation.navigate('Complains');
+                }}
+              />
 
-            <DrawerItem
-              style={styles.drawerItem}
-              icon={({color, size}) => (
-                <Fontisto name="plus-a" color="black" size={20} />
-              )}
-              label="ADD A SERVICE"
-              onPress={() => {
-                props.navigation.navigate('HomeScreen');
-              }}
-            />
-          </Drawer.Section>
+              <DrawerItem
+                style={styles.drawerItem}
+                labelStyle={{fontSize: 17, fontWeight: 'bold'}}
+                icon={({color, size}) => (
+                  <FontAwesome5Icon name="users" color={color} size={24} />
+                )}
+                label=" Users"
+                onPress={() => {
+                  props.navigation.navigate('users');
+                }}
+              />
+            </Drawer.Section>
+          </View>
           <Drawer.Section style={styles.logout}>
             <DrawerItem
               icon={() => (
                 <MaterialCommunityIcons
                   name="exit-to-app"
                   color="black"
-                  size={25}
+                  size={22}
                 />
               )}
               label="Log Out"
@@ -95,7 +114,8 @@ const DrawerContent = (props) => {
 
 const styles = StyleSheet.create({
   logout: {
-    marginTop: 70,
+    marginTop: 100,
+    // justifyContent:'flex-end'
   },
   drawerItem: {
     paddingStart: 15,
@@ -105,6 +125,8 @@ const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
     fontWeight: '700',
+    // justifyContent: 'space-between',
+    // flexDirection: 'column',
   },
   userInfoSection: {
     alignItems: 'center',

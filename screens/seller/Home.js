@@ -11,9 +11,10 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import {URL, getAllServicesRoute, getRecommendedJobs} from '../../config/const';
 import axios from 'axios';
@@ -24,11 +25,24 @@ import {logout} from '../../redux/authActions';
 const Home = (props) => {
   const [services, setServices] = useState([]);
   const [Recommendation, setRecommendation] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllServices();
+    getAllRecommendedJobs();
+  };
 
   useEffect(() => {
     getAllServices();
     getAllRecommendedJobs();
-  }, []);
+  }, [props]);
 
   const renderItem = (item) => <Item item={item.item} />;
 
@@ -215,56 +229,68 @@ const Home = (props) => {
       <View style={styles.back}>
         <Header />
         <Card>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 24,
-                // fontFamily: 'Poppins-SemiBoldItalic',
-              }}>
-              Popular Services
-            </Text>
-            <TouchableOpacity
-              onPress={seeAllServicesPressHandler}
-              style={{
-                fontSize: 16,
-              }}>
-              <Text>see all</Text>
-            </TouchableOpacity>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              horizontal
-              data={services}
-              renderItem={renderItem}
-              keyExtractor={(item) => item._id}
-            />
-          </SafeAreaView>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 24,
-                width: 290,
-              }}>
-              Recommended For You
-            </Text>
-            <TouchableOpacity
-              onPress={seeAllJobsPressHandler}
-              style={{
-                fontSize: 16,
-              }}>
-              <Text>see all</Text>
-            </TouchableOpacity>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              horizontal
-              data={Recommendation}
-              renderItem={renderRecommendation}
-              keyExtractor={(item) => item.key}
-            />
-          </SafeAreaView>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={['#F4F9FE']}
+                progressBackgroundColor={'#B0389F'}
+              />
+            }>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                  // fontFamily: 'Poppins-SemiBoldItalic',
+                }}>
+                Popular Services
+              </Text>
+              <TouchableOpacity
+                onPress={seeAllServicesPressHandler}
+                style={{
+                  fontSize: 16,
+                }}>
+                <Text>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                horizontal
+                data={services}
+                renderItem={renderItem}
+                keyExtractor={(item) => item._id}
+              />
+            </SafeAreaView>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                  // width: 290,
+                }}>
+                Recommended For You
+              </Text>
+              <TouchableOpacity
+                onPress={seeAllJobsPressHandler}
+                style={{
+                  fontSize: 16,
+                }}>
+                <Text>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                horizontal
+                data={Recommendation}
+                renderItem={renderRecommendation}
+                keyExtractor={(item) => item.key}
+              />
+            </SafeAreaView>
+          </ScrollView>
         </Card>
       </View>
     </TouchableWithoutFeedback>

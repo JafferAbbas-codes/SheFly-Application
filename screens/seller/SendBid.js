@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import {StackActions} from '@react-navigation/native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 
 import {gStyles} from '../../styles/global';
@@ -72,7 +72,10 @@ const SendBid = (props) => {
     setIsVisible(show);
     setTimeout(() => {
       setIsVisible(false);
-      props.navigation.dispatch(StackActions.popToTop());
+      props.navigation.navigate('Profile', {
+        ...props.route.params,
+        refresh: true,
+      });
     }, 2000);
   };
 

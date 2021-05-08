@@ -31,7 +31,6 @@ export default function Stepper(props) {
 const styles = StyleSheet.create({
     container: {
         // flexDirection: 'column',
-        width: width,
         height: height * 0.1,
         // flex: 1,
         bottom: 0,
@@ -46,11 +45,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         // marginVertical: 40,
         // backgroundColor: 'black',
-        width:
-            0.60856481481 * width,
+        // width:
+        //     0.65656481481 * width,
+        flex: 1,
+        width: 190,
+        height: 200,
+        resizeMode: 'contain'
+
+        // 30,
         // 239,
-        height:
-            0.02580947911778508 * height,
+        // height:
+        // (68 / 812) * 0.3 * heights
+        // 0.02690947911778508 * height,
         // 20
     },
 });

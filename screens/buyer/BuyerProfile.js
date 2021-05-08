@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
 import Header from '../../shared/BuyerProfileHead';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button';
 import axios from 'axios';
 import {connect} from 'react-redux';
@@ -93,17 +93,18 @@ const BuyerProfile = (props) => {
       }}>
       <View
         style={{
-          marginBottom: 10,
+          marginTop: 10,
           backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {
-            width: 0,
+            width: 5,
             height: 1,
           },
           padding: 5,
           shadowOpacity: 1,
           shadowRadius: 10,
-          elevation: 10,
+          marginHorizontal: 20,
+          elevation: 13,
         }}>
         <View
           style={{
@@ -244,21 +245,18 @@ const BuyerProfile = (props) => {
         navigation={props.navigation}
         route={props.route}
       />
-      <Card>
-        <View style={{flexDirection: 'row'}}>
+      <Card availableSeller={true}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 30,
+          }}>
           <TouchableOpacity
             onPress={() => {
               OnPressConfirmedBookings(confirmedBookings);
             }}>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
+            <View style={styles.box}>
               <Text
                 style={{
                   fontSize: 30,
@@ -282,15 +280,7 @@ const BuyerProfile = (props) => {
             onPress={() => {
               OnPressPendingBookings(pendingBookings);
             }}>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
+            <View style={styles.box}>
               <Text
                 style={{
                   fontSize: 30,
@@ -314,15 +304,7 @@ const BuyerProfile = (props) => {
             onPress={() => {
               OnPressCompletedBookings(completedBookings);
             }}>
-            <View
-              style={{
-                flexDirection: 'column',
-                borderRadius: 20,
-                width: 100,
-                margin: 8,
-                padding: 15,
-                backgroundColor: 'white',
-              }}>
+            <View style={styles.box}>
               <Text
                 style={{
                   fontSize: 30,
@@ -343,7 +325,14 @@ const BuyerProfile = (props) => {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 25,
+            margin: 10,
+            paddingHorizontal: 20,
+            paddingTop: 30,
+          }}>
           Your Requests
         </Text>
         <SafeAreaView style={styles.container}>
@@ -371,6 +360,29 @@ const BuyerProfile = (props) => {
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
+  },
+  box: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+    flexDirection: 'column',
+    borderRadius: 20,
+    width: 94,
+    marginHorizontal: 3.5,
+    padding: 15,
+    backgroundColor: 'white',
+    zIndex: 1,
+    marginTop: 5,
+  },
+  container: {
+    paddingHorizontal: 10,
+    paddingBottom: 250,
   },
 });
 
