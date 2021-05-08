@@ -12,16 +12,16 @@ import {
 import Header from '../../shared/Header';
 import Card from '../../shared/Card';
 import FlatButton from '../../shared/Button.js';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Stepper from '../../shared/Stepper';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const PhoneNumber = (props) => {
   const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [error, setError] = React.useState({status: false, message: ''});
+  const [error, setError] = React.useState({ status: false, message: '' });
 
   const handleNumberChange = (inputValue) => {
-    setError({status: false, message: ''});
+    setError({ status: false, message: '' });
 
     let reg = /^\d+$/;
     if (reg.test(inputValue) || inputValue == '') {
@@ -36,7 +36,7 @@ const PhoneNumber = (props) => {
         phoneNumber,
       });
     } else {
-      setError({status: true, message: 'Invalid phone number'});
+      setError({ status: true, message: 'Invalid phone number' });
     }
   };
   return (
@@ -50,10 +50,10 @@ const PhoneNumber = (props) => {
 
         <Card>
           <View>
-            <Text style={{fontWeight: 'bold', fontSize: 25, marginBottom: 15}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 15 }}>
               Let's Get Started
             </Text>
-            <Text style={{marginBottom: 30}}>
+            <Text style={{ marginBottom: 30 }}>
               Enter your phone number to begin
             </Text>
           </View>

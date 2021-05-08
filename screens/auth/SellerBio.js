@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -20,12 +20,12 @@ import FlatButton from '../../shared/Button.js';
 import MultiSelect from 'react-native-multiple-select';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {ActionSheet, Root} from 'native-base';
+import { ActionSheet, Root } from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {URL, getAllServicesRoute} from '../../config/const';
+import { URL, getAllServicesRoute } from '../../config/const';
 
-import {createIconSetFromFontello} from 'react-native-vector-icons';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 import axios from 'axios';
 // import RNFetchBlob from 'rn-fetch-blob';|
 
@@ -73,7 +73,7 @@ const items = [
 ];
 const SellerBio = () => {
   const [selectedService, setSelectedService] = useState('');
-  const [Services, setServices] = useState([{_id: '', name: ''}]);
+  const [Services, setServices] = useState([{ _id: '', name: '' }]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [bio, setBio] = useState('');
   const [pic, setPic] = useState([]);
@@ -104,7 +104,7 @@ const SellerBio = () => {
           'error getAllSerices from server',
           error.response.data.result,
         );
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -222,7 +222,7 @@ const SellerBio = () => {
   }, []);
 
   const renderItem = (item) => <Item item={item.item} />;
-  const Item = ({item}) => (
+  const Item = ({ item }) => (
     // console.log('item in Item', item);
     <ImageBackground
       source={{
@@ -234,7 +234,7 @@ const SellerBio = () => {
         backgroundColor: 'yellow',
         marginRight: 5,
       }}
-      imageStyle={{borderRadius: 15}}>
+      imageStyle={{ borderRadius: 15 }}>
       {/* <View
         style={{
           flex: 1,
@@ -253,20 +253,21 @@ const SellerBio = () => {
           alignContent: 'center',
           alignContent: 'center',
         }}>
-        <View style={{flexDirection: 'column', alignSelf: 'center'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 22}}>
+        <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
+          <Text style={{ fontWeight: 'bold', fontSize: 22 }}>
             Write a short bio
           </Text>
           <View style={styles.option}>
             <TextInput
-              style={{fontSize: 18}}
+              style={{ fontSize: 18 }}
               value={bio}
               multiline={true}
               onChangeText={(text) => setBio(text)}
             />
           </View>
-          <Text style={{fontWeight: 'bold', fontSize: 22}}>Select Skills</Text>
-          <View style={styles.container}>
+          <View style={styles.container1}>
+            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Select Skills</Text>
+
             <View style={styles.multisel}>
               <DropDownPicker
                 items={Services.map((item) => ({
@@ -278,7 +279,7 @@ const SellerBio = () => {
                 min={0}
                 max={Services.length}
                 defaultValue={'Cooking'}
-                containerStyle={{height: 40}}
+                containerStyle={{ height: 40 }}
                 style={{
                   backgroundColor: '#fafafa',
                   borderColor: '#D2D2D2',
@@ -288,7 +289,7 @@ const SellerBio = () => {
                 itemStyle={{
                   justifyContent: 'flex-start',
                 }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
+                dropDownStyle={{ backgroundColor: '#fafafa' }}
                 onChangeItem={
                   (item) => setSelectedService(item.value)
                   // (item) =>
@@ -328,17 +329,17 @@ const SellerBio = () => {
           </View>
           <View style={styles.UploadImageFullBox}>
             <View style={styles.UploadImagelayerOne}>
-              <View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, marginTop: 30 }}>
                 <Text style={styles.UploadImageHeading}>Add Samples</Text>
-              </View>
-              <View>
-                <TouchableOpacity>
-                  <Icon
-                    size={28}
-                    color="black"
-                    name="plus"
-                    onPress={onClickAddImage}></Icon>
-                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity>
+                    <Icon
+                      size={30}
+                      color="black"
+                      name="plus"
+                      onPress={onClickAddImage}></Icon>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
             <Text>images will appear here</Text>
@@ -383,8 +384,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
   },
+  container1: {
+    marginTop: 20,
+  },
   multisel: {
-    marginVertical: 40,
+    marginVertical: 20,
   },
   UploadImageHeading: {
     fontSize: 22,
