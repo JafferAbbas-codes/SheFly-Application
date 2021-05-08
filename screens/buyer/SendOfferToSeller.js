@@ -22,16 +22,23 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {gStyles} from '../../styles/global.js';
 import {StackActions} from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker';
+import {Icon} from 'react-native-elements';
+var moment = require('moment');
 
 const SendOffer = (props) => {
   const [selectedService, setSelectedService] = useState('');
   const [buttonLoading, setButtonLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [Services, setServices] = useState([{_id: '', name: ''}]);
+  const [timeInputVisible, setTimeInputVisible] = useState(false);
+  const [date, setDate] = useState(moment(Date.now()).format('L'));
+  const [dateAndTime, setDateAndTime] = useState(Date.now());
 
   const reviewSchema = yup.object({
     // service: yup.string().required(),
-    dateAndTime: yup.string().required(),
+    // dateAndTime: yup.string().required(),
     address: yup.string().required(),
     budget: yup.number().required(),
     description: yup.string().required('No description provided.'),
@@ -39,7 +46,7 @@ const SendOffer = (props) => {
 
   const createRequestAPI = async (
     service,
-    dateAndTime,
+    // dateAndTime,
     address,
     budget,
     description,
@@ -51,7 +58,7 @@ const SendOffer = (props) => {
         `${URL}${createOrder}`,
         {
           service: selectedService,
-          dateAndTime: Date.now(new Date()),
+          dateAndTime: dateAndTime.getTime(),
           address,
           budget,
           description,
@@ -111,10 +118,24 @@ const SendOffer = (props) => {
     getAllServices();
   }, []);
 
-  // onSelectedItemsChange = (selectedItems) => {
-  //   this.setState({selectedItems});
-  // };
-  // const {selectedItems} = this.state;
+  const dateChange = async (date) => {
+    console.log('date is here', date);
+    setDate(date);
+
+    let myDate = date.split('/');
+    let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
+    console.log('newDate is here', newDate);
+    setDateAndTime(newDate);
+    setTimeInputVisible(true);
+  };
+  const timeChange = (time) => {
+    console.log('time is here', time);
+    if (time.type == 'set') {
+      setDateAndTime(time.nativeEvent.timestamp);
+    }
+
+    setTimeInputVisible(false);
+  };
   return (
     <ScrollView>
       <View style={{backgroundColor: 'white'}}>
@@ -175,8 +196,8 @@ const SendOffer = (props) => {
         </Text>
         <Formik
           initialValues={{
-            service: '',
-            dateAndTime: '',
+            // service: '',
+            // dateAndTime: '',
             address: '',
             budget: '',
             description: '',
@@ -187,7 +208,7 @@ const SendOffer = (props) => {
             if (selectedService != '') {
               createRequestAPI(
                 selectedService,
-                values.dateAndTime,
+                // values.dateAndTime,
                 values.address,
                 Number(values.budget),
                 values.description,
@@ -236,8 +257,7 @@ const SendOffer = (props) => {
               <Text style={{fontSize: 18, color: '#4A4A4A', paddingTop: 10}}>
                 Date and Time
               </Text>
-              <TextInput
-                // multiline={true}
+              {/* <TextInput
                 style={{
                   backgroundColor: '#fafafa',
                   borderColor: '#D2D2D2',
@@ -248,41 +268,135 @@ const SendOffer = (props) => {
                 onChangeText={propss.handleChange('dateAndTime')}
                 value={propss.values.dateAndTime}
                 onBlur={propss.handleBlur('dateAndTime')}
+              /> */}
+              <DatePicker
+                style={{flex: 3, flexDirection: 'row'}}
+                date={date}
+                mode="date"
+                // android="calendar"
+                placeholder="select date"
+                format="MM/DD/YYYY"
+                minDate="05-05-2021"
+                maxDate="05-05-2031"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 36,
+                  },
+                  // ... You can check the source to find the other keys.
+                }}
+                style={{flex: 1}}
+                onDateChange={(date) => dateChange(date)}
               />
+              {timeInputVisible && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={dateAndTime}
+                  mode={'time'}
+                  is24Hour={true}
+                  display="default"
+                  onChange={(time) => timeChange(time)}
+                />
+              )}
               <Text style={{fontSize: 18, color: '#4A4A4A', paddingTop: 10}}>
                 Address
               </Text>
-              <TextInput
-                // multiline={true}
-                style={{
-                  backgroundColor: '#fafafa',
-                  borderColor: '#D2D2D2',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                }}
-                placeholder="Address"
-                onChangeText={propss.handleChange('address')}
-                value={propss.values.address}
-                onBlur={propss.handleBlur('address')}
-              />
+
+              <View style={{paddingVertical: 5, flexDirection: 'row'}}>
+                <View
+                  style={
+                    {
+                      // backgroundColor: 'red',
+                      // flexDirection: 'row',
+                      // alignSelf: 'center',
+                      // alignContent: 'center',
+                      // alignItems: 'center',
+                      // justifyContent: 'center',
+                    }
+                  }>
+                  <Icon
+                    // raised
+                    name="map-marker"
+                    type="font-awesome"
+                    color="green"
+                    size={33}
+                    style={{
+                      paddingleft: 5,
+                      paddingRight: 15,
+                      paddingVertical: 5,
+                      // backgroundColor: 'yellow',
+                    }}
+                  />
+                </View>
+
+                <TextInput
+                  // multiline={true}
+                  style={{
+                    backgroundColor: '#fafafa',
+                    borderColor: '#D2D2D2',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    flex: 3,
+                    paddingVertical: 5,
+                    // height: 200,
+                  }}
+                  placeholder="Address"
+                  onChangeText={propss.handleChange('address')}
+                  value={propss.values.address}
+                  onBlur={propss.handleBlur('address')}
+                />
+              </View>
+
               <Text style={{fontSize: 18, color: '#4A4A4A', paddingTop: 10}}>
                 Budget
               </Text>
-              <TextInput
-                // multiline={true}
-                keyboardType="numeric"
-                style={{
-                  backgroundColor: '#fafafa',
-                  borderColor: '#D2D2D2',
-                  borderWidth: 1,
-                  marginBottom: 10,
-                  borderRadius: 10,
-                }}
-                placeholder="Budget"
-                onChangeText={propss.handleChange('budget')}
-                value={propss.values.budget}
-                onBlur={propss.handleBlur('budget')}
-              />
+              <View style={{paddingVertical: 5, flexDirection: 'row'}}>
+                <View
+                  style={{
+                    // backgroundColor: 'red',
+                    // flexDirection: 'row',
+                    alignSelf: 'center',
+                    // alignContent: 'center',
+                    // alignItems: 'center',
+                    // justifyContent: 'center',
+                  }}>
+                  <Icon
+                    // raised
+                    name="payments"
+                    type="material"
+                    color="green"
+                    size={30}
+                    style={{
+                      paddingRight: 5,
+                      paddingVertical: 5,
+                    }}
+                  />
+                </View>
+                <TextInput
+                  // multiline={true}
+                  style={{
+                    backgroundColor: '#fafafa',
+                    borderColor: '#D2D2D2',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    flex: 3,
+                    paddingVertical: 5,
+                    // height: 200,
+                  }}
+                  placeholder="Budget"
+                  keyboardType="numeric"
+                  onChangeText={propss.handleChange('budget')}
+                  value={propss.values.budget}
+                  onBlur={propss.handleBlur('budget')}
+                />
+              </View>
               <View style={{marginBottom: 50}}>
                 <FlatButton
                   text="Submit"
