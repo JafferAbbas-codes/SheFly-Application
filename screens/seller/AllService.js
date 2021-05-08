@@ -11,9 +11,10 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
@@ -25,6 +26,18 @@ import {TouchableOpacity} from 'react-native';
 const AllServices = (props) => {
   const [Services, setServices] = useState([]);
   const renderItem = (item) => <Item item={item.item} />;
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllServices();
+  };
 
   const Item = ({item}) => (
     <TouchableOpacity
@@ -41,8 +54,8 @@ const AllServices = (props) => {
           borderRadius: 32,
           marginHorizontal: 5,
           overflow: 'hidden',
-          backgroundColor: 'black',
-          opacity: 0.9,
+          // backgroundColor: 'black',
+          // opacity: 0.9,
           marginBottom: 10,
         }}>
         <Text
@@ -61,6 +74,28 @@ const AllServices = (props) => {
     </TouchableOpacity>
   );
 
+  const ServiceList = () => {
+    console.log('here in servicelist');
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#F4F9FE']}
+              progressBackgroundColor={'#B0389F'}
+            />
+          }
+          numColumns={2}
+          data={Services}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+        />
+      </SafeAreaView>
+    );
+  };
+
   const OnPressService = (id, name) => {
     props.navigation.navigate('ServiceJobs', {
       ...props.route.params,
@@ -76,35 +111,28 @@ const AllServices = (props) => {
 
   useEffect(() => {
     getAllServices();
-  }, []);
+  }, [props]);
 
   return (
     <View
       onPress={() => {
         Keyboard.dismiss();
-      }}>
-      <View style={styles.back}>
-        <Header />
-        <Card>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 24,
-              }}>
-              Services
-            </Text>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              numColumns={2}
-              data={Services}
-              renderItem={renderItem}
-              keyExtractor={(item) => item._id}
-            />
-          </SafeAreaView>
-        </Card>
-      </View>
+      }}
+      style={styles.back}>
+      {/* <View > */}
+      {console.log('services', Services)}
+      <Header />
+      <Card>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 24,
+          }}>
+          Services
+        </Text>
+
+        <ServiceList />
+      </Card>
     </View>
   );
 };
@@ -114,7 +142,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#B0389F',
   },
   container: {
-    marginVertical: 30,
+    flex: 1,
+    marginTop: 25,
+    paddingBottom: 170,
   },
 });
 const mapStateToProps = (state) => ({

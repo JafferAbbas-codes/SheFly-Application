@@ -1,158 +1,134 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import moment from 'moment';
-import {
-  URL,
-  getAllUsers,
-  getAllOrders,
-  getAllComplains,
-} from '../../config/const';
-import axios from 'axios';
-import {connect} from 'react-redux';
 
-const Item = ({item}) => (
-  <View style={styles.bookings}>
-    <View style={styles.details}>
-      <Text style={{fontSize: 14, fontWeight: '700'}}>
-        Booking No:{item._id}
-      </Text>
-      <Text style={styles.confirm}>
-        {item.status == 'Confirmed' && (
-          <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
-            {'Confirmed on  ' + moment(item.updatedAt).format('ll')}
-          </Text>
-        )}
-
-        {item.status == 'Completed' && (
-          <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
-            {'Completed on  ' + moment(item.updatedAt).format('ll')}
-          </Text>
-        )}
-        {item.status == 'Pending' && (
-          <Text
-            style={{
-              fontWeight: 'bold',
-            }}>
-            {'Requested on  ' + moment(item.updatedAt).format('ll')}
-          </Text>
-        )}
-      </Text>
-    </View>
-    <View style={styles.BuyerDetails}>
-      <View style={styles.userdetails}>
-        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-          <Icon
-            name="user-alt"
-            color="black"
-            size={20}
-            style={{marginRight: 10}}
-          />
-          <Text style={{fontSize: 18, color: '#ae379d', fontWeight: '400'}}>
-            {item.buyer.name}
-          </Text>
-        </View>
-
-        <View style={styles.update}>
-          <Text
-            style={{
-              color: '#fff',
-            }}>
-            {item.status}
-          </Text>
-        </View>
-      </View>
-    </View>
-    <View style={styles.sellerDetails}>
-      <View style={styles.userdetails}>
-        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-          <Entypo
-            name="smashing"
-            color="black"
-            size={20}
-            style={{marginRight: 10}}
-          />
-          <Text style={{fontSize: 18, fontWeight: '400', color: 'black'}}>
-            {item.seller != undefined ? ' ' + item.seller.name : '  TBD'}
-          </Text>
-        </View>
-
-        <View style={styles.update1}>
-          <Text
-            style={{
-              color: '#ae379d',
-              fontWeight: '700',
-            }}>
-            {item.service != undefined
-              ? ' ' + item.service.name
-              : '  No Service'}
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
-);
-export default function bookingCard(props) {
+const BookingCard = (props) => {
   console.log('props in Booking Card ', props);
-  const renderItem = ({item}) => <Item item={item} />;
-
-  const [pendingBookings, setPendingBookings] = useState([]);
-  const [confirmedBookings, setConfirmedBookings] = useState([]);
-  const [completedBookings, setCompletedBookings] = useState([]);
-
-  const allOrders = async () => {
-    try {
-      let response = await axios.get(`${URL}${getAllOrders}`, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      });
-      let pending = [];
-      let confirmed = [];
-      let completed = [];
-      response.data.result.map((bookings) => {
-        if (bookings.status == 'Pending') {
-          pending.push(bookings);
-        } else if (bookings.status == 'Confirmed') {
-          confirmed.push(bookings);
-        } else if (bookings.status == 'Completed') {
-          completed.push(bookings);
-        }
-      });
-      setPendingBookings(pending);
-      setConfirmedBookings(confirmed);
-      setCompletedBookings(completed);
-      console.log('in getAllOrdersAPI call admin home', response.data.result);
-      return response.data.result;
-    } catch (error) {
-      console.log('error', error);
-      if (error?.response?.data?.result) {
-        return {error: error.response.data.result};
-      }
-    }
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      props.Refresh();
+    }, 2000);
   };
 
-  // useEffect(() => {
-  //   allOrders();
-  // }, []);
+  const renderItem = ({item}) => <Item item={item} />;
+  const Item = ({item}) => (
+    <View style={styles.bookings}>
+      <View style={styles.details}>
+        <Text style={{fontSize: 14, fontWeight: '700'}}>
+          Booking No:{' '}
+          {item._id.substring(item._id.length - 10, item._id.length - 3)}
+        </Text>
+        <Text style={styles.confirm}>
+          {item.status == 'Confirmed' && (
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              {'Confirmed on  ' + moment(item.updatedAt).format('ll')}
+            </Text>
+          )}
 
+          {item.status == 'Completed' && (
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              {'Completed on  ' + moment(item.updatedAt).format('ll')}
+            </Text>
+          )}
+          {item.status == 'Pending' && (
+            <Text
+              style={{
+                fontWeight: 'bold',
+              }}>
+              {'Requested on  ' + moment(item.updatedAt).format('ll')}
+            </Text>
+          )}
+        </Text>
+      </View>
+      <View style={styles.BuyerDetails}>
+        <View style={styles.userdetails}>
+          <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+            <Icon
+              name="user-alt"
+              color="black"
+              size={20}
+              style={{marginRight: 10}}
+            />
+            <Text style={{fontSize: 18, color: '#ae379d', fontWeight: '400'}}>
+              {item.buyer.name}
+            </Text>
+          </View>
+
+          <View style={styles.update}>
+            <Text
+              style={{
+                color: '#fff',
+              }}>
+              {item.status}
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.sellerDetails}>
+        <View style={styles.userdetails}>
+          <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+            <Entypo
+              name="smashing"
+              color="black"
+              size={20}
+              style={{marginRight: 10}}
+            />
+            <Text style={{fontSize: 18, fontWeight: '400', color: 'black'}}>
+              {item.seller != undefined ? ' ' + item.seller.name : '  TBD'}
+            </Text>
+          </View>
+
+          <View style={styles.update1}>
+            <Text
+              style={{
+                color: '#ae379d',
+                fontWeight: '700',
+              }}>
+              {item.service != undefined
+                ? ' ' + item.service.name
+                : '  No Service'}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#F4F9FE']}
+            progressBackgroundColor={'#B0389F'}
+          />
+        }
         data={props.bookings}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
       />
     </SafeAreaView>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -220,3 +196,5 @@ const styles = StyleSheet.create({
     paddingTop: 2,
   },
 });
+
+export default BookingCard;

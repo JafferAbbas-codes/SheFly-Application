@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Dimensions } from 'react-native';
 // import {Dimensions} from 'react-native';
 
 var width = Dimensions.get('window').width; //full width
@@ -7,12 +7,12 @@ var height = Dimensions.get('window').height; //full height
 
 export default function Card(props) {
   return (
-    <View
+    <ScrollView
       style={
         props.cardWithOutStepper ? styles.cardWithOutStepper : styles.card
       }>
       <View style={styles.cardContent}>{props.children}</View>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -24,8 +24,9 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     padding: 30,
     // width: width, //120,//108//1
-    height: height,
     bottom: 0,
+    flex: 1,
+    height: height * 0.6,
     // flexDirection: 'column',
     // flex: 3,
     // alignItems: 'center',

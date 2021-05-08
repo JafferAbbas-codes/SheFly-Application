@@ -34,7 +34,7 @@ const PostRequest = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [timeInputVisible, setTimeInputVisible] = useState(false);
   const [date, setDate] = useState(moment(Date.now()).format('L'));
-  const [dateAndTime, setDateAndTime] = useState(Date.now());
+  const [dateAndTime, setDateAndTime] = useState(new Date());
 
   const reviewSchema = yup.object({
     // service: yup.string().required(),
@@ -133,7 +133,7 @@ const PostRequest = (props) => {
     setTimeInputVisible(true);
   };
   const timeChange = (time) => {
-    console.log('time is here', time);
+    console.log('time is here', time.nativeEvent.timestamp);
     if (time.type == 'set') {
       setDateAndTime(time.nativeEvent.timestamp);
     }

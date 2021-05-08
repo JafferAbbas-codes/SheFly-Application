@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -14,17 +14,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import {connect} from 'react-redux';
-import {URL, getUserByType} from '../../config/const';
+import { connect } from 'react-redux';
+import { URL, getUserByType } from '../../config/const';
 
 const AvailableSellers = (props) => {
   const [Sellers, setSellers] = useState([]);
   const renderAvailableSellers = (item) => <ItemRecom item={item.item} />;
-  const ItemRecom = ({item}) => (
+  const ItemRecom = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         OnPressSeller(item);
@@ -38,21 +38,21 @@ const AvailableSellers = (props) => {
           paddingHorizontal: 8,
           marginBottom: 10,
         }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
-              source={{uri: item.profileImage}}
+              source={{ uri: item.profileImage }}
               style={styles.headerImage}
             />
-            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
+            <View style={{ paddingHorizontal: 7, paddingTop: 6 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 6 }}>
                 {item.name}
               </Text>
               <Text
-                style={{fontSize: 10, color: '#A28FA1', fontWeight: 'bold'}}>
+                style={{ fontSize: 10, color: '#A28FA1', fontWeight: 'bold' }}>
                 {item.title}
               </Text>
-              <Text style={{fontSize: 10, color: '#FFB266'}}>
+              <Text style={{ fontSize: 10, color: '#FFB266' }}>
                 <MaterialIcons name="star" size={10} />
                 {' ' + item.rating.toFixed(1)}
               </Text>
@@ -101,7 +101,7 @@ const AvailableSellers = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -126,7 +126,7 @@ const AvailableSellers = (props) => {
         <View style={styles.back}>
           <Header />
           <Card>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{
                   fontWeight: 'bold',

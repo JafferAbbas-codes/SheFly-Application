@@ -1,23 +1,25 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import {SearchBar} from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import FlatButton from './Button';
-import {FlatList} from 'react-native';
-import {TouchableHighlight} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import { FlatList, Dimensions } from 'react-native';
+import { TouchableHighlight } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
+var width = Dimensions.get('window').width; //full width
+var height = Dimensions.get('window').height; //full height
 export default function Header(propss) {
   const props = propss.profile.route.params.index;
   const id = props._id;
   const name = props._name;
   console.log('Props in SFB hedaers', propss);
   return (
-    <View style={{margin: 25, paddingTop: 20}}>
+    <View style={{ margin: 25, paddingTop: 20 }}>
       <MaterialIcons></MaterialIcons>
-      <View style={{flexDirection: 'row'}}>
-        <Image source={{uri: props.profileImage}} style={styles.headerImage} />
-        <View style={{margin: 5}}>
+      <View style={{ flexDirection: 'row' }}>
+        <Image source={{ uri: props.profileImage }} style={styles.headerImage} />
+        <View style={{ margin: 5 }}>
           <Text
             style={{
               fontSize: 24,
@@ -27,9 +29,9 @@ export default function Header(propss) {
             }}>
             {props.name}
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 12, color: 'white'}}>{props.title}</Text>
-            <Text style={{fontSize: 12, color: 'white', paddingLeft: 10}}>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={{ fontSize: 12, color: 'white' }}>{props.title}</Text>
+            <Text style={{ fontSize: 12, color: 'white', paddingLeft: 10 }}>
               <MaterialIcons
                 name="star"
                 size={12}
@@ -49,7 +51,7 @@ export default function Header(propss) {
         }}>
         {props.bio}
       </Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity
           onPress={() => {
             propss.profile.navigation.navigate('SendOfferToSeller', {
@@ -61,7 +63,7 @@ export default function Header(propss) {
           <Text
             style={{
               backgroundColor: 'white',
-              borderRadius: 10,
+              borderRadius: 15,
               color: 'black',
               paddingVertical: 15,
               paddingHorizontal: 60,
@@ -76,15 +78,16 @@ export default function Header(propss) {
           <Text
             style={{
               // backgroundColor: 'white',
-              borderRadius: 10,
+              borderRadius: 15,
               color: 'white',
               paddingVertical: 13,
-              paddingHorizontal: 60,
               margin: 5,
+              width: width * 0.4,
               fontSize: 14,
               borderWidth: 2,
               borderColor: 'white',
               fontWeight: 'bold',
+              textAlign: "center"
             }}>
             Message
           </Text>

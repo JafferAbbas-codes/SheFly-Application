@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,13 +9,13 @@ import {
   ScrollView,
 } from 'react-native';
 import Header from '../../shared/SfbHead';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 
 export default function sellerProfileBuyer(propss) {
   const props = propss.route.params.index;
 
   const renderItem = (item, i) => <Item item={item.item} i={i} />;
-  const Item = ({item, i}) => (
+  const Item = ({ item, i }) => (
     <ImageBackground
       source={{
         uri: i == 0 ? item.image : item,
@@ -48,10 +48,10 @@ export default function sellerProfileBuyer(propss) {
       <Header profile={propss} />
       <Card>
         <ScrollView>
-          <Text style={{fontWeight: 'bold', fontSize: 24, margin: 10}}>
+          <Text style={{ fontWeight: 'bold', fontSize: 24, marginBottom: 20 }}>
             Expertise
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {/* <SafeAreaView style={styles.container}> */}
             <FlatList
               horizontal
@@ -61,17 +61,17 @@ export default function sellerProfileBuyer(propss) {
             />
             {/* </SafeAreaView> */}
           </View>
-          <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+          <Text style={{ fontWeight: 'bold', fontSize: 25, marginBottom: 20, marginTop: 28 }}>
             Samples
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <ScrollView style={{ flexDirection: 'row' }}>
             <FlatList
               horizontal
               data={props.samples}
               renderItem={(item) => renderItem(item, 1)}
               keyExtractor={(item) => item.index}
             />
-          </View>
+          </ScrollView>
         </ScrollView>
       </Card>
     </View>
@@ -82,4 +82,5 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
   },
+
 });

@@ -34,7 +34,7 @@ const SendOffer = (props) => {
   const [Services, setServices] = useState([{_id: '', name: ''}]);
   const [timeInputVisible, setTimeInputVisible] = useState(false);
   const [date, setDate] = useState(moment(Date.now()).format('L'));
-  const [dateAndTime, setDateAndTime] = useState(Date.now());
+  const [dateAndTime, setDateAndTime] = useState(new Date());
 
   const reviewSchema = yup.object({
     // service: yup.string().required(),
@@ -124,12 +124,11 @@ const SendOffer = (props) => {
 
     let myDate = date.split('/');
     let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
-    console.log('newDate is here', newDate);
-    setDateAndTime(newDate);
+    console.log('newDate is here', newDate.getTime());
     setTimeInputVisible(true);
   };
   const timeChange = (time) => {
-    console.log('time is here', time);
+    console.log('time is here', time.nativeEvent.timestamp);
     if (time.type == 'set') {
       setDateAndTime(time.nativeEvent.timestamp);
     }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import {
   StyleSheet,
@@ -14,8 +14,8 @@ import MainCard from '../../shared/MainCard';
 import Zocial from 'react-native-vector-icons/Zocial';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
-import {connect} from 'react-redux';
-import {URL, getBuyerRequests} from '../../config/const';
+import { connect } from 'react-redux';
+import { URL, getBuyerRequests } from '../../config/const';
 
 const BuyerRequests = (props) => {
   const [Requests, setRequests] = useState([]);
@@ -36,7 +36,7 @@ const BuyerRequests = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -72,7 +72,7 @@ const BuyerRequests = (props) => {
     });
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     var date = moment(item.createdAt).format('ll');
     return (
       <Item
@@ -121,17 +121,19 @@ const BuyerRequests = (props) => {
       }}>
       <View
         style={{
-          marginBottom: 10,
           backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
-            height: 1,
+            height: 2,
           },
           padding: 5,
-          shadowOpacity: 1,
-          shadowRadius: 10,
+          shadowOpacity: 0.5,
+          shadowRadius: 5,
           elevation: 10,
+          marginHorizontal: 20,
+          elevation: 13,
+          marginVertical: 5
         }}>
         <View
           style={{
@@ -156,17 +158,17 @@ const BuyerRequests = (props) => {
             Requested on{' ' + date}
           </Text>
         </View>
-        <View style={{paddingVertical: 5}}>
+        <View style={{ paddingVertical: 5 }}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{color: '#B0389F'}}>
+            <Text style={{ color: '#B0389F' }}>
               <FontAwesome5
                 name="user-alt"
                 size={16}
-                style={{color: 'black'}}
+                style={{ color: 'black' }}
               />
               {'  ' + buyer}
             </Text>
@@ -227,13 +229,15 @@ const BuyerRequests = (props) => {
             Your Requests
           </Text>
         </View>
-        <MainCard>
+        <MainCard requests={true}>
           <SafeAreaView style={styles.container}>
             <FlatList
               data={Requests}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
+              style={{
+                borderRadius: 20, marginBottom: 30
+              }}
             />
           </SafeAreaView>
         </MainCard>
@@ -254,6 +258,9 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
+    paddingHorizontal: 10,
+    marginTop: 30,
+    paddingBottom: 5
   },
   title: {
     fontSize: 32,

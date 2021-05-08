@@ -7,20 +7,38 @@ import {
   ImageBackground,
   SafeAreaView,
   FlatList,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import Header from '../../shared/ProfileHead';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {URL, getOrdersBySeller, getBidsBySeller} from '../../config/const';
 import {TouchableOpacity} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+// import {ScrollView} from 'react-native-gesture-handler';
+import {Dimensions} from 'react-native';
+
+var {height} = Dimensions.get('window');
 
 const Profile = (props) => {
   const [jobsDone, setJobsDone] = useState([]);
   const [jobsInProgress, setJobsInProgress] = useState([]);
   const [bids, setBids] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getJobsDoneBySeller();
+    getAllBidsBySeller();
+  };
 
   const renderItem = (item, i) => <Item item={item.item} i={i} />;
   const Item = ({item, i}) => (
@@ -105,13 +123,16 @@ const Profile = (props) => {
   };
 
   useEffect(() => {
+    console.log('myy props in seller profikle', props);
+
     getJobsDoneBySeller();
     getAllBidsBySeller();
-  }, []);
+  }, [props]);
 
   const OnPressJobsDone = (jobsDone) => {
     props.navigation.navigate('Jobs', {
       ...props.route.params,
+      getJobsDoneBySeller,
       jobs: jobsDone,
       headerTitle: 'Jobs Done',
     });
@@ -120,6 +141,7 @@ const Profile = (props) => {
   const OnPressJobsInProgress = (jobsInProgress) => {
     props.navigation.navigate('Jobs', {
       ...props.route.params,
+      getJobsDoneBySeller,
       jobs: jobsInProgress,
       headerTitle: 'Jobs In Progress',
     });
@@ -128,12 +150,13 @@ const Profile = (props) => {
   const OnPressBids = (bids) => {
     props.navigation.navigate('AllBids', {
       ...props.route.params,
+      getAllBidsBySeller,
       bids,
     });
   };
 
   return (
-    <View style={styles.back}>
+    <ScrollView style={styles.back}>
       {console.log('Inprofile', props)}
       <Header
         user={props.user}
@@ -141,7 +164,16 @@ const Profile = (props) => {
         route={props.route}
       />
       <Card>
-        <ScrollView>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#F4F9FE']}
+              progressBackgroundColor={'#B0389F'}
+            />
+          }>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => {
@@ -246,7 +278,6 @@ const Profile = (props) => {
               keyExtractor={(item) => item._id}
             />
           </View>
-
           <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
             Samples
           </Text>
@@ -260,17 +291,22 @@ const Profile = (props) => {
           </View>
         </ScrollView>
       </Card>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
+    // flex: 1,
   },
   container: {
     // borderRadius: 20,
+    // height: 100,
     // marginVertical: 30,
+    // height: '100%',
+    // flex: 1,
+    // paddingBottom: 600,
   },
 });
 

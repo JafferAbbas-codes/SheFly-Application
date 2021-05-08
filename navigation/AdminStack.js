@@ -2,170 +2,80 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import HomeScreen from '../screens/admin/Home';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import BookingScreen from '../screens/admin/Booking';
-import ComplainScreen from '../screens/admin/Complain';
-import Users from '../screens/admin/User';
 import DrawerContent from '../screens/admin/DrawerContent';
+import bottomNavigator from '../screens/admin/bottomNavigation';
 
-const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
+const HomeStack = createStackNavigator();
+const BookingsStack = createStackNavigator();
 
 const AdminStack = (myProps) => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Welcome to the App" component={MainBottomTabStack} />
-      {/* <Drawer.Screen name="Notifications" component={NotificationsScreen} /> */}
+      <Drawer.Screen name="Home" component={HomeStackScreen} />
+      <Drawer.Screen name="BookingsStack" component={BookingsStackScreen} />
     </Drawer.Navigator>
   );
 };
 
-const MainBottomTabStack = () => {
-  return (
-    <Tab.Navigator
-      // initialRouteName="Home"
-      // activeColor="black"
-      // inactiveColor="#3e2465"
-      tabBarOptions={{
-        showLabel: false,
-
-        style: {
-          position: 'absolute',
-          elevation: 0,
-          border: 4,
-          height: 55,
-          // backgroundColor: '#FFFFFF',
-
-          // borderColor: '#000000',
-          borderTopLeftRadius: 25,
-          borderTopRightRadius: 25,
-
-          // backgroundColor: 'red',
-          ...styles.shadow,
-        },
+const HomeStackScreen = ({navigation}) => (
+  <HomeStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#ae379d',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: '400',
+        letterSpacing: 6,
+        marginLeft: 55,
+      },
+    }}>
+    <HomeStack.Screen
+      name="Home"
+      component={bottomNavigator}
+      options={{
+        title: 'SHE-FLY',
+        headerLeft: () => (
+          <Ionicons.Button
+            name="menu"
+            size={30}
+            backgroundColor="#ae379d"
+            onPress={() => navigation.openDrawer()}></Ionicons.Button>
+        ),
       }}
-      // barStyle={{backgroundColor: 'white', height: 50}}
-    >
-      <Tab.Screen
-        name="HomeScreen"
-        options={{
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={22} />
-          ),
-        }}
-        component={HomeScreen}
-      />
-      <Tab.Screen
-        name="Booking"
-        component={BookingScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="shopping-cart" color={color} size={20} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Complains"
-        component={ComplainScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons
-              name="alert-circle"
-              color={color}
-              size={23}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="users"
-        component={Users}
-        options={{
-          tabBarIcon: ({color}) => (
-            <FontAwesome5Icon name="users" color={color} size={20} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+    />
+  </HomeStack.Navigator>
+);
 
-// const HomeStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Home" component={Home} />
-//       <Stack.Screen name="AllServices" component={AllServices} />
-//       <Stack.Screen name="ServiceSeller" component={ServiceSeller} />
-//       <Stack.Screen name="AvailableSellers" component={AvailableSellers} />
-//       <Stack.Screen
-//         name="SellerProfileForBuyer"
-//         component={SellerProfileForBuyer}
-//       />
-//       <Stack.Screen name="SendOfferToSeller" component={SendOfferToSeller} />
-//     </Stack.Navigator>
-//   );
-// };
-// const ChatStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Messaging" component={Messaging} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
-// const PostRequestStack = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="PostRequest" component={PostRequest} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
-// const YourRequestsStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
-//       <Stack.Screen name="RequestDetails" component={RequestDetails} />
-//       <Stack.Screen name="BidsOnBuyerRequest" component={BidsOnBuyerRequest} />
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
-// const ProfileStackScreen = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="BuyerProfile" component={BuyerProfile} />
-//       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
-//       <Stack.Screen name="Bookings" component={Bookings} />
-//       <Stack.Screen name="BookingDetails" component={BookingDetails} />
-//       {/* <Stack.Screen name="RequestDetails" component={RequestDetails} /> */}
-//       {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
-//     </Stack.Navigator>
-//   );
-// };
+const BookingsStackScreen = ({navigation}) => (
+  <BookingsStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: 'purple',
+      },
+      headerTintColr: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+    <BookingsStack.Screen
+      name="Bookings"
+      component={BookingsStackScreen}
+      options={{
+        title: 'Overview',
+        headerLeft: () => (
+          <Ionicons.Button
+            name="menu"
+            size={30}
+            backgroundColor="#ae379d"
+            onPress={() => navigation.openDrawer()}></Ionicons.Button>
+        ),
+      }}></BookingsStack.Screen>
+  </BookingsStack.Navigator>
+);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

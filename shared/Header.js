@@ -22,7 +22,7 @@ export default function Header() {
 const styles = StyleSheet.create({
   header: {
     // flexDirection: 'column',
-    width: width,
+    width: width * 0.99,
     height: height * 0.3,
     // flex: 1,
     bottom: 0,
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     // height: 150,
     // marginBottom: 0,
     // backgroundColor: 'red',
-    width: 0.3055 * width,//120,//108//1
-    height: 0.2191 * height,//169.86,//152.88//1.4155
+    width: 0.38 * width,//120,//108//1
+    height: 0.2591 * height,//169.86,//152.88//1.4155
     // marginHorizontal: 10,
     // marginTop: 100,
   },

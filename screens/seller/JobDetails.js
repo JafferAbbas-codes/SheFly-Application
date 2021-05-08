@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import moment from 'moment';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import {TouchableOpacity} from 'react-native';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import {StackActions} from '@react-navigation/native';

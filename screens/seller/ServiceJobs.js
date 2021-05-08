@@ -12,9 +12,10 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +25,18 @@ import {URL, getRecommendedJobs} from '../../config/const';
 
 const ServiceJobs = (props) => {
   const [JobsByService, setJobsByService] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllJobsByService(props.route.params.id);
+  };
 
   const getAllJobsByService = async (id) => {
     try {
@@ -123,14 +136,14 @@ const ServiceJobs = (props) => {
 
   useEffect(() => {
     getAllJobsByService(props.route.params.id);
-  }, []);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView>
+      <View>
         <View style={styles.back}>
           <Header />
           <Card>
@@ -145,6 +158,14 @@ const ServiceJobs = (props) => {
             </View>
             <SafeAreaView style={styles.container}>
               <FlatList
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    colors={['#F4F9FE']}
+                    progressBackgroundColor={'#B0389F'}
+                  />
+                }
                 data={JobsByService}
                 renderItem={renderRecommendation}
                 keyExtractor={(item) => item.key}
@@ -152,7 +173,7 @@ const ServiceJobs = (props) => {
             </SafeAreaView>
           </Card>
         </View>
-      </ScrollView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -168,7 +189,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    marginVertical: 30,
+    paddingVertical: 20,
+    paddingBottom: 200,
   },
   title: {
     fontSize: 32,

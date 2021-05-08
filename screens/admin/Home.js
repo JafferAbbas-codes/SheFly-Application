@@ -55,6 +55,12 @@ const HomeScreen = (props) => {
     }
   };
 
+  const Refresh = () => {
+    allOrders();
+    allUsers();
+    allComplains();
+  };
+
   const allOrders = async () => {
     try {
       let response = await axios.get(`${URL}${getAllOrders}`, {
@@ -62,8 +68,15 @@ const HomeScreen = (props) => {
           Authorization: `Bearer ${props.token}`,
         },
       });
+      // const sorted = response.data.result.sort(function (a, b) {
+      //   return a.updatedAt - b.updatedAt;
+      // });
       setOrders(response.data.result);
-      console.log('in getAllOrdersAPI call admin home', response.data.result);
+      // console.log('home sorted array', sorted);
+      console.log(
+        'home in getAllOrdersAPI call admin home',
+        response.data.result,
+      );
       return response.data.result;
     } catch (error) {
       console.log('error', error);
@@ -111,21 +124,27 @@ const HomeScreen = (props) => {
       {/* <Header /> */}
       <Text style={styles.welcomeText}>Welcome to the Admin Panel</Text>
       <View style={styles.mainBox}>
-        <View style={styles.boxes}>
-          <Icon name="shopping-cart" color="#D8BFD6" size={25} />
-          <Text style={styles.boxText}>{orders.length}</Text>
-          <Text style={styles.boxText1}>Bookings</Text>
-        </View>
-        <View style={styles.boxes}>
-          <Entypo name="smashing" color="#D8BFD6" size={25} />
-          <Text style={styles.boxText}>{sellers.length}</Text>
-          <Text style={styles.boxText1}>Sellers</Text>
-        </View>
-        <View style={styles.boxes}>
-          <Icon name="user-alt" color="#D8BFD6" size={25} />
-          <Text style={styles.boxText}>{buyers.length}</Text>
-          <Text style={styles.boxText1}>Buyers</Text>
-        </View>
+        <TouchableOpacity onPress={() => props.navigation.navigate('Booking')}>
+          <View style={styles.boxes}>
+            <Icon name="shopping-cart" color="#D8BFD6" size={25} />
+            <Text style={styles.boxText}>{orders.length}</Text>
+            <Text style={styles.boxText1}>Bookings</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('users')}>
+          <View style={styles.boxes}>
+            <Entypo name="smashing" color="#D8BFD6" size={25} />
+            <Text style={styles.boxText}>{sellers.length}</Text>
+            <Text style={styles.boxText1}>Sellers</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate('users')}>
+          <View style={styles.boxes}>
+            <Icon name="user-alt" color="#D8BFD6" size={25} />
+            <Text style={styles.boxText}>{buyers.length}</Text>
+            <Text style={styles.boxText1}>Buyers</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       {/* stats complains and blocked user */}
       <View style={[styles.mainBox, {marginBottom: 5}]}>
@@ -142,7 +161,7 @@ const HomeScreen = (props) => {
       </View>
 
       {/* Bookings */}
-      <BookingCard bookings={orders} />
+      <BookingCard bookings={orders} Refresh={Refresh} />
       {/* <View
         style={{
           display: 'flex',

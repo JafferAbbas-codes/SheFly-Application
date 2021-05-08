@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import moment from 'moment';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import {TouchableOpacity} from 'react-native';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import {StackActions} from '@react-navigation/native';
@@ -24,7 +24,7 @@ import Complain from './Complain';
 
 const BookingDetails = (props) => {
   const [order, setOrder] = useState(props.route.params.order);
-  const [rating, setRating] = useState('3');
+  const [rating, setRating] = useState(3);
   const [isVisibleRateModal, setIsVisibleRateModal] = useState(false);
   const [isVisibleReportModal, setIsVisibleReportModal] = useState(false);
 
@@ -122,9 +122,9 @@ const BookingDetails = (props) => {
               fontSize: 24,
               fontWeight: 'bold',
               textAlign: 'center',
-              paddingVertical: 15,
+              padding: 15,
             }}>
-            Let the seller know how was her service!
+            Provide your valuable feedback on the service!
           </Text>
           {/* <AirbnbRating /> */}
           {/* <AirbnbRating
@@ -206,53 +206,226 @@ const BookingDetails = (props) => {
             BOOKING DETAIL
           </Text>
         </View>
-        <Card>
+        <Card availableSeller={true}>
           {/* <ScrollView> */}
-          <View>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: 5,
-              }}>
-              Booking #{' '}
-              {order._id.substring(order._id.length - 10, order._id.length - 3)}
-            </Text>
+          <View style={{paddingHorizontal: 30}}>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  marginBottom: 9,
+                  // paddingHorizontal: 30,
+                }}>
+                Booking #{' '}
+                {order._id.substring(
+                  order._id.length - 10,
+                  order._id.length - 3,
+                )}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  // paddingHorizontal: 50,
+                }}>
+                <Text
+                  style={{
+                    backgroundColor: '#B0389F',
+                    borderRadius: 10,
+                    color: 'white',
+                    width: 80,
+                    textAlign: 'center',
+                    paddingHorizontal: 4,
+                    paddingVertical: 4,
+                  }}>
+                  {order.status}
+                </Text>
+                {order.status != 'Pending' && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      order.status == 'Completed'
+                        ? displayRateModal(true)
+                        : //modal for rate
+                          console.log('Pay Now clicked');
+                    }}>
+                    <Text
+                      style={{
+                        backgroundColor: '#D3D6DB',
+                        borderRadius: 10,
+                        color: '#B0389F',
+                        width: 80,
+                        textAlign: 'center',
+                        paddingHorizontal: 4,
+                        paddingVertical: 4,
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        padding: 5,
+                        borderColor: '#bfc3c7',
+                        borderWidth: 0.5,
+                        shadowOpacity: 1,
+                        shadowRadius: 5,
+                        elevation: 5,
+                        // padding: 20,
+                      }}>
+                      {order.status == 'Completed' ? 'Rate' : 'Pay Now'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
+                marginVertical: 15,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                padding: 5,
+                shadowOpacity: 0.5,
+                shadowRadius: 5,
+                elevation: 10,
+                padding: 20,
+                // marginHorizontal: 30,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  borderBottomColor: 'black',
+                  borderBottomWidth: 2,
+                  paddingBottom: 5,
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                  }}>
+                  Requested on {' ' + moment(order.createdAt).format('ll')}
+                </Text>
+                {order.status == 'Confirmed' ? (
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                    }}>
+                    {'Confirmed on  ' + moment(order.updatedAt).format('ll')}
+                  </Text>
+                ) : (
+                  order.status == 'Completed' && (
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                      }}>
+                      {'Completed on  ' + moment(order.updatedAt).format('ll')}
+                    </Text>
+                  )
+                )}
+              </View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Seller Name:{' '}
+                {order.seller != undefined ? ' ' + order.seller.name : '  TBD'}
+              </Text>
+
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Buyer Name: {order.buyer.name}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Buyer No: {order.buyer.phoneNumber}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Address: {order.address}
+              </Text>
+            </View>
+            <View
+            // style={{marginVertical: 2, marginHorizontal: 10}}
+            >
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 25,
+                  // margin: 5,
+                  // paddingHorizontal: 30,
+                }}>
+                Service Details
+              </Text>
+            </View>
+            <View
+              style={{
+                marginVertical: 15,
+                backgroundColor: 'white',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                padding: 5,
+                shadowOpacity: 0.5,
+                shadowRadius: 5,
+                elevation: 10,
+                padding: 20,
+                // marginHorizontal: 30,
               }}>
               <Text
                 style={{
-                  backgroundColor: '#B0389F',
-                  borderRadius: 10,
-                  color: 'white',
-                  width: 80,
-                  textAlign: 'center',
-                  paddingHorizontal: 4,
-                  paddingVertical: 4,
+                  fontWeight: 'bold',
                 }}>
-                {order.status}
+                Service: {order.service.name}
               </Text>
-              {order.status != 'Pending' && (
-                <TouchableOpacity
-                  onPress={() => {
-                    order.status == 'Completed'
-                      ? displayRateModal(true)
-                      : //modal for rate
-                        console.log('Pay Now clicked');
-                  }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Description: {order.description}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Service Date: {' ' + moment(order.dateAndTime).format('ll')}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                }}>
+                Amount: Rs. {order.budget}
+              </Text>
+            </View>
+            <TouchableOpacity
+              // style={{marginHorizontal: 30, marginVertical: 15}}
+              onPress={() => displayReportModal(true)}>
+              <View
+                style={{
+                  // backgroundColor: 'blue',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  // marginLeft: 7,
+                }}>
+                {order.status == 'Completed' && (
                   <Text
                     style={{
-                      backgroundColor: '#D3D6DB',
-                      borderRadius: 10,
-                      color: '#B0389F',
+                      backgroundColor: '#d21b1c',
+                      borderRadius: 13,
+                      color: 'white',
                       width: 80,
+                      fontWeight: 'bold',
                       textAlign: 'center',
-                      paddingHorizontal: 4,
-                      paddingVertical: 4,
+                      paddingHorizontal: 7,
+                      paddingVertical: 6,
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -260,175 +433,17 @@ const BookingDetails = (props) => {
                       },
                       padding: 5,
                       shadowOpacity: 0.5,
-                      shadowRadius: 5,
-                      elevation: 10,
+                      shadowRadius: 2,
+                      elevation: 7,
                       padding: 20,
                     }}>
-                    {order.status == 'Completed' ? 'Rate' : 'Pay Now'}
+                    Report
                   </Text>
-                </TouchableOpacity>
-              )}
-            </View>
+                )}
+              </View>
+            </TouchableOpacity>
+            {/* </ScrollView> */}
           </View>
-          <View
-            style={{
-              margin: 15,
-              backgroundColor: 'white',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              padding: 5,
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              elevation: 10,
-              padding: 20,
-            }}>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                borderBottomColor: 'black',
-                borderBottomWidth: 2,
-                paddingBottom: 5,
-              }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                }}>
-                Requested on {' ' + moment(order.createdAt).format('ll')}
-              </Text>
-              {order.status == 'Confirmed' ? (
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                  }}>
-                  {'Confirmed on  ' + moment(order.updatedAt).format('ll')}
-                </Text>
-              ) : (
-                order.status == 'Completed' && (
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                    }}>
-                    {'Completed on  ' + moment(order.updatedAt).format('ll')}
-                  </Text>
-                )
-              )}
-            </View>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Seller Name:{' '}
-              {order.seller != undefined ? ' ' + order.seller.name : '  TBD'}
-            </Text>
-
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Buyer Name: {order.buyer.name}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Buyer No: {order.buyer.phoneNumber}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Address: {order.address}
-            </Text>
-          </View>
-          <View style={{margin: 10}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 25,
-                margin: 5,
-              }}>
-              Service Details
-            </Text>
-          </View>
-          <View
-            style={{
-              margin: 15,
-              backgroundColor: 'white',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              padding: 5,
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              elevation: 10,
-              padding: 20,
-            }}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Service: {order.service.name}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Description: {order.description}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Service Date: {' ' + moment(order.dateAndTime).format('ll')}
-            </Text>
-            <Text
-              style={{
-                fontWeight: 'bold',
-              }}>
-              Amount: Rs. {order.budget}
-            </Text>
-          </View>
-          <TouchableOpacity onPress={() => displayReportModal(true)}>
-            <View
-              style={{
-                // backgroundColor: 'blue',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                // marginLeft: 7,
-              }}>
-              {order.status == 'Completed' && (
-                <Text
-                  style={{
-                    backgroundColor: '#FF0404',
-                    borderRadius: 10,
-                    color: 'white',
-                    width: 80,
-                    fontWeight: 'bold',
-                    textAlign: 'center',
-                    paddingHorizontal: 4,
-                    paddingVertical: 4,
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    padding: 5,
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5,
-                    elevation: 10,
-                    padding: 20,
-                  }}>
-                  Report
-                </Text>
-              )}
-            </View>
-          </TouchableOpacity>
-          {/* </ScrollView> */}
         </Card>
       </View>
     </View>

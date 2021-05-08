@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,12 +12,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import {connect} from 'react-redux';
-import {URL, getSellersByService} from '../../config/const';
+import { connect } from 'react-redux';
+import { URL, getSellersByService } from '../../config/const';
 
 const ServiceSeller = (props) => {
   const [sellerByService, setsellerByService] = useState([]);
@@ -35,7 +35,7 @@ const ServiceSeller = (props) => {
     } catch (error) {
       if (error?.response?.data?.result) {
         console.log('error123 signin : ', error.response.data);
-        return {error: error.response.data.result};
+        return { error: error.response.data.result };
       }
     }
   };
@@ -47,32 +47,44 @@ const ServiceSeller = (props) => {
     });
   };
 
-  const renderRecommendation = ({item}) => <ItemRecom item={item} />;
+  const renderRecommendation = ({ item }) => <ItemRecom item={item} />;
 
-  const ItemRecom = ({item}) => (
+  const ItemRecom = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         OnPressSeller(item);
-      }}>
+      }}
+      style={{ zIndex: 1 }}>
       <View
         style={{
           borderRadius: 16,
           backgroundColor: 'white',
           paddingHorizontal: 8,
-          marginBottom: 10,
+          marginBottom: 15,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 12,
+          },
+          shadowOpacity: 0.58,
+          shadowRadius: 12.00,
+
+          elevation: 13,
+          marginHorizontal: 20,
+
         }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row' }}>
             <Image
-              source={{uri: item.profileImage}}
+              source={{ uri: item.profileImage }}
               style={styles.headerImage}
             />
-            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
+            <View style={{ paddingHorizontal: 7, paddingTop: 6 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 6 }}>
                 {item.name}
               </Text>
-              <Text style={{fontSize: 10, color: '#A28FA1'}}>{item.title}</Text>
-              <Text style={{fontSize: 10, color: '#FFB266'}}>
+              <Text style={{ fontSize: 10, color: '#A28FA1' }}>{item.title}</Text>
+              <Text style={{ fontSize: 10, color: '#FFB266' }}>
                 <MaterialIcons name="star" size={10} />
                 {' ' + item.rating.toFixed(1)}
               </Text>
@@ -120,12 +132,13 @@ const ServiceSeller = (props) => {
       <ScrollView>
         <View style={styles.back}>
           <Header />
-          <Card>
-            <View style={{flexDirection: 'row'}}>
+          <Card availableSeller={true}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: 24,
+                  marginHorizontal: 20,
                 }}>
                 Available sellers for {props.route.params.name}
               </Text>
@@ -156,7 +169,7 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    marginVertical: 30,
+    paddingVertical: 30,
   },
 });
 

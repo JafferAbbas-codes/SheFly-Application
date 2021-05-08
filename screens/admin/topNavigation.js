@@ -1,9 +1,10 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from 'react';
-import bookingCard from './BookingCard';
+import BookingCard from './BookingCard';
 const Tab = createMaterialTopTabNavigator();
 
-function MyTabs() {
+function MyTabs(props) {
+  console.log('props in top navigation', props);
   return (
     <Tab.Navigator
       style={{backgroundColor: '#d8bfd6'}}
@@ -14,11 +15,32 @@ function MyTabs() {
       }}>
       <Tab.Screen
         name="Pending"
-        style={{backgroundColor: 'black'}}
-        component={bookingCard}
+        // style={{backgroundColor: 'black'}}
+        children={() => (
+          <BookingCard
+            bookings={props.pendingBookings}
+            Refresh={props.Refresh}
+          />
+        )}
       />
-      <Tab.Screen name="Confirmed" component={bookingCard} />
-      <Tab.Screen name="Completed" component={bookingCard} />
+      <Tab.Screen
+        name="Confirmed"
+        children={() => (
+          <BookingCard
+            bookings={props.confirmedBookings}
+            Refresh={props.Refresh}
+          />
+        )}
+      />
+      <Tab.Screen
+        name="Completed"
+        children={() => (
+          <BookingCard
+            bookings={props.completedBookings}
+            Refresh={props.Refresh}
+          />
+        )}
+      />
     </Tab.Navigator>
   );
 }

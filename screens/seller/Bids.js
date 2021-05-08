@@ -12,6 +12,7 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import MainCard from '../../shared/MainCard';
@@ -28,10 +29,21 @@ import {URL, getOrdersBySeller, getBidsByOrder} from '../../config/const';
 const Bids = (props) => {
   // const [value, onChangeText] = React.useState('42|');
   console.log('props in bids', props);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    props.route.params.getAllBidsBySeller();
+  };
 
   const renderItem = ({item}) => {
     var date = moment(item.updatedAt).format('ll');
-    console.log('in item' + item);
     return (
       <Item
         BookingID={item._id.substring(
@@ -158,8 +170,35 @@ const Bids = (props) => {
     });
   };
 
+  useEffect(() => {
+    props.route.params.getAllBidsBySeller();
+  }, [props]);
+
+  const ServiceList = () => {
+    console.log('here in servicelist');
+    return (
+      <SafeAreaView style={styles.container}>
+        {console.log(' in scroll view', props.route.params.bids)}
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#F4F9FE']}
+              progressBackgroundColor={'#B0389F'}
+            />
+          }
+          data={props.route.params.bids}
+          renderItem={renderItem}
+          keyExtractor={(item) => item._id}
+          // style={{borderRadius: 20}}
+        />
+      </SafeAreaView>
+    );
+  };
+
   return (
-    <TouchableWithoutFeedback
+    <View
       onPress={() => {
         Keyboard.dismiss();
       }}>
@@ -188,18 +227,10 @@ const Bids = (props) => {
           </Text>
         </View>
         <MainCard>
-          <ScrollView style={styles.container}>
-            {console.log(' in scroll view', props.route.params.bids)}
-            <FlatList
-              data={props.route.params.bids}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{borderRadius: 20}}
-            />
-          </ScrollView>
+          <ServiceList />
         </MainCard>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -214,8 +245,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
-    // marginVertical: 30,
+    // flex: 1,
+    // marginTop: 25,
+    // paddingBottom: 420,
   },
   item: {
     // backgroundColor: '#f9c2ff',

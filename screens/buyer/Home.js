@@ -13,7 +13,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {URL, getAllServicesRoute, getUserByType} from '../../config/const';
@@ -24,20 +24,26 @@ import PTRView from 'react-native-pull-to-refresh';
 
 const Home = (props) => {
   const [services, setServices] = useState([]);
+  const [availableSellers, setAvailableSellers] = useState([]);
 
-  // const pullToRefresh = () => {
-  //   console.log('in setTimeout before apicall');
-  //   getAllServicesRoute();
-  //   getUserByType();
-  //   console.log('in setTimeout after apicall');
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve();
-  //     }, 2000);
-  //   });
-  //   // getAllServicesRoute();
-  //   // getUserByType();
-  // };
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllServices();
+    getAllSellers();
+  };
+
+  useEffect(() => {
+    getAllServices();
+    getAllSellers();
+  }, [props]);
 
   const renderItem = (item) => <Item item={item.item} />;
 
@@ -57,7 +63,7 @@ const Home = (props) => {
           marginHorizontal: 5,
           overflow: 'hidden',
           backgroundColor: 'black',
-          opacity: 0.9,
+          opacity: 0.85,
         }}>
         <Text
           style={{
@@ -65,6 +71,7 @@ const Home = (props) => {
             color: 'white',
             fontWeight: 'bold',
             width: 130,
+            opacity: 1,
             textAlign: 'center',
             textAlignVertical: 'center',
             height: 120,
@@ -95,14 +102,14 @@ const Home = (props) => {
   const seeAllServicesPressHandler = () => {
     props.navigation.navigate('AllServices', {
       ...props.route.params,
-      getAllServices,
+      services,
     });
   };
 
   const seeAllSellersPressHandler = () => {
     props.navigation.navigate('AvailableSellers', {
       ...props.route.params,
-      getAllSellers,
+      availableSellers,
     });
   };
 
@@ -145,8 +152,6 @@ const Home = (props) => {
     getAllSellers();
   }, []);
 
-  const [availableSellers, setAvailableSellers] = useState([]);
-
   const renderAvailableSellers = (item) => <ItemRecom item={item.item} />;
 
   const ItemRecom = ({item}) => (
@@ -160,6 +165,7 @@ const Home = (props) => {
           borderRadius: 16,
           backgroundColor: 'white',
           paddingHorizontal: 15,
+          paddingTop: 10,
           marginRight: 10,
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -222,53 +228,63 @@ const Home = (props) => {
       <View style={styles.back}>
         <Header />
         <Card>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 24,
-              }}>
-              Popular Services
-            </Text>
-            <TouchableOpacity
-              onPress={seeAllServicesPressHandler}
-              style={{
-                fontSize: 16,
-              }}>
-              <Text>see all</Text>
-            </TouchableOpacity>
-          </View>
-          <SafeAreaView style={styles.container}>
-            <FlatList
-              horizontal
-              data={services}
-              renderItem={renderItem}
-              keyExtractor={(item) => item._id}
-            />
-          </SafeAreaView>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 24,
-              }}>
-              Available Sellers
-            </Text>
-            <TouchableOpacity
-              onPress={seeAllSellersPressHandler}
-              style={{
-                fontSize: 16,
-              }}>
-              <Text>see all</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView style={styles.container}>
-            <FlatList
-              horizontal
-              data={availableSellers}
-              renderItem={renderAvailableSellers}
-              keyExtractor={(item) => item._id}
-            />
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={['#F4F9FE']}
+                progressBackgroundColor={'#B0389F'}
+              />
+            }>
+            <View style={styles.row}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                }}>
+                Popular Services
+              </Text>
+              <TouchableOpacity
+                onPress={seeAllServicesPressHandler}
+                style={{
+                  fontSize: 16,
+                }}>
+                <Text>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <SafeAreaView style={styles.container}>
+              <FlatList
+                horizontal
+                data={services}
+                renderItem={renderItem}
+                keyExtractor={(item) => item._id}
+              />
+            </SafeAreaView>
+            <View style={styles.row}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                }}>
+                Available Sellers
+              </Text>
+              <TouchableOpacity
+                onPress={seeAllSellersPressHandler}
+                style={{
+                  fontSize: 16,
+                }}>
+                <Text>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView style={styles.container}>
+              <FlatList
+                horizontal
+                data={availableSellers}
+                renderItem={renderAvailableSellers}
+                keyExtractor={(item) => item._id}
+              />
+            </ScrollView>
           </ScrollView>
         </Card>
       </View>
@@ -289,7 +305,12 @@ const styles = StyleSheet.create({
   },
   container: {
     borderRadius: 20,
-    marginVertical: 30,
+    marginVertical: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
 });
 

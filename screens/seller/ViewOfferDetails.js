@@ -12,9 +12,10 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  Modal,
 } from 'react-native';
 import Header from '../../shared/Header2';
-import Card from '../../shared/Card';
+import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
 import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
@@ -24,12 +25,25 @@ import {connect} from 'react-redux';
 
 const ViewOfferDetails = (props) => {
   console.log(props);
+  const offer = props.route.params.offer;
+  const [isVisible, setIsVisible] = useState(false);
 
-  const OnPressConfirmOffer = async () => {
+  const displayModal = (show) => {
+    setIsVisible(show);
+    setTimeout(() => {
+      setIsVisible(false);
+      props.navigation.navigate('Profile', {
+        ...props.route.params,
+        refresh: true,
+      });
+    }, 2000);
+  };
+
+  const OnPressConfirmOffer = async (id) => {
     console.log('In OnPress COnfirm');
     try {
       let response = await axios.put(
-        `${URL}${confirmOffer}${props.route.params.orderId}`,
+        `${URL}${confirmOffer}${id}`,
         {
           seller: props.user._id,
         },
@@ -39,13 +53,12 @@ const ViewOfferDetails = (props) => {
           },
         },
       );
-      Alert.alert('Success', 'Offer Sent');
-      props.navigation.navigate('Profile', {
-        ...props.route.params,
-      });
+      // Alert.alert('Success', 'Offer Sent');
+      displayModal(true);
     } catch (error) {
       // setButtonLoading(false);
       console.log('propss in OnPressConfirmOffer', error);
+
       if (error?.response?.data?.result) {
         console.log('propss in OnPressConfirmOffer', error);
         console.log('error123 OnPressConfirmOffer : ', error.response.data);
@@ -67,6 +80,31 @@ const ViewOfferDetails = (props) => {
         Keyboard.dismiss();
       }}>
       <View>
+        <Modal
+          animationType={'fade'}
+          transparent={false}
+          visible={isVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has now been closed.');
+          }}>
+          <View
+            style={{
+              flex: 1,
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}>
+            <MaterialIcons
+              name="check-circle"
+              size={230}
+              style={{
+                color: '#AD379D',
+              }}
+            />
+            <Text style={{textAlign: 'center', fontSize: 30}}>
+              Offer Confirmed
+            </Text>
+          </View>
+        </Modal>
         <View>
           <View
             style={{
@@ -107,7 +145,7 @@ const ViewOfferDetails = (props) => {
               // justifyContent: 'space-around',
             }}>
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {props.route.params.service}
+              {offer.service.name}
             </Text>
             <MaterialIcons
               name="map-marker"
@@ -119,7 +157,7 @@ const ViewOfferDetails = (props) => {
               }}
             />
             <Text style={{fontSize: 10, color: '#A28FA1'}}>
-              {' ' + props.route.params.location}
+              {' ' + offer.address}
             </Text>
           </View>
           <View
@@ -129,7 +167,7 @@ const ViewOfferDetails = (props) => {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
+            <Text style={{fontSize: 17}}>{offer.description}</Text>
           </View>
 
           <View
@@ -143,7 +181,7 @@ const ViewOfferDetails = (props) => {
               Budget
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              Rs. {props.route.params.budget}
+              Rs. {offer.budget}
             </Text>
           </View>
           <View
@@ -159,12 +197,12 @@ const ViewOfferDetails = (props) => {
             <View style={{flexDirection: 'row'}}>
               <Image
                 source={{
-                  uri: props.route.params.image,
+                  uri: offer.buyer.profileImage,
                 }}
                 style={styles.headerImage}
               />
               <Text style={{fontWeight: 'bold', fontSize: 18}}>
-                {'  ' + props.route.params.name}
+                {'  ' + offer.buyer.name}
               </Text>
             </View>
           </View>
@@ -179,7 +217,7 @@ const ViewOfferDetails = (props) => {
               text="Confirm Offer"
               onPress={
                 () => {
-                  OnPressConfirmOffer();
+                  OnPressConfirmOffer(offer._id);
                 }
                 // console.log('on click', item._id),
               }

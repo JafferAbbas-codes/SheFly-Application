@@ -1,9 +1,10 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from 'react';
+import User from './User.js';
 import UserCard from './UserCard.js';
 const Tab = createMaterialTopTabNavigator();
 
-function UserTabs() {
+function UserTabs(props) {
   return (
     <Tab.Navigator
       style={{backgroundColor: '#d8bfd6'}}
@@ -14,10 +15,17 @@ function UserTabs() {
       }}>
       <Tab.Screen
         name="Buyers"
-        style={{backgroundColor: 'black'}}
-        component={UserCard}
+        // style={{backgroundColor: 'black'}}
+        children={() => (
+          <UserCard users={props.buyers} allUsers={props.allUsers} />
+        )}
       />
-      <Tab.Screen name="Sellers" component={UserCard} />
+      <Tab.Screen
+        name="Sellers"
+        children={() => (
+          <UserCard users={props.sellers} allUsers={props.allUsers} />
+        )}
+      />
     </Tab.Navigator>
   );
 }

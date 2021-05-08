@@ -1,6 +1,6 @@
 import React from 'react';
-import HomeScreen from './home';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import HomeScreen from './Home';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -15,22 +15,48 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  shadow: {
+    shadowColor: '#7F5Df0',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
 });
 export default function bottomNavigator() {
-  const Tab = createMaterialBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="black"
-      inactiveColor="#3e2465"
-      labeled={false}
-      barStyle={{backgroundColor: 'white', height: 50}}>
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          position: 'absolute',
+          elevation: 0,
+          border: 4,
+          height: 55,
+          backgroundColor: '#FFFFFF',
+
+          // borderColor: '#000000',
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+
+          // backgroundColor: 'red',
+          ...styles.shadow,
+        },
+      }}>
       <Tab.Screen
         name="HomeScreen"
         options={{
-          tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={22} />
+          tabBarIcon: ({focused}) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={focused ? '#b23aa2' : '#D8BFD6'}
+              size={26}
+            />
           ),
         }}
         component={HomeScreen}
@@ -39,8 +65,12 @@ export default function bottomNavigator() {
         name="Booking"
         component={BookingScreen}
         options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="shopping-cart" color={color} size={20} />
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="shopping-cart"
+              color={focused ? '#b23aa2' : '#D8BFD6'}
+              size={20}
+            />
           ),
         }}
       />
@@ -48,11 +78,11 @@ export default function bottomNavigator() {
         name="Complains"
         component={ComplainScreen}
         options={{
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({focused}) => (
             <MaterialCommunityIcons
-              name="alert-circle"
-              color={color}
-              size={23}
+              name="emoticon-sad"
+              color={focused ? '#b23aa2' : '#D8BFD6'}
+              size={27}
             />
           ),
         }}
@@ -61,8 +91,12 @@ export default function bottomNavigator() {
         name="users"
         component={Users}
         options={{
-          tabBarIcon: ({color}) => (
-            <FontAwesome5Icon name="users" color={color} size={20} />
+          tabBarIcon: ({focused}) => (
+            <FontAwesome5Icon
+              name="users"
+              color={focused ? '#b23aa2' : '#D8BFD6'}
+              size={20}
+            />
           ),
         }}
       />
