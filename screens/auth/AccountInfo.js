@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,13 +13,13 @@ import Checkbox from 'react-native-check-box';
 import Header from '../../shared/Header';
 import LongCard from '../../shared/LongCard';
 import FlatButton from '../../shared/Button.js';
-import { gStyles } from '../../styles/global';
-import { Formik } from 'formik';
+import {gStyles} from '../../styles/global';
+import {Formik} from 'formik';
 import * as yup from 'yup';
 import Stepper from '../../shared/Stepper';
 
-import { signup, setLoading } from '../../redux/authActions';
-import { connect } from 'react-redux';
+import {signup, setLoading} from '../../redux/authActions';
+import {connect} from 'react-redux';
 
 // import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 const AccountInfo = (props) => {
@@ -28,7 +28,7 @@ const AccountInfo = (props) => {
 
   const handleSubmit = (values) => {
     signupFunction(
-      Object.assign({ isActivated: true }, values, props.route.params),
+      Object.assign({isActivated: true}, values, props.route.params),
     );
   };
 
@@ -46,9 +46,14 @@ const AccountInfo = (props) => {
     }
   };
 
-  const navigateToSampleScreen = () => {
+  const navigateToSampleScreen = (body) => {
     // props.navigation.goBack();
-    props.navigation.navigate('SellerBio');
+    props.navigation.navigate('SellerBio', {
+      ...props.route.params,
+      name: body.name,
+      email: body.email,
+      password: body.password,
+    });
   };
 
   const reviewSchema = yup.object({
@@ -99,7 +104,11 @@ const AccountInfo = (props) => {
             validationSchema={reviewSchema}
             onSubmit={(values, actions) => {
               if (props.route.params.userType == 'seller') {
-                navigateToSampleScreen();
+                navigateToSampleScreen({
+                  name: values.name,
+                  email: values.email,
+                  password: values.password,
+                });
               } else {
                 handleSubmit({
                   name: values.name,
@@ -126,7 +135,7 @@ const AccountInfo = (props) => {
                     alignContent: 'space-around',
                     marginBottom: 5,
                   }}>
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -156,7 +165,7 @@ const AccountInfo = (props) => {
                         />
                         {/* {propss.errors.name && propss.touched.name ? ( */}
                         <View>
-                          <Text style={{ color: 'red' }}>
+                          <Text style={{color: 'red'}}>
                             {propss.errors.name && propss.touched.name
                               ? propss.errors.name
                               : ''}
@@ -167,7 +176,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -196,7 +205,7 @@ const AccountInfo = (props) => {
                         />
                         {/* {propss.errors.email && propss.touched.email ? ( */}
                         <View>
-                          <Text style={{ color: 'red' }}>
+                          <Text style={{color: 'red'}}>
                             {propss.errors.email && propss.touched.email
                               ? propss.errors.email
                               : ''}
@@ -207,7 +216,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -253,7 +262,7 @@ const AccountInfo = (props) => {
                     </View>
                   </View>
 
-                  <View style={{ marginBottom: 7 }}>
+                  <View style={{marginBottom: 7}}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -272,7 +281,7 @@ const AccountInfo = (props) => {
                         <TextInput
                           style={
                             propss.errors.passwordConfirmation &&
-                              propss.touched.passwordConfirmation
+                            propss.touched.passwordConfirmation
                               ? styles.errorInput
                               : styles.input
                           }
@@ -293,7 +302,7 @@ const AccountInfo = (props) => {
                               color: 'red',
                             }}>
                             {propss.errors.passwordConfirmation &&
-                              propss.touched.passwordConfirmation
+                            propss.touched.passwordConfirmation
                               ? propss.errors.passwordConfirmation
                               : ''}
                           </Text>
