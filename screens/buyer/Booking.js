@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   StyleSheet,
@@ -9,14 +9,27 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import MainCard from '../../shared/MainCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Zocial from 'react-native-vector-icons/Zocial';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 const Bookings = (props) => {
   const [bookings, setBookings] = useState(props.route.params.bookings);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    props.route.params.getBookingsByBuyer();
+  };
   console.log('In Bookings', props.route.params.bookings);
 
   const OnPressRequest = (order) => {
@@ -25,10 +38,10 @@ const Bookings = (props) => {
     });
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return <Item order={item} />;
   };
-  const Item = ({ order }) => (
+  const Item = ({order}) => (
     <TouchableOpacity
       onPress={() => {
         OnPressRequest(order);
@@ -46,7 +59,7 @@ const Bookings = (props) => {
           shadowRadius: 10,
           marginHorizontal: 20,
           elevation: 13,
-          marginVertical: 5
+          marginVertical: 5,
         }}>
         <View
           style={{
@@ -73,17 +86,17 @@ const Bookings = (props) => {
             Requested on{' ' + moment(order.createdAt).format('ll')}
           </Text>
         </View>
-        <View style={{ paddingVertical: 5 }}>
+        <View style={{paddingVertical: 5}}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{ color: '#B0389F' }}>
+            <Text style={{color: '#B0389F'}}>
               <FontAwesome5
                 name="user-alt"
                 size={16}
-                style={{ color: 'black' }}
+                style={{color: 'black'}}
               />
               {'  ' + order.buyer.name}
             </Text>
@@ -121,6 +134,10 @@ const Bookings = (props) => {
     </TouchableOpacity>
   );
 
+  useEffect(() => {
+    props.route.params.getBookingsByBuyer();
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -147,10 +164,18 @@ const Bookings = (props) => {
         <MainCard requests={true}>
           <SafeAreaView style={styles.container}>
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
               data={bookings}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
-              style={{ borderRadius: 20, marginBottom: 30 }}
+              style={{borderRadius: 20, marginBottom: 30}}
             />
           </SafeAreaView>
         </MainCard>
@@ -170,10 +195,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    marginTop: 20,
-    paddingBottom: 5
+    marginTop: 25,
+    // paddingBottom: 10,
   },
   title: {
     fontSize: 32,

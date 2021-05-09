@@ -61,17 +61,18 @@ const Jobs = (props) => {
       }}>
       <View
         style={{
-          marginBottom: 10,
           backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {
-            width: 0,
+            width: 5,
             height: 1,
           },
           padding: 5,
           shadowOpacity: 1,
           shadowRadius: 10,
-          elevation: 10,
+          marginHorizontal: 20,
+          elevation: 13,
+          marginVertical: 5,
         }}>
         <View
           style={{
@@ -174,7 +175,7 @@ const Jobs = (props) => {
             {props.route.params.headerTitle}
           </Text>
         </View>
-        <MainCard>
+        <MainCard requests={true}>
           <SafeAreaView style={styles.container}>
             {/* {console.log(' in scroll view', props.route.params.jobsDone)} */}
             <FlatList
@@ -189,7 +190,7 @@ const Jobs = (props) => {
               data={props.route.params.jobs}
               renderItem={renderItem}
               keyExtractor={(item) => item._id}
-              style={{borderRadius: 20}}
+              style={{borderRadius: 20, marginBottom: 30}}
             />
           </SafeAreaView>
         </MainCard>
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    // paddingVertical: 20,
+    marginTop: 25,
     // paddingBottom: 300,
   },
   title: {

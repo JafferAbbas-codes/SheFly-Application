@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {
   StyleSheet,
@@ -9,16 +9,30 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import MainCard from '../../shared/MainCard';
 import Zocial from 'react-native-vector-icons/Zocial';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { URL, getBuyerRequests } from '../../config/const';
+import {connect} from 'react-redux';
+import {URL, getBuyerRequests} from '../../config/const';
+import {replace} from 'formik';
 
 const BuyerRequests = (props) => {
   const [Requests, setRequests] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllBuyerRequests();
+  };
 
   const getAllBuyerRequests = async () => {
     try {
@@ -33,17 +47,18 @@ const BuyerRequests = (props) => {
       setRequests(
         response.data.result.filter((req) => req.status == 'Pending'),
       );
+      console.log('in buyer request', response.data.result);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return { error: error.response.data.result };
+        return {error: error.response.data.result};
       }
     }
   };
 
   useEffect(() => {
     getAllBuyerRequests();
-  }, []);
+  }, [props]);
 
   const OnPressRequest = (
     id,
@@ -72,7 +87,7 @@ const BuyerRequests = (props) => {
     });
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     var date = moment(item.createdAt).format('ll');
     return (
       <Item
@@ -133,7 +148,7 @@ const BuyerRequests = (props) => {
           elevation: 10,
           marginHorizontal: 20,
           elevation: 13,
-          marginVertical: 5
+          marginVertical: 5,
         }}>
         <View
           style={{
@@ -158,17 +173,17 @@ const BuyerRequests = (props) => {
             Requested on{' ' + date}
           </Text>
         </View>
-        <View style={{ paddingVertical: 5 }}>
+        <View style={{paddingVertical: 5}}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={{ color: '#B0389F' }}>
+            <Text style={{color: '#B0389F'}}>
               <FontAwesome5
                 name="user-alt"
                 size={16}
-                style={{ color: 'black' }}
+                style={{color: 'black'}}
               />
               {'  ' + buyer}
             </Text>
@@ -232,11 +247,20 @@ const BuyerRequests = (props) => {
         <MainCard requests={true}>
           <SafeAreaView style={styles.container}>
             <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
               data={Requests}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
               style={{
-                borderRadius: 20, marginBottom: 30
+                borderRadius: 20,
+                marginBottom: 30,
               }}
             />
           </SafeAreaView>
@@ -260,7 +284,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     marginTop: 30,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   title: {
     fontSize: 32,

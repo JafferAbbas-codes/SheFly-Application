@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,18 +10,31 @@ import {
   SafeAreaView,
   Modal,
   Alert,
+  RefreshControl,
 } from 'react-native';
-import { StackActions } from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
 import MainCard from '../../shared/MainCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { URL, getBidsByOrder, confirmOrder } from '../../config/const';
+import {connect} from 'react-redux';
+import {URL, getBidsByOrder, confirmOrder} from '../../config/const';
 
 const BidsOnBuyerRequests = (props) => {
   const [Bids, setBids] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllBidsByOrder();
+  };
 
   const getAllBidsByOrder = async () => {
     try {
@@ -34,10 +47,11 @@ const BidsOnBuyerRequests = (props) => {
         },
       );
       setBids(response.data.result);
+      console.log('response of getallbids', response.data.result);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return { error: error.response.data.result };
+        return {error: error.response.data.result};
       }
     }
   };
@@ -67,14 +81,14 @@ const BidsOnBuyerRequests = (props) => {
       if (error?.response?.data?.result) {
         console.log('propss in AcceptBid', error);
         console.log('error123 AcceptBid : ', error.response.data);
-        return { error: error.response.data.result };
+        return {error: error.response.data.result};
       }
     }
   };
 
   useEffect(() => {
     getAllBidsByOrder();
-  }, []);
+  }, [props]);
 
   const displayModal = (show) => {
     setIsVisible(show);
@@ -82,12 +96,9 @@ const BidsOnBuyerRequests = (props) => {
       setIsVisible(false);
       props.navigation.dispatch(StackActions.pop(0));
     }, 2000);
-    // props.navigation.navigate('Home', {
-    //   ...props.route.params,
-    // });
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <Item
       description={item.description}
       seller={item.seller}
@@ -95,7 +106,7 @@ const BidsOnBuyerRequests = (props) => {
       _id={item._id}
     />
   );
-  const Item = ({ description, seller, budget, _id }) => (
+  const Item = ({description, seller, budget, _id}) => (
     <View
       style={{
         margin: 5,
@@ -109,7 +120,7 @@ const BidsOnBuyerRequests = (props) => {
         shadowOpacity: 0.5,
         shadowRadius: 5,
         elevation: 13,
-        marginHorizontal: 30
+        marginHorizontal: 30,
       }}>
       <View
         style={{
@@ -137,8 +148,8 @@ const BidsOnBuyerRequests = (props) => {
           paddingTop: 5,
           paddingHorizontal: 8,
         }}>
-        <Text style={{ fontSize: 15 }}>
-          <MaterialIcons name="female" size={18} style={{ color: 'black' }} />
+        <Text style={{fontSize: 15}}>
+          <MaterialIcons name="female" size={18} style={{color: 'black'}} />
           {seller != undefined ? ' ' + seller.name : '  TBD'}
         </Text>
         <Text
@@ -157,10 +168,10 @@ const BidsOnBuyerRequests = (props) => {
           flexDirection: 'row',
           paddingTop: 5,
         }}>
-        <Text style={{ paddingLeft: 8, fontWeight: 'bold', fontSize: 12 }}>
+        <Text style={{paddingLeft: 8, fontWeight: 'bold', fontSize: 12}}>
           Description:{' '}
         </Text>
-        <Text style={{ fontSize: 12, textAlign: 'justify' }}>{description}</Text>
+        <Text style={{fontSize: 12, textAlign: 'justify'}}>{description}</Text>
       </View>
       <View
         style={{
@@ -168,11 +179,11 @@ const BidsOnBuyerRequests = (props) => {
           justifyContent: 'space-between',
           paddingVertical: 5,
         }}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={{ paddingLeft: 8, fontWeight: 'bold', fontSize: 12 }}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{paddingLeft: 8, fontWeight: 'bold', fontSize: 12}}>
             Budget:{' '}
           </Text>
-          <Text style={{ fontSize: 12, textAlign: 'justify' }}>
+          <Text style={{fontSize: 12, textAlign: 'justify'}}>
             {'Rs. ' + budget}
           </Text>
         </View>
@@ -226,7 +237,7 @@ const BidsOnBuyerRequests = (props) => {
                 color: '#AD379D',
               }}
             />
-            <Text style={{ textAlign: 'center', fontSize: 30 }}>
+            <Text style={{textAlign: 'center', fontSize: 30}}>
               Bid Accepted!
             </Text>
           </View>
@@ -253,16 +264,22 @@ const BidsOnBuyerRequests = (props) => {
           </Text>
         </View>
         <MainCard requests={true}>
-          <ScrollView>
-            <SafeAreaView style={styles.container}>
-              <FlatList
-                data={Bids}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.key}
-                style={{ borderRadius: 20 }}
-              />
-            </SafeAreaView>
-          </ScrollView>
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
+              data={Bids}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.key}
+              // style={{borderRadius: 20}}
+            />
+          </SafeAreaView>
         </MainCard>
       </View>
     </TouchableWithoutFeedback>
@@ -280,8 +297,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
-    marginVertical: 30
+    // flex: 1,
+    marginTop: 25,
+    paddingBottom: 200,
   },
   title: {
     fontSize: 32,
@@ -318,7 +336,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     textAlign: 'center',
-
   },
 });
 

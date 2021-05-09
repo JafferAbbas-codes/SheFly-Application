@@ -163,9 +163,8 @@ const Profile = (props) => {
         navigation={props.navigation}
         route={props.route}
       />
-      <Card>
+      <Card availableSeller={true}>
         <ScrollView
-          style={styles.container}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -174,18 +173,17 @@ const Profile = (props) => {
               progressBackgroundColor={'#B0389F'}
             />
           }>
-          <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 30,
+            }}>
             <TouchableOpacity
               onPress={() => {
                 OnPressJobsDone(jobsDone);
               }}>
-              <View
-                style={{
-                  borderRadius: 24,
-                  margin: 8,
-                  padding: 15,
-                  backgroundColor: 'white',
-                }}>
+              <View style={styles.box}>
                 <Text
                   style={{
                     fontSize: 30,
@@ -209,13 +207,7 @@ const Profile = (props) => {
               onPress={() => {
                 OnPressJobsInProgress(jobsInProgress);
               }}>
-              <View
-                style={{
-                  borderRadius: 24,
-                  margin: 8,
-                  padding: 15,
-                  backgroundColor: 'white',
-                }}>
+              <View style={styles.box}>
                 <Text
                   style={{
                     fontSize: 30,
@@ -239,14 +231,7 @@ const Profile = (props) => {
               onPress={() => {
                 OnPressBids(bids);
               }}>
-              <View
-                style={{
-                  borderRadius: 24,
-                  width: 90,
-                  margin: 8,
-                  padding: 15,
-                  backgroundColor: 'white',
-                }}>
+              <View style={styles.box}>
                 <Text
                   style={{
                     fontSize: 30,
@@ -267,10 +252,23 @@ const Profile = (props) => {
               </View>
             </TouchableOpacity>
           </View>
-          <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 25,
+              margin: 10,
+              paddingHorizontal: 20,
+              paddingTop: 30,
+            }}>
             Expertise
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              // margin: 10,
+              paddingHorizontal: 20,
+              // paddingTop: 30,
+            }}>
             <FlatList
               horizontal
               data={props.user.services}
@@ -278,10 +276,23 @@ const Profile = (props) => {
               keyExtractor={(item) => item._id}
             />
           </View>
-          <Text style={{fontWeight: 'bold', fontSize: 25, margin: 10}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 25,
+              // marginHorizontal: 10,
+              paddingHorizontal: 30,
+              paddingTop: 10,
+            }}>
             Samples
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              // margin: 10,
+              paddingHorizontal: 20,
+              // paddingTop: 30,
+            }}>
             <FlatList
               horizontal
               data={props.user.samples}
@@ -299,6 +310,25 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: '#B0389F',
     // flex: 1,
+  },
+  box: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+
+    elevation: 12,
+    flexDirection: 'column',
+    borderRadius: 20,
+    width: 100,
+    marginHorizontal: 3.5,
+    padding: 15,
+    backgroundColor: 'white',
+    zIndex: 1,
+    marginTop: 5,
   },
   container: {
     // borderRadius: 20,

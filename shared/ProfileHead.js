@@ -48,18 +48,16 @@ const Header = (props) => {
           </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 12, color: 'white', marginTop: 10}}>
-              {props.user.title + '     '}
-            </Text>
-
-            <Text style={{fontSize: 12, color: 'white', margin: 10}}>
-              <MaterialIcons
-                name="star"
-                size={10}
-                /*onPress={openMenu}*/ style={styles.icon}
-              />
-              {' ' + parseFloat(props.user.rating).toFixed(1)}
-            </Text>
+            <Text style={{fontSize: 12, color: 'white'}}>{props.title}</Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{fontSize: 10, color: '#FFFFFF'}}>
+                <MaterialIcons name="star" size={10} />
+                {' ' + props.user.rating.toFixed(1)}
+              </Text>
+              <Text style={{fontSize: 10, color: '#FFFFFF'}}>
+                {' (' + props.user.ratingCount + ') '}
+              </Text>
+            </View>
           </View>
         </View>
       </View>

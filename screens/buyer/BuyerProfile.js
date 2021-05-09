@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, SafeAreaView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  RefreshControl,
+  ScrollView,
+} from 'react-native';
 import Header from '../../shared/BuyerProfileHead';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Card from '../../shared/AppStackCard';
@@ -15,6 +23,18 @@ const BuyerProfile = (props) => {
   const [confirmedBookings, setConfirmedBookings] = useState([]);
   const [pendingBookings, setPendingBookings] = useState([]);
   const [completedBookings, setCompletedBookings] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getBookingsByBuyer();
+  };
 
   const renderItem = ({item}) => {
     var date = moment(item.dateAndTime).format('ll');
@@ -93,7 +113,7 @@ const BuyerProfile = (props) => {
       }}>
       <View
         style={{
-          marginTop: 10,
+          marginVertical: 5,
           backgroundColor: 'white',
           shadowColor: '#000',
           shadowOffset: {
@@ -202,6 +222,7 @@ const BuyerProfile = (props) => {
       setCompletedBookings(completedBookings);
       setConfirmedBookings(confirmedBookings);
       setPendingBookings(pendingBookings);
+      console.log('response in buyer profile bookings', response.data.result);
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
@@ -212,11 +233,12 @@ const BuyerProfile = (props) => {
 
   useEffect(() => {
     getBookingsByBuyer();
-  }, []);
+  }, [props]);
 
   const OnPressConfirmedBookings = (confirmedBookings) => {
     props.navigation.navigate('Bookings', {
       ...props.route.params,
+      getBookingsByBuyer,
       bookings: confirmedBookings,
       headerTitle: 'Confirmed Bookings',
     });
@@ -225,6 +247,7 @@ const BuyerProfile = (props) => {
   const OnPressCompletedBookings = (completedBookings) => {
     props.navigation.navigate('Bookings', {
       ...props.route.params,
+      getBookingsByBuyer,
       bookings: completedBookings,
       headerTitle: 'Completed Bookings',
     });
@@ -233,6 +256,7 @@ const BuyerProfile = (props) => {
   const OnPressPendingBookings = (pendingBookings) => {
     props.navigation.navigate('Bookings', {
       ...props.route.params,
+      getBookingsByBuyer,
       bookings: pendingBookings,
       headerTitle: 'Pending Bookings',
     });
@@ -246,112 +270,112 @@ const BuyerProfile = (props) => {
         route={props.route}
       />
       <Card availableSeller={true}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              OnPressConfirmedBookings(confirmedBookings);
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#F4F9FE']}
+              progressBackgroundColor={'#B0389F'}
+            />
+          }>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: 30,
             }}>
-            <View style={styles.box}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
-                }}>
-                {confirmedBookings.length}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
-                }}>
-                Confirmed Bookings
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              OnPressPendingBookings(pendingBookings);
+            <TouchableOpacity
+              onPress={() => {
+                OnPressConfirmedBookings(confirmedBookings);
+              }}>
+              <View style={styles.box}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {confirmedBookings.length}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  Confirmed Bookings
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                OnPressPendingBookings(pendingBookings);
+              }}>
+              <View style={styles.box}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {pendingBookings.length}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  Pending Bookings
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                OnPressCompletedBookings(completedBookings);
+              }}>
+              <View style={styles.box}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    textAlignVertical: 'bottom',
+                  }}>
+                  {completedBookings.length}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 13,
+                    textAlign: 'center',
+                    textAlignVertical: 'top',
+                  }}>
+                  Completed Bookings
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 25,
+              margin: 10,
+              paddingHorizontal: 20,
+              paddingTop: 30,
             }}>
-            <View style={styles.box}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
-                }}>
-                {pendingBookings.length}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
-                }}>
-                Pending Bookings
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              OnPressCompletedBookings(completedBookings);
-            }}>
-            <View style={styles.box}>
-              <Text
-                style={{
-                  fontSize: 30,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  textAlignVertical: 'bottom',
-                }}>
-                {completedBookings.length}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 13,
-                  textAlign: 'center',
-                  textAlignVertical: 'top',
-                }}>
-                Completed Bookings
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <Text
-          style={{
-            fontWeight: 'bold',
-            fontSize: 25,
-            margin: 10,
-            paddingHorizontal: 20,
-            paddingTop: 30,
-          }}>
-          Your Requests
-        </Text>
-        <SafeAreaView style={styles.container}>
-          <FlatList
-            data={pendingBookings}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.key}
-            style={{borderRadius: 20}}
-          />
-        </SafeAreaView>
-        <FlatButton
-          onPress={() => {
-            props.navigation.navigate('BuyerRequests', {
-              ...props.route.params,
-              pendingBookings,
-            });
-          }}
-          text="View all requests"
-        />
+            Your Requests
+          </Text>
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              data={pendingBookings}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.key}
+            />
+          </SafeAreaView>
+        </ScrollView>
       </Card>
     </View>
   );
@@ -381,8 +405,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   container: {
-    paddingHorizontal: 10,
-    paddingBottom: 250,
+    // marginTop: 25,
+    paddingBottom: 50,
   },
 });
 

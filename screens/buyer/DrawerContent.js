@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import React, {useContext, useEffect, useState} from 'react';
+import {StyleSheet, View, Image} from 'react-native';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {
   Title,
   Caption,
@@ -11,66 +11,53 @@ import {
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { logout } from '../../redux/authActions';
-import { connect } from 'react-redux';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {logout} from '../../redux/authActions';
+import {connect} from 'react-redux';
 
 const DrawerContent = (props) => {
   return (
-    <View style={{ flex: 1 }}>
-      {/* {console.log('Props in drawer', props)} */}
+    <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
-        {/* {console.log('Props in drawer2', props)} */}
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 15,
-                paddingTop: 40,
-                justifyContent: 'center',
-              }}>
-              <View style={{ justifyContent: 'center' }}>
-                <Image
-                  source={{ uri: props.user.profileImage }}
-                  style={{
-                    width: 130,
-                    height: 130,
-                    borderColor: '#AB369B',
-                    borderRadius: 45,
-                    borderWidth: 5,
-                    marginBottom: 20,
-                  }}
-                />
-                <Title style={styles.title}>
-                  {props.user.name ? props.user.name : 'User'}
-                </Title>
-                <Caption style={styles.caption}>{props.user.email}</Caption>
-              </View>
+            <View style={{flexDirection: 'row', marginTop: 70}}>
+              <Image
+                source={{uri: props.user.profileImage}}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderColor: '#AB369B',
+                  borderRadius: 58,
+                  borderWidth: 5,
+                  marginBottom: 10,
+                }}
+              />
             </View>
+          </View>
+          <View>
+            <Text style={styles.buyer}>{props.user.name}</Text>
           </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              icon={() => (
-                <MaterialCommunityIcons name="home" color="black" size={25} />
+              icon={({color}) => (
+                <MaterialCommunityIcons name="home" color={color} size={35} />
               )}
               label="Home"
-              onPress={() =>
-                props.navigation.navigate('Home', {
-                  // ...props.route.params,
-                })
-              }
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
+              onPress={() => props.navigation.navigate('Home', {})}
             />
 
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="message-text"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={31}
                 />
               )}
-              label="Inbox"
+              label=" Inbox"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('ChatStackScreen', {
                   // ...props.route.params,
@@ -78,14 +65,15 @@ const DrawerContent = (props) => {
               }
             />
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="clipboard-list"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={32}
                 />
               )}
               label="My Requests"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('YourRequestsStackScreen', {
                   // ...props.route.params,
@@ -93,14 +81,15 @@ const DrawerContent = (props) => {
               }
             />
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="account"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={33}
                 />
               )}
               label="Profile"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('ProfileStackScreen', {
                   // ...props.route.params,
@@ -110,7 +99,7 @@ const DrawerContent = (props) => {
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
+      <Drawer.Section style={styles.logout}>
         <DrawerItem
           icon={() => (
             <MaterialCommunityIcons
@@ -129,17 +118,20 @@ const DrawerContent = (props) => {
 
 const styles = StyleSheet.create({
   drawerContent: {
-    paddingTop: 30,
+    flex: 1,
+    fontWeight: '700',
   },
   userInfoSection: {
-    // paddingLeft: 20,
+    alignItems: 'center',
+  },
+  logout: {
+    marginTop: 100,
+    // justifyContent:'flex-end'
   },
   title: {
-    fontSize: 25,
+    fontSize: 16,
     marginTop: 3,
     fontWeight: 'bold',
-    textAlign: "center"
-    // justifyContent: 'flex-start',
   },
   caption: {
     fontSize: 14,
@@ -153,27 +145,31 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 15,
   },
   paragraph: {
     fontWeight: 'bold',
     marginRight: 3,
   },
   drawerSection: {
-    marginTop: 45,
-    paddingHorizontal: 20,
+    marginTop: 5,
+    fontWeight: 'bold',
+    paddingLeft: 15,
   },
   bottomDrawerSection: {
-    marginBottom: 15,
-    paddingHorizontal: 20,
-    // borderTopColor: '#f4f4f4',
-    // borderTopWidth: 1,
+    borderWidth: 0,
   },
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  buyer: {
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 25,
+    fontWeight: '700',
+    paddingBottom: 40,
   },
 });
 

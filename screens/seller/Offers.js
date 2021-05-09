@@ -49,7 +49,7 @@ const Offers = (props) => {
         },
       );
       console.log('response of setOffers', response.data.result);
-      setOffers(response.data.result);
+      setOffers(response.data.result.filter((req) => req.status == 'Pending'));
       return response.data.result;
       //   }
     } catch (error) {
