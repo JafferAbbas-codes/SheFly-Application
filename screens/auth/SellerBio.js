@@ -1,91 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
+  SafeAreaView,
   // Image,
   // TouchableWithoutFeedback,
   // Keyboard,
   // ScrollView,
   TouchableOpacity,
   // Modal,
-  // FlatList,
-  ImageBackground,
-  FlatList,
-  SafeAreaView,
   Dimensions,
+  FlatList,
+  ImageBackground,
 } from 'react-native';
 import FlatButton from '../../shared/Button.js';
 import MultiSelect from 'react-native-multiple-select';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { ActionSheet, Root } from 'native-base';
+import {ActionSheet, Root} from 'native-base';
 import ImagePicker from 'react-native-image-crop-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { URL, getAllServicesRoute } from '../../config/const';
+import {URL, getAllServicesRoute} from '../../config/const';
 
-import { createIconSetFromFontello } from 'react-native-vector-icons';
+import {createIconSetFromFontello} from 'react-native-vector-icons';
 import axios from 'axios';
-// import RNFetchBlob from 'rn-fetch-blob';|
+import {signup, setLoading} from '../../redux/authActions';
+import {connect} from 'react-redux';
 
-// console.log('dimension screen', Dimensions.get('screen'));
-// console.log('dimension window', Dimensions.get('window'));
-var width = Dimensions.get('window').width;
+const width = Dimensions.get('window').width;
 
-const items = [
-  {
-    id: '92iijs7yta',
-    name: 'Ondo',
-  },
-  {
-    id: 'a0s0a8ssbsd',
-    name: 'Ogun',
-  },
-  {
-    id: '16hbajsabsd',
-    name: 'Calabar',
-  },
-  {
-    id: 'nahs75a5sg',
-    name: 'Lagos',
-  },
-  {
-    id: '667atsas',
-    name: 'Maiduguri',
-  },
-  {
-    id: 'hsyasajs',
-    name: 'Anambra',
-  },
-  {
-    id: 'djsjudksjd',
-    name: 'Benue',
-  },
-  {
-    id: 'sdhyaysdj',
-    name: 'Kaduna',
-  },
-  {
-    id: 'suudydjsjd',
-    name: 'Abuja',
-  },
-];
-const SellerBio = () => {
-  const [selectedService, setSelectedService] = useState('');
-  const [Services, setServices] = useState([{ _id: '', name: '' }]);
-  const [selectedItems, setSelectedItems] = useState([]);
+const SellerBio = (props) => {
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  // const [selectedItems, setSelectedItems] = useState([]);
+  const [Services, setServices] = useState([{_id: '', name: ''}]);
+  const [title, setTitle] = useState('');
   const [bio, setBio] = useState('');
-  const [pic, setPic] = useState([]);
-  const [avatarSource, setAvatarSource] = useState(null);
-  const [ModalOpen, setModaOpen] = useState(true);
-  const [images, setImages] = useState([
-    // 'https://api.adorable.io/avatars/80/abott@adorable.png',
-  ]);
-  const [imageSelected, setImageSelected] = useState('');
-  const onSelectedItemsChange = (selectedItems) => {
-    setSelectedItems(selectedItems);
-  };
+  const [buttonLoading, setButtonLoading] = useState(false);
+  // const [pic, setPic] = useState([]);
+  // const [avatarSource, setAvatarSource] = useState(null);
+  // const [ModalOpen, setModaOpen] = useState(true);
+
+  const [images, setImages] = useState([]);
+  // 'https://api.adorable.io/avatars/80/abott@adorable.png',
+  // const [imageSelected, setImageSelected] = useState('');
+  // const onSelectedItemsChange = (selectedItems) => {
+  // setSelectedItems(selectedItems);
+  // };
   const getAllServices = async () => {
     try {
       let response = await axios.get(`${URL}${getAllServicesRoute}`, {
@@ -104,10 +67,146 @@ const SellerBio = () => {
           'error getAllSerices from server',
           error.response.data.result,
         );
-        return { error: error.response.data.result };
+        return {error: error.response.data.result};
       }
     }
   };
+  const signupFunction = async () => {
+    try {
+      // await props.setLoading(true);
+      console.log('bio', bio);
+      console.log('selectedImages', selectedImages);
+      console.log('selectedServices', selectedServices);
+
+      let body = {
+        ...props.route.params,
+        title: title,
+        bio: bio,
+        samples: selectedImages,
+        services: selectedServices,
+      };
+      console.log('body is now', body);
+      setButtonLoading(true);
+      const result = await props.signup(body);
+      setButtonLoading(false);
+      if (result.error) {
+        console.log('result.error', result.error);
+      }
+    } catch (error) {
+      console.log('error d: ', error);
+    }
+  };
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+      includeBase64: true,
+    })
+      .then(async (image) => {
+        console.log(image, 'IMAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
+        let newFile = {
+          uri: image.path,
+          type: `test/${image.path.split('.')[1]}`,
+          name: `test${image.path.split('.')[1]}`,
+        };
+        setImages([...images, image.path]);
+        console.log(newFile, 'newFile');
+        await uploadImage(newFile);
+        // setImage(image.path);
+        // setImageSelected(image);
+        // this.bs.current.snapTo(1);
+      })
+      .catch((e) => {
+        console.log('error in take a photo', e);
+      });
+  };
+
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+      includeBase64: true,
+    })
+      .then(async (image) => {
+        console.log('IMAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', image);
+        let newFile = {
+          uri: image.path,
+          type: `test/${image.path.split('.')[1]}`,
+          name: `test${image.path.split('.')[1]}`,
+        };
+        setImages([...images, image.path]);
+        console.log('newFile', newFile);
+        await uploadImage(newFile);
+        // setImage(image.path);
+        // setImageSelected(image);
+        // this.bs.current.snapTo(1);
+      })
+      .catch((e) => {
+        console.log('error in choose from lib', e);
+      });
+  };
+
+  const uploadImage = async (file) => {
+    try {
+      const data = new FormData();
+      console.log('upload image selecetd', file);
+      data.append('file', file);
+      data.append('upload_preset', 'shefly');
+      data.append('cloud_name', 'jafferabbas');
+
+      // data.append('api_key', 693824263367388);
+      // formData.append('api_secret', '3bBhmYVxuJxFW_QfvukSXm95oSs');
+
+      console.log('form data', data);
+
+      const cloudinaryURL =
+        'https://api.cloudinary.com/v1_1/jafferabbas/image/upload';
+      let response = await fetch(cloudinaryURL, {
+        method: 'post',
+        body: data,
+      });
+      let responseData = await response.json();
+      console.log('cloudinary data  ', responseData);
+      if (responseData) {
+        setSelectedImages((selectedImages) => [
+          ...selectedImages,
+          responseData.secure_url,
+        ]);
+      }
+      //   // setImage(response.data.secure_url);
+      //   // setPublic_id(response.data.secure_url);
+    } catch (e) {
+      console.log('error while uploading picture to cloudinary', e);
+    }
+
+    // .then(async (response) => {
+    //   console.log('couldinary response', response.json());
+    //   let res = await response.json();
+    //   console.log('res', res);
+    //   // console.log(
+    //   //   'urlllllllllllllllllllllllllllllllllllllllllllll',
+    //   //   response.json()._W.secure_url,
+    //   // );
+    //   // setImage(response.data.secure_url);
+    //   // setPublic_id(response.data.secure_url);
+    // })
+    // // .then((data) => {
+    // //   console.log('couldinary data', data);
+    // // })
+    // .catch((e) => {
+    //   console.log('error while uploading picture to cloudinary', e);
+    // });
+  };
+
+  useEffect(() => {
+    getAllServices();
+  }, []);
+
   const onClickAddImage = () => {
     console.log('1234');
     const BUTTONS = ['Take Photo', 'Choose Photo from the library', 'Cancel'];
@@ -135,94 +234,8 @@ const SellerBio = () => {
     );
     console.log('second paramter');
   };
-  const takePhotoFromCamera = () => {
-    ImagePicker.openCamera({
-      compressImageMaxWidth: 300,
-      compressImageMaxHeight: 300,
-      cropping: true,
-      compressImageQuality: 0.7,
-    })
-      .then((image) => {
-        console.log(image, 'IMAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
-        setImages([...images, image.path]);
-        setImageSelected(image);
-        // this.bs.current.snapTo(1);
-      })
-      .catch((e) => {
-        console.log('error in take a photo', e);
-      });
-  };
-  const choosePhotoFromLibrary = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-      compressImageQuality: 0.7,
-    })
-      .then((image) => {
-        console.log(image, 'IMAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
-        setImages([...images, image.path]);
-        setImageSelected(image);
-        this.bs.current.snapTo(1);
-      })
-      .catch((e) => {
-        console.log('error in choose from lib', e);
-      });
-  };
-
-  const uploadImage = async () => {
-    const formData = new FormData();
-    formData.append('file', imageSelected);
-    formData.append('upload_preset', 'd10ahcp2');
-    formData.append('cloud_name', 'ddoon1hy6');
-    console.log(formData, 'form data');
-    let ImageData = {
-      file: imageSelected,
-      upload_preset: 'd10ahcp2',
-    };
-    const data = async () => {
-      await axios
-        .post(
-          'https://api.cloudinary.com/v1_1/ddoon1hy6/image/upload',
-          formData,
-        )
-        .then((response) => {
-          console.log(response.data, 'couldinary response');
-          setImage(response.data.secure_url);
-          setPublic_id(response.data.secure_url);
-        })
-        .catch((e) => {
-          console.log(e, 'errorrrrrrrrrrrrrrrrrr');
-        });
-    };
-    data();
-    // await fetch(route, {
-    //   method: 'post',
-    //   headers,
-    //   body: formData && JSON.stringify(formData),
-    // })
-    //   .then((response) => {
-    //     console.log(response.data, 'couldinary response');
-    //     setImage(response.data.secure_url);
-    //     setPublic_id(response.data.secure_url);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e, 'errorrrrrrrrrrrrrrrrrr');
-    //   });
-  };
-  useEffect(() => {
-    if (imageSelected !== '') {
-      console.log(imageSelected, 'image selected');
-      uploadImage();
-    }
-  }, [imageSelected]);
-
-  useEffect(() => {
-    getAllServices();
-  }, []);
-
   const renderItem = (item) => <Item item={item.item} />;
-  const Item = ({ item }) => (
+  const Item = ({item}) => (
     // console.log('item in Item', item);
     <ImageBackground
       source={{
@@ -231,10 +244,9 @@ const SellerBio = () => {
       style={{
         height: 100,
         width: 100,
-        backgroundColor: 'yellow',
         marginRight: 5,
       }}
-      imageStyle={{ borderRadius: 15 }}>
+      imageStyle={{borderRadius: 15}}>
       {/* <View
         style={{
           flex: 1,
@@ -253,20 +265,22 @@ const SellerBio = () => {
           alignContent: 'center',
           alignContent: 'center',
         }}>
-        <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 22 }}>
+        <View style={{flexDirection: 'column', alignSelf: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 22}}>
             Write a short bio
           </Text>
           <View style={styles.option}>
             <TextInput
-              style={{ fontSize: 18 }}
+              style={{fontSize: 18}}
               value={bio}
               multiline={true}
               onChangeText={(text) => setBio(text)}
             />
           </View>
           <View style={styles.container1}>
-            <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Select Skills</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 22}}>
+              Select Skills
+            </Text>
 
             <View style={styles.multisel}>
               <DropDownPicker
@@ -279,7 +293,7 @@ const SellerBio = () => {
                 min={0}
                 max={Services.length}
                 defaultValue={'Cooking'}
-                containerStyle={{ height: 40 }}
+                containerStyle={{height: 40}}
                 style={{
                   backgroundColor: '#fafafa',
                   borderColor: '#D2D2D2',
@@ -289,9 +303,9 @@ const SellerBio = () => {
                 itemStyle={{
                   justifyContent: 'flex-start',
                 }}
-                dropDownStyle={{ backgroundColor: '#fafafa' }}
+                dropDownStyle={{backgroundColor: '#fafafa'}}
                 onChangeItem={
-                  (item) => setSelectedService(item.value)
+                  (item) => setSelectedServices(item)
                   // (item) =>
                   // ({
                   // propss.handleChange('service')
@@ -329,7 +343,13 @@ const SellerBio = () => {
           </View>
           <View style={styles.UploadImageFullBox}>
             <View style={styles.UploadImagelayerOne}>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", flex: 1, marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  flex: 1,
+                  marginTop: 30,
+                }}>
                 <Text style={styles.UploadImageHeading}>Add Samples</Text>
                 <View>
                   <TouchableOpacity>
@@ -362,13 +382,30 @@ const SellerBio = () => {
             </View>
             {/* ))} */}
           </View>
-          <FlatButton text="Continue" />
+          <FlatButton
+            text="Continue"
+            loading={buttonLoading}
+            onPress={signupFunction}
+          />
         </View>
       </View>
     </Root>
   );
 };
-export default SellerBio;
+
+const mapStateToProps = (state) => ({
+  temp: state,
+  user: state.userDetails.user,
+  loading: state.userDetails.loading,
+});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoading: (body) => dispatch(setLoading(body)),
+    signup: (body) => dispatch(signup(body)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerBio);
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
