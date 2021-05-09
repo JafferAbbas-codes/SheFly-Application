@@ -34,6 +34,7 @@ const PostRequest = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [timeInputVisible, setTimeInputVisible] = useState(false);
   const [date, setDate] = useState(moment(Date.now()).format('L'));
+  const [dateSelected, setDateSelected] = useState(new Date());
   const [dateAndTime, setDateAndTime] = useState(new Date());
 
   const reviewSchema = yup.object({
@@ -54,11 +55,16 @@ const PostRequest = (props) => {
     try {
       console.log('props in createOrderAPI', props);
       setButtonLoading(true);
+      console.log(date);
+      let myDate = date.split('/');
+      let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
+      console.log('newDate in createOrderAPI', newDate.getTime());
       let response = await axios.post(
         `${URL}${createOrder}`,
         {
           service: selectedService,
-          dateAndTime: dateAndTime.getTime(),
+          dateAndTime: newDate.getTime(),
+          // dateAndTime: dateAndTime.getTime(),
           address,
           budget,
           description,
@@ -123,12 +129,22 @@ const PostRequest = (props) => {
     let myDate = date.split('/');
     let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
     console.log('newDate is here', newDate.getTime());
+    setDateSelected(newDate.getTime());
     setTimeInputVisible(true);
   };
   const timeChange = (time) => {
-    console.log('time is here', time.nativeEvent.timestamp);
+    console.log(
+      'time is here',
+      time.nativeEvent.timestamp.getTime(),
+      'and date in state',
+      dateSelected,
+    );
     if (time.type == 'set') {
-      setDateAndTime(time.nativeEvent.timestamp);
+      let newTime =
+        Number(dateSelected) +
+        Number(dateSelected) -
+        Number(time.nativeEvent.timestamp);
+      setDateAndTime(new Date(newTime));
     }
 
     setTimeInputVisible(false);
@@ -196,7 +212,7 @@ const PostRequest = (props) => {
           onSubmit={(values, actions) => {
             console.log(
               ' in on submit',
-              typeof Number(values.budget),
+              Number(values.budget),
               'and service',
               selectedService,
             );

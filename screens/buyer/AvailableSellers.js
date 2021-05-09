@@ -129,6 +129,7 @@ const AvailableSellers = (props) => {
   const OnPressSeller = (index) => {
     props.navigation.navigate('SellerProfileForBuyer', {
       ...props.route.params,
+      getAllSellers,
       index,
     });
   };

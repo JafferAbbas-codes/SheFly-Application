@@ -37,7 +37,7 @@ const BuyerProfile = (props) => {
   };
 
   const renderItem = ({item}) => {
-    var date = moment(item.dateAndTime).format('ll');
+    var date = moment(item.createdAt).format('ll');
     return (
       <Item
         requestNo={item._id.substring(

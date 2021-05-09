@@ -108,6 +108,8 @@ const BookingDetails = (props) => {
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
           }}>
           <MaterialIcons
             name="check-circle"
@@ -178,6 +180,8 @@ const BookingDetails = (props) => {
             flex: 1,
             alignSelf: 'center',
             justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
           }}>
           <Complain
             order={order}
