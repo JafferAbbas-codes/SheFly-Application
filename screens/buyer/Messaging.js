@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -15,20 +15,20 @@ import {
 import Header from '../../shared/Header2';
 import Card from '../../shared/AppStackCard';
 import FlatButton from '../../shared/Button.js';
-import { gStyles } from '../../styles/global';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 export default function getStarted() {
   // const [value, onChangeText] = React.useState('42|');
   const [Servises, setServises] = useState([
-    { text: 'Salman', key: '1', msg: 'Hello', time: '15 min' },
-    { text: 'Ibrahim', key: '2', msg: 'HI', time: '20 min' },
-    { text: 'Zubair', key: '3', msg: 'Greetings', time: '25 min' },
+    {text: 'Salman', key: '1', msg: 'Hello', time: '15 min'},
+    {text: 'Ibrahim', key: '2', msg: 'HI', time: '20 min'},
+    {text: 'Zubair', key: '3', msg: 'Greetings', time: '25 min'},
   ]);
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <Item text={item.text} msg={item.msg} time={item.time} />
   );
-  const Item = ({ text, msg, time }) => (
-    <View style={{ flexDirection: 'row', margin: 10 }}>
+  const Item = ({text, msg, time}) => (
+    <View style={{flexDirection: 'row', margin: 10}}>
       {/* {console.log('To test')} */}
       <Image
         source={require('../../assets/i.jpg')}
@@ -89,7 +89,7 @@ export default function getStarted() {
       key: '3',
     },
   ]);
-  const renderRecommendation = ({ item }) => (
+  const renderRecommendation = ({item}) => (
     <ItemRecom
       name={item.name}
       description={item.description}
@@ -107,14 +107,31 @@ export default function getStarted() {
       <View style={styles.back}>
         <Header />
         <Card>
-          <SafeAreaView style={styles.container}>
+          <View style={{backgroundColor: 'red'}}>
+            <Image
+              source={require('../../assets/comingsoon.jpg')}
+              style={{
+                width: 300,
+                height: 300,
+                // borderRadius: 32,
+                // marginHorizontal: 5,
+                overflow: 'hidden',
+                // backgroundColor: 'black',
+                // opacity: 0.9,
+                padding: 10,
+                // marginBottom: 10,
+              }}
+            />
+          </View>
+
+          {/* <SafeAreaView style={styles.container}>
             <FlatList
               data={Servises}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
-              style={{ borderRadius: 20 }}
+              style={{borderRadius: 20}}
             />
-          </SafeAreaView>
+          </SafeAreaView> */}
         </Card>
       </View>
     </TouchableWithoutFeedback>
