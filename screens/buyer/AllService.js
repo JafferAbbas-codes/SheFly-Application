@@ -97,7 +97,7 @@ const AllServices = (props) => {
   };
 
   const OnPressService = (id, name) => {
-    props.navigation.navigate('ServiceJobs', {
+    props.navigation.navigate('ServiceSeller', {
       ...props.route.params,
       id,
       name,

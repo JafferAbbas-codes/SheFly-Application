@@ -158,6 +158,8 @@ const SendOffer = (props) => {
               flex: 1,
               alignSelf: 'center',
               justifyContent: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
             }}>
             <MaterialIcons
               name="check-circle"

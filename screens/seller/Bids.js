@@ -72,17 +72,18 @@ const Bids = (props) => {
   }) => (
     <View
       style={{
-        marginBottom: 10,
         backgroundColor: 'white',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
+          width: 5,
           height: 1,
         },
         padding: 5,
         shadowOpacity: 1,
         shadowRadius: 10,
-        elevation: 10,
+        marginHorizontal: 20,
+        elevation: 13,
+        marginVertical: 5,
       }}>
       {/* {console.log('in Item', index)} */}
       <View
@@ -226,7 +227,7 @@ const Bids = (props) => {
             Your Bids
           </Text>
         </View>
-        <MainCard>
+        <MainCard requests={true}>
           <ServiceList />
         </MainCard>
       </View>
@@ -246,8 +247,8 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    // marginTop: 25,
-    // paddingBottom: 420,
+    marginTop: 25,
+    paddingBottom: 40,
   },
   item: {
     // backgroundColor: '#f9c2ff',

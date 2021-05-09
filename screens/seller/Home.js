@@ -161,6 +161,7 @@ const Home = (props) => {
           borderRadius: 16,
           backgroundColor: 'white',
           paddingHorizontal: 15,
+          paddingTop: 10,
           marginRight: 10,
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

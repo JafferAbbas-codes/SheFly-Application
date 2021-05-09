@@ -23,38 +23,30 @@ const DrawerContent = (props) => {
         {/* {console.log('Props in drawer2', props)} */}
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 15,
-                paddingTop: 40,
-                justifyContent: 'center',
-              }}>
-              <View style={{justifyContent: 'center'}}>
-                <Image
-                  source={{uri: props.user.profileImage}}
-                  style={{
-                    width: 100,
-                    height: 100,
-                    borderColor: '#AB369B',
-                    borderRadius: 30,
-                    borderWidth: 5,
-                    marginBottom: 20,
-                  }}
-                />
-                <Title style={styles.title}>
-                  {props.user.name ? props.user.name : 'User'}
-                </Title>
-                <Caption style={styles.caption}>{props.user.email}</Caption>
-              </View>
+            <View style={{flexDirection: 'row', marginTop: 70}}>
+              <Image
+                source={{uri: props.user.profileImage}}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderColor: '#AB369B',
+                  borderRadius: 58,
+                  borderWidth: 5,
+                  marginBottom: 10,
+                }}
+              />
             </View>
+          </View>
+          <View>
+            <Text style={styles.buyer}>{props.user.name}</Text>
           </View>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              icon={() => (
-                <MaterialCommunityIcons name="home" color="black" size={25} />
+              icon={({color}) => (
+                <MaterialCommunityIcons name="home" color={color} size={35} />
               )}
               label="Home"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('Home', {
                   // ...props.route.params,
@@ -63,14 +55,15 @@ const DrawerContent = (props) => {
             />
 
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="message-text"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={31}
                 />
               )}
               label="Inbox"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('Chats', {
                   // ...props.route.params,
@@ -78,14 +71,15 @@ const DrawerContent = (props) => {
               }
             />
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="briefcase-variant"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={31}
                 />
               )}
               label="Available Jobs"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('AvailableJobs', {
                   // ...props.route.params,
@@ -93,10 +87,11 @@ const DrawerContent = (props) => {
               }
             />
             <DrawerItem
-              icon={() => (
-                <MaterialCommunityIcons name="bell" color="black" size={25} />
+              icon={({color}) => (
+                <MaterialCommunityIcons name="bell" color={color} size={32} />
               )}
               label="Job Offers"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('SellerOffers', {
                   // ...props.route.params,
@@ -104,14 +99,15 @@ const DrawerContent = (props) => {
               }
             />
             <DrawerItem
-              icon={() => (
+              icon={({color}) => (
                 <MaterialCommunityIcons
                   name="account"
-                  color="black"
-                  size={25}
+                  color={color}
+                  size={33}
                 />
               )}
               label="Profile"
+              labelStyle={{fontSize: 17, fontWeight: 'bold'}}
               onPress={() =>
                 props.navigation.navigate('Profile', {
                   // ...props.route.params,
@@ -121,7 +117,7 @@ const DrawerContent = (props) => {
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
+      <Drawer.Section style={styles.logout}>
         <DrawerItem
           icon={() => (
             <MaterialCommunityIcons
@@ -140,16 +136,20 @@ const DrawerContent = (props) => {
 
 const styles = StyleSheet.create({
   drawerContent: {
-    paddingTop: 30,
+    flex: 1,
+    fontWeight: '700',
   },
   userInfoSection: {
-    // paddingLeft: 20,
+    alignItems: 'center',
+  },
+  logout: {
+    marginTop: 100,
+    // justifyContent:'flex-end'
   },
   title: {
-    fontSize: 25,
+    fontSize: 16,
     marginTop: 3,
     fontWeight: 'bold',
-    // justifyContent: 'flex-start',
   },
   caption: {
     fontSize: 14,
@@ -163,27 +163,31 @@ const styles = StyleSheet.create({
   section: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 15,
   },
   paragraph: {
     fontWeight: 'bold',
     marginRight: 3,
   },
   drawerSection: {
-    marginTop: 45,
-    paddingHorizontal: 20,
+    marginTop: 5,
+    fontWeight: 'bold',
+    paddingLeft: 15,
   },
   bottomDrawerSection: {
-    marginBottom: 15,
-    paddingHorizontal: 20,
-    // borderTopColor: '#f4f4f4',
-    // borderTopWidth: 1,
+    borderWidth: 0,
   },
   preference: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  buyer: {
+    textAlign: 'center',
+    paddingTop: 15,
+    fontSize: 25,
+    fontWeight: '700',
+    paddingBottom: 40,
   },
 });
 

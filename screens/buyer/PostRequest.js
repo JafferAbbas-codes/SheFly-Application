@@ -87,17 +87,10 @@ const PostRequest = (props) => {
 
   const displayModal = (show) => {
     setIsVisible(show);
-    setIsVisible(false);
-    // setTimeout(() => {
-    //   setIsVisible(false);
-    //   props.navigation.navigate(
-    //     'YourRequestsStackScreen',
-    //     {},
-    //     NavigationActions.navigate({
-    //       routeName: 'BuyerRequests',
-    //     }),
-    //   );
-    // }, 2000);
+
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 2000);
     props.navigation.navigate('Home', {
       ...props.route.params,
     });
@@ -164,16 +157,18 @@ const PostRequest = (props) => {
               flex: 1,
               alignSelf: 'center',
               justifyContent: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
             }}>
             <MaterialIcons
               name="check-circle"
-              size={180}
+              size={270}
               style={{
                 color: '#AD379D',
               }}
             />
             <Text style={{textAlign: 'center', fontSize: 30}}>
-              Request Posted
+              Request Sucessful
             </Text>
           </View>
         </Modal>

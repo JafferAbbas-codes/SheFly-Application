@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -12,19 +12,34 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import Header from '../../shared/Header2';
 import Card from '../../shared/AppStackCard';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { URL, getUserByType } from '../../config/const';
+import {connect} from 'react-redux';
+import {URL, getUserByType} from '../../config/const';
 
 const AvailableSellers = (props) => {
   const [Sellers, setSellers] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      Refresh();
+    }, 2000);
+  };
+
+  const Refresh = () => {
+    getAllSellers();
+  };
+
   const renderAvailableSellers = (item) => <ItemRecom item={item.item} />;
-  const ItemRecom = ({ item }) => (
+  const ItemRecom = ({item}) => (
     <TouchableOpacity
       onPress={() => {
         OnPressSeller(item);
@@ -38,24 +53,29 @@ const AvailableSellers = (props) => {
           paddingHorizontal: 8,
           marginBottom: 10,
         }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row'}}>
             <Image
-              source={{ uri: item.profileImage }}
+              source={{uri: item.profileImage}}
               style={styles.headerImage}
             />
-            <View style={{ paddingHorizontal: 7, paddingTop: 6 }}>
-              <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 6 }}>
+            <View style={{paddingHorizontal: 7, paddingTop: 6}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold', marginTop: 6}}>
                 {item.name}
               </Text>
               <Text
-                style={{ fontSize: 10, color: '#A28FA1', fontWeight: 'bold' }}>
+                style={{fontSize: 10, color: '#A28FA1', fontWeight: 'bold'}}>
                 {item.title}
               </Text>
-              <Text style={{ fontSize: 10, color: '#FFB266' }}>
-                <MaterialIcons name="star" size={10} />
-                {' ' + item.rating.toFixed(1)}
-              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontSize: 10, color: '#FFB266'}}>
+                  <MaterialIcons name="star" size={10} />
+                  {' ' + item.rating.toFixed(1)}
+                </Text>
+                <Text style={{fontSize: 10, color: '#291F28', opacity: 0.6}}>
+                  {' (' + item.ratingCount + ') '}
+                </Text>
+              </View>
             </View>
           </View>
           <View>
@@ -101,7 +121,7 @@ const AvailableSellers = (props) => {
       return response.data.result;
     } catch (error) {
       if (error?.response?.data?.result) {
-        return { error: error.response.data.result };
+        return {error: error.response.data.result};
       }
     }
   };
@@ -115,36 +135,42 @@ const AvailableSellers = (props) => {
 
   useEffect(() => {
     getAllSellers();
-  }, []);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <ScrollView>
-        <View style={styles.back}>
-          <Header />
-          <Card>
-            <View style={{ flexDirection: 'row' }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 25,
-                }}>
-                Available Sellers
-              </Text>
-            </View>
-            <SafeAreaView style={styles.container}>
-              <FlatList
-                data={Sellers}
-                renderItem={renderAvailableSellers}
-                keyExtractor={(item) => item._id}
-              />
-            </SafeAreaView>
-          </Card>
-        </View>
-      </ScrollView>
+      <View style={styles.back}>
+        <Header />
+        <Card>
+          <View style={{flexDirection: 'row'}}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 25,
+              }}>
+              Available Sellers
+            </Text>
+          </View>
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  colors={['#F4F9FE']}
+                  progressBackgroundColor={'#B0389F'}
+                />
+              }
+              data={Sellers}
+              renderItem={renderAvailableSellers}
+              keyExtractor={(item) => item._id}
+            />
+          </SafeAreaView>
+        </Card>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -160,8 +186,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   container: {
-    borderRadius: 20,
-    marginVertical: 30,
+    // flex: 1,
+    marginTop: 25,
+    paddingBottom: 200,
+    // backgroundColor: 'red',
   },
 });
 const mapStateToProps = (state) => ({

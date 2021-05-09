@@ -5,7 +5,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
-  Modal,
   Alert,
   ScrollView,
 } from 'react-native';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -14,28 +14,13 @@ import {
 } from 'react-native';
 import Header from '../../shared/Header2';
 import FlatButton from '../../shared/Button.js';
-import { gStyles } from '../../styles/global';
+import {gStyles} from '../../styles/global';
 import MaterialIcons from 'react-native-vector-icons/FontAwesome';
 
 export default function requestDetails(props) {
-  // const [value, onChangeText] = React.useState('42|');
   console.log(props);
-  // const [Services, setServices] = useState([
-  //   {
-  //     bookingno: '1',
-  //     status: 'completed',
-  //     serviceprovider: 'Narjis',
-  //     date: '6-06-2021',
-  //     service: 'Cooking',
-  //     budget: '3000',
-  //     user: 'Salman',
-  //     location: 'FB Area,Karachi',
-  //     description:
-  //       'I want a henna artist.In at iaculis lorem. Praesent tempor dictum tellus ut molestie. Sed sed ullamcorper lorem, id faucibus odio. Duis eu nisl ut ligula cursus molestie at at dolor. Nulla est justo, pellentesque vel lectus eget, fermentum varius dui. Morbi faucibus quam sed efficitur interdum. Suspendisse in pretium magna. Vivamus nec orci purus. Quisque accumsan dictum urna semper laoreet. Sed id rutrum tellus. In nisi sapien, sagittis faucibus tincidunt et, lacinia id felis. Ut tempor lectus porta, tempus orci ac, feugiat tellus. Suspendisse sagittis libero vitae metus sodales, id semper justo congue. Donec quam lorem, efficitur sit amet ex dapibus, venenatis sodales justo. Nulla arcu tellus, lacinia ac feugiat ac, cursus eget felis. Pellentesque fringilla quam ac ex convallis, vel imperdiet magna laoreet.',
-  //     key: '1',
-  //   },
-  // ]);
-  const renderItem = ({ item }) => (
+
+  const renderItem = ({item}) => (
     <Item
       text={item.text}
       bookingno={item.bookingno}
@@ -126,7 +111,7 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{ fontSize: 10, color: '#A28FA1' }}>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
               {props.route.params.service}
             </Text>
             <MaterialIcons
@@ -138,7 +123,7 @@ export default function requestDetails(props) {
                 marginVertical: 2,
               }}
             />
-            <Text style={{ fontSize: 10, color: '#A28FA1' }}>
+            <Text style={{fontSize: 10, color: '#A28FA1'}}>
               {props.route.params.address}
             </Text>
           </View>
@@ -149,7 +134,7 @@ export default function requestDetails(props) {
               marginHorizontal: 30,
               // justifyContent: 'space-around',
             }}>
-            <Text style={{ fontSize: 17 }}>{props.route.params.description}</Text>
+            <Text style={{fontSize: 17}}>{props.route.params.description}</Text>
           </View>
 
           <View
@@ -159,10 +144,10 @@ export default function requestDetails(props) {
               marginTop: 20,
               marginHorizontal: 30,
             }}>
-            <Text style={{ fontSize: 18, color: '#A28FA1', fontWeight: 'bold' }}>
+            <Text style={{fontSize: 18, color: '#A28FA1', fontWeight: 'bold'}}>
               Budget
             </Text>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+            <Text style={{fontWeight: 'bold', fontSize: 18}}>
               Rs. {props.route.params.budget}
             </Text>
           </View>
@@ -173,10 +158,10 @@ export default function requestDetails(props) {
               marginTop: 20,
               marginHorizontal: 30,
             }}>
-            <Text style={{ fontSize: 18, color: '#A28FA1', fontWeight: 'bold' }}>
+            <Text style={{fontSize: 18, color: '#A28FA1', fontWeight: 'bold'}}>
               Date
             </Text>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
+            <Text style={{fontWeight: 'bold', fontSize: 18}}>
               {props.route.params.date}
             </Text>
           </View>

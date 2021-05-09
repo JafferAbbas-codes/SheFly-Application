@@ -179,10 +179,15 @@ const Home = (props) => {
                 {item.name}
               </Text>
               <Text style={{fontSize: 10, color: '#A28FA1'}}>{item.title}</Text>
-              <Text style={{fontSize: 10, color: '#FFB266'}}>
-                <MaterialIcons name="star" size={10} />
-                {' ' + item.rating.toFixed(2)}
-              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontSize: 10, color: '#FFB266'}}>
+                  <MaterialIcons name="star" size={10} />
+                  {' ' + item.rating.toFixed(1)}
+                </Text>
+                <Text style={{fontSize: 10, color: '#291F28', opacity: 0.6}}>
+                  {' (' + item.ratingCount + ') '}
+                </Text>
+              </View>
             </View>
           </View>
           <View>
