@@ -34,6 +34,7 @@ const SendOffer = (props) => {
   const [Services, setServices] = useState([{_id: '', name: ''}]);
   const [timeInputVisible, setTimeInputVisible] = useState(false);
   const [date, setDate] = useState(moment(Date.now()).format('L'));
+  const [dateSelected, setDateSelected] = useState(new Date());
   const [dateAndTime, setDateAndTime] = useState(new Date());
 
   const reviewSchema = yup.object({
@@ -54,11 +55,16 @@ const SendOffer = (props) => {
     try {
       console.log('props in createOrderAPI', props);
       setButtonLoading(true);
+
+      let myDate = date.split('/');
+      let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
+      console.log('newDate in createOrderAPI', newDate.getTime());
       let response = await axios.post(
         `${URL}${createOrder}`,
         {
           service: selectedService,
-          dateAndTime: dateAndTime.getTime(),
+          dateAndTime: newDate.getTime(),
+          // dateAndTime: dateAndTime.getTime(),
           address,
           budget,
           description,
@@ -125,16 +131,28 @@ const SendOffer = (props) => {
     let myDate = date.split('/');
     let newDate = new Date(myDate[2], myDate[0] - 1, myDate[1]);
     console.log('newDate is here', newDate.getTime());
+    setDateSelected(newDate.getTime());
     setTimeInputVisible(true);
   };
   const timeChange = (time) => {
-    console.log('time is here', time.nativeEvent.timestamp);
+    console.log(
+      'time is here',
+      time.nativeEvent.timestamp,
+      'and date in state',
+      dateSelected,
+    );
     if (time.type == 'set') {
-      setDateAndTime(time.nativeEvent.timestamp);
+      let newTime =
+        Number(dateSelected) +
+        Number(dateSelected) -
+        Number(time.nativeEvent.timestamp);
+      console.log('newTime in timeChange', newTime);
+      setDateAndTime(new Date(newTime));
     }
 
     setTimeInputVisible(false);
   };
+
   return (
     <ScrollView>
       <View style={{backgroundColor: 'white'}}>
