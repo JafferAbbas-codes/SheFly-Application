@@ -266,6 +266,15 @@ const SellerBio = (props) => {
           alignContent: 'center',
         }}>
         <View style={{flexDirection: 'column', alignSelf: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 22}}>Your Title</Text>
+          <View style={styles.option1}>
+            <TextInput
+              style={{fontSize: 18}}
+              value={title}
+              // multiline={true}
+              onChangeText={(text) => setTitle(text)}
+            />
+          </View>
           <Text style={{fontWeight: 'bold', fontSize: 22}}>
             Write a short bio
           </Text>
@@ -418,6 +427,16 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     width: width * 0.8,
     height: 130,
+    borderRadius: 20,
+    padding: 10,
+  },
+  option1: {
+    backgroundColor: 'white',
+    borderColor: '#B0389F',
+    borderWidth: 2,
+    marginVertical: 20,
+    width: width * 0.8,
+    // height: 130,
     borderRadius: 20,
     padding: 10,
   },

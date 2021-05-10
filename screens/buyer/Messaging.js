@@ -29,7 +29,6 @@ export default function getStarted() {
   );
   const Item = ({text, msg, time}) => (
     <View style={{flexDirection: 'row', margin: 10}}>
-      {/* {console.log('To test')} */}
       <Image
         source={require('../../assets/i.jpg')}
         style={{
@@ -40,6 +39,7 @@ export default function getStarted() {
           overflow: 'hidden',
         }}
       />
+      {/* {console.log('To test')} */}
       <View
         style={{
           flexDirection: 'row',
@@ -107,31 +107,14 @@ export default function getStarted() {
       <View style={styles.back}>
         <Header />
         <Card>
-          <View style={{backgroundColor: 'red'}}>
-            <Image
-              source={require('../../assets/comingsoon.jpg')}
-              style={{
-                width: 300,
-                height: 300,
-                // borderRadius: 32,
-                // marginHorizontal: 5,
-                overflow: 'hidden',
-                // backgroundColor: 'black',
-                // opacity: 0.9,
-                padding: 10,
-                // marginBottom: 10,
-              }}
-            />
-          </View>
-
-          {/* <SafeAreaView style={styles.container}>
+          <SafeAreaView style={styles.container}>
             <FlatList
               data={Servises}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
               style={{borderRadius: 20}}
             />
-          </SafeAreaView> */}
+          </SafeAreaView>
         </Card>
       </View>
     </TouchableWithoutFeedback>
