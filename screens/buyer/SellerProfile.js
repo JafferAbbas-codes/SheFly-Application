@@ -53,7 +53,7 @@ export default function sellerProfileBuyer(propss) {
     </ImageBackground>
   );
   return (
-    <View style={styles.back}>
+    <ScrollView style={styles.back}>
       <Header profile={propss} />
       <Card>
         <ScrollView
@@ -97,7 +97,7 @@ export default function sellerProfileBuyer(propss) {
           </SafeAreaView>
         </ScrollView>
       </Card>
-    </View>
+    </ScrollView>
   );
 }
 
