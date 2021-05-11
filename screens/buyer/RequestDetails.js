@@ -162,7 +162,7 @@ export default function requestDetails(props) {
               Date
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              {props.route.params.date}
+              {props.route.params.serviceDate}
             </Text>
           </View>
           <View

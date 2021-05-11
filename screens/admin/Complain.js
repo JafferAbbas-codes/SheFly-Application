@@ -176,6 +176,17 @@ const ComplainScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Text
+          style={{
+            color: 'black',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 24,
+          }}>
+          Complains
+        </Text>
+      </View>
       <FlatList
         refreshControl={
           <RefreshControl
@@ -198,7 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 5,
-    backgroundColor: '#daecfd',
+    backgroundColor: '#F4F9FE',
   },
   complains: {
     shadowColor: '#000',

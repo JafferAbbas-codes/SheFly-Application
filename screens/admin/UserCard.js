@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 10,
-    backgroundColor: '#daecfd',
+    backgroundColor: '#F4F9FE',
   },
   tabContainer: {
     margin: 15,

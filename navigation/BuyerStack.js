@@ -233,6 +233,7 @@ const ProfileStackScreen = () => {
       }}>
       <Stack.Screen name="BuyerProfile" component={BuyerProfile} />
       <Stack.Screen name="BuyerRequests" component={BuyerRequests} />
+      <Stack.Screen name="RequestDetails" component={RequestDetails} />
       <Stack.Screen name="Bookings" component={Bookings} />
       <Stack.Screen name="BookingDetails" component={BookingDetails} />
       {/* <Stack.Screen name="RequestDetails" component={RequestDetails} /> */}

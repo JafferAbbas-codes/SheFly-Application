@@ -71,6 +71,7 @@ const BuyerRequests = (props) => {
     budget,
     address,
     description,
+    serviceDate,
   ) => {
     props.navigation.navigate('RequestDetails', {
       ...props.route.params,
@@ -84,11 +85,13 @@ const BuyerRequests = (props) => {
       budget,
       address,
       description,
+      serviceDate,
     });
   };
 
   const renderItem = ({item}) => {
     var date = moment(item.createdAt).format('ll');
+    var serviceDate = moment(item.dateAndTime).format('ll');
     return (
       <Item
         requestNo={item._id.substring(
@@ -104,6 +107,7 @@ const BuyerRequests = (props) => {
         budget={item.budget}
         address={item.address}
         description={item.description}
+        serviceDate={serviceDate}
       />
     );
   };
@@ -118,6 +122,7 @@ const BuyerRequests = (props) => {
     budget,
     address,
     description,
+    serviceDate,
   }) => (
     <TouchableOpacity
       onPress={() => {
@@ -132,6 +137,7 @@ const BuyerRequests = (props) => {
           budget,
           address,
           description,
+          serviceDate,
         );
       }}>
       <View
