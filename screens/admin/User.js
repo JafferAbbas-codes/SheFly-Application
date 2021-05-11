@@ -66,7 +66,7 @@ const Users = (props) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#daecfd',
+    backgroundColor: '#F4F9FE',
     flex: 1,
   },
   tabContainer: {
