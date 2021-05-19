@@ -158,7 +158,7 @@ const Bids = (props) => {
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={{fontWeight: 'bold'}}>Budget: </Text>
-          <Text>{'Rs. ' + budget}</Text>
+          <Text>{'Rs. ' + budget + ' / hr'}</Text>
         </View>
       </View>
     </View>

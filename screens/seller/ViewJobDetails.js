@@ -114,7 +114,7 @@ export default function requestDetails(props) {
               Budget
             </Text>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>
-              Rs. {job.budget}
+              {'Rs. ' + job.budget + ' / hr'}
             </Text>
           </View>
           <View

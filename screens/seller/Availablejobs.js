@@ -114,7 +114,7 @@ const AvailableJobs = (props) => {
               </Text>
             </View>
           </View>
-          <View>
+          <View style={{flexDirection: 'row'}}>
             <Text
               style={{
                 fontSize: 15,
@@ -122,6 +122,14 @@ const AvailableJobs = (props) => {
                 paddingVertical: 15,
               }}>
               {'Rs. ' + job.budget}
+            </Text>
+            <Text
+              style={{
+                // fontSize: 15,
+                // fontWeight: 'bold',
+                paddingVertical: 20,
+              }}>
+              / hr
             </Text>
           </View>
         </View>

@@ -210,9 +210,11 @@ const SendBid = (props) => {
                   </Text>
                   <View
                     style={{
-                      alignSelf: 'center',
-                      marginHorizontal: 50,
+                      // alignSelf: 'center',
+                      // marginHorizontal: 50,
                       fontSize: 25,
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
                     }}>
                     <TextInput
                       style={
@@ -224,6 +226,20 @@ const SendBid = (props) => {
                       value={propss.values.budget}
                       onBlur={propss.handleBlur('budget')}
                     />
+                    <Text
+                      style={{
+                        height: 40,
+                        borderColor: '#D2D2D2',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        marginBottom: 20,
+                        width: 50,
+                        color: 'grey',
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+                      }}>
+                      / hr
+                    </Text>
                   </View>
                   <Text
                     style={
@@ -304,7 +320,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     marginBottom: 20,
-    width: 320,
+    width: 250,
   },
   errorInputBudget: {
     height: 40,
