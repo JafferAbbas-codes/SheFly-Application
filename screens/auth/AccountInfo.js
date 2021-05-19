@@ -106,13 +106,13 @@ const AccountInfo = (props) => {
               if (props.route.params.userType == 'seller') {
                 navigateToSampleScreen({
                   name: values.name,
-                  email: values.email,
+                  email: values.email.toLowerCase(),
                   password: values.password,
                 });
               } else {
                 handleSubmit({
                   name: values.name,
-                  email: values.email,
+                  email: values.email.toLowerCase(),
                   password: values.password,
                 });
               }

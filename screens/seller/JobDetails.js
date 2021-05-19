@@ -256,7 +256,7 @@ const JobDetails = (props) => {
               style={{
                 fontWeight: 'bold',
               }}>
-              Amount: Rs. {job.budget}
+              {'Amount: Rs. ' + job.budget + ' / hr'}
             </Text>
           </View>
         </Card>

@@ -406,7 +406,7 @@ const BookingDetails = (props) => {
                 style={{
                   fontWeight: 'bold',
                 }}>
-                Amount: Rs. {order.budget}
+                {'Amount: Rs. ' + order.budget + ' / hr'}
               </Text>
             </View>
             <TouchableOpacity

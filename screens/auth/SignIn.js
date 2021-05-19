@@ -93,7 +93,7 @@ const SignIn = (props) => {
               validationSchema={reviewSchema}
               onSubmit={(values, actions) => {
                 loginFunction({
-                  email: values.email,
+                  email: values.email.toLowerCase(),
                   password: values.password,
                 });
               }}>

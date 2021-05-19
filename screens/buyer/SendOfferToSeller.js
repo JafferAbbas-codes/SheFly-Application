@@ -376,45 +376,66 @@ const SendOffer = (props) => {
               <Text style={{fontSize: 18, color: '#4A4A4A', paddingTop: 10}}>
                 Budget
               </Text>
-              <View style={{paddingVertical: 5, flexDirection: 'row'}}>
-                <View
-                  style={{
-                    // backgroundColor: 'red',
-                    // flexDirection: 'row',
-                    alignSelf: 'center',
-                    // alignContent: 'center',
-                    // alignItems: 'center',
-                    // justifyContent: 'center',
-                  }}>
-                  <Icon
-                    // raised
-                    name="payments"
-                    type="material"
-                    color="green"
-                    size={30}
+              <View
+                style={{
+                  paddingVertical: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{flexDirection: 'row'}}>
+                  <View
                     style={{
-                      paddingRight: 5,
+                      // backgroundColor: 'red',
+                      // flexDirection: 'row',
+                      alignSelf: 'center',
+                      // alignContent: 'center',
+                      // alignItems: 'center',
+                      // justifyContent: 'center',
+                    }}>
+                    <Icon
+                      // raised
+                      name="payments"
+                      type="material"
+                      color="green"
+                      size={30}
+                      style={{
+                        paddingRight: 5,
+                        paddingVertical: 5,
+                      }}
+                    />
+                  </View>
+                  <TextInput
+                    // multiline={true}
+                    style={{
+                      backgroundColor: '#fafafa',
+                      borderColor: '#D2D2D2',
+                      borderWidth: 1,
+                      borderRadius: 10,
+                      // flex: 9,
+                      width: 200,
                       paddingVertical: 5,
+                      // height: 200,
                     }}
+                    placeholder="Budget"
+                    keyboardType="numeric"
+                    onChangeText={propss.handleChange('budget')}
+                    value={propss.values.budget}
+                    onBlur={propss.handleBlur('budget')}
                   />
                 </View>
-                <TextInput
-                  // multiline={true}
+                <Text
                   style={{
                     backgroundColor: '#fafafa',
                     borderColor: '#D2D2D2',
                     borderWidth: 1,
                     borderRadius: 10,
-                    flex: 3,
-                    paddingVertical: 5,
-                    // height: 200,
-                  }}
-                  placeholder="Budget"
-                  keyboardType="numeric"
-                  onChangeText={propss.handleChange('budget')}
-                  value={propss.values.budget}
-                  onBlur={propss.handleBlur('budget')}
-                />
+                    width: 70,
+                    color: 'grey',
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                  }}>
+                  / hr
+                </Text>
               </View>
               <View style={{marginBottom: 50}}>
                 <FlatButton
