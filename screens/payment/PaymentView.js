@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {WebView} from 'react-native-webview';
+import {formReducer} from 'react-redux-form';
 
 const PaymentView = (props) => {
   console.log('props in payment', props);
   const order = props.order;
+  const [testState, setTestState] = useState(1);
 
   const STRIPE_PK =
     'pk_test_51IuypmAjcOK9kO5oAhHy7G4LOnJoAPvpFd0H6vOtEsbgLaDi4xAmocpOpRBntjWDUpZHWVm4lBrHmCZvPjeI5ABM00xXvZ4zQY';
@@ -12,8 +14,11 @@ const PaymentView = (props) => {
   const onCheckStatus = (response) => {
     props.onCheckStatus(response);
   };
+  useEffect(() => {
+    setTestState(testState + 1);
+  }, [props]);
 
-  const htmlContent = `
+  var htmlContent = `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -101,10 +106,10 @@ const PaymentView = (props) => {
       <div class="container-fluid">
       <div class="box">
       <div class="row">
-      <div class="col col-4 textBold colFisrt">
+      <div class="col col-4 textBold colFirst">
           Order Id:
       </div>
-      <div class="col col-8 textLight colFisrt">
+      <div class="col col-8 textLight colFirst">
           ${order._id.substring(order._id.length - 10, order._id.length - 3)}
       </div>
   </div>
@@ -145,7 +150,7 @@ const PaymentView = (props) => {
           Amount:
       </div>
       <div class="col col-8 textLight">
-          Rs. ${order.budget}/hr
+          Rs. ${order.budget}
       </div>
   
   </div>
@@ -197,9 +202,9 @@ const PaymentView = (props) => {
       </div>
       
       <script>
+      
           var stripe = Stripe('${STRIPE_PK}');
           var elements = stripe.elements();
-  
   
               var card = elements.create("card", {
                   hidePostalCode: true,
@@ -248,20 +253,19 @@ const PaymentView = (props) => {
                       showCardError(message)
                   }
               });
-              
               card.mount('#card-element');
               
               /**
                * Payment Request Element
                */
-              var paymentRequest = stripe.paymentRequest({
-                  country: "US",
-                  currency: "$",
-                  total: {
-                      amount: ${order.budget * 100},
-                      label: "Total"
-                  }
-              });
+            //   var paymentRequest = stripe.paymentRequest({
+            //       country: "US",
+            //       currency: "$",
+            //       total: {
+            //           amount: ${order.budget * 100},
+            //           label: "Total"
+            //       }
+            //   });
               var form =  document.querySelector('form');
               form.addEventListener('submit', function(e) {
   
@@ -272,15 +276,21 @@ const PaymentView = (props) => {
                       address_state: undefined,
                       address_zip: undefined,
                   };
-  
+
                   stripe.createToken(card, additionalData).then(function(result) {
+                    alert(JSON.stringify(result))
                   
-                  console.log("stripe api token result",result);
+
                   if (result.token) {
-                      window.postMessage(JSON.stringify(result));
+                    window.ReactNativeWebView.postMessage(JSON.stringify(result));
+                    alert("Iam here in if")
                   } else {
-                      window.postMessage(JSON.stringify(result));
+                      console.log("Iam here in else")
+                    alert("Iam here in else")
+                    window.ReactNativeWebView.postMessage(JSON.stringify(result));
                   }
+              }).catch((err)=>{
+                  alert("error agai")
               });
               })
       </script>
@@ -288,26 +298,31 @@ const PaymentView = (props) => {
   </html>
     `;
 
-  const injectedJavaScript = `(function() {
-        window.postMessage = function(data){
-            window.ReactNativeWebView.postMessage(data);
-        };
-    })()`;
+  //   const injectedJavaScript = `(function() {
+  //           window.postMessage = function(data){
+  //               console.log("window.postMessage ran",data)
+  //               window.ReactNativeWebView.postMessage(data);
+  //           };
+  //       })()`;
 
-  const onMessage = (event) => {
+  const onMessage = async (event) => {
     const {data} = event.nativeEvent;
     console.log('in on msg', data);
     onCheckStatus(data);
+    // setTestState('2');
   };
-
   return (
     <WebView
       javaScriptEnabled={true}
       style={{flex: 1}}
       originWhitelist={['*']}
       source={{html: htmlContent}}
-      injectedJavaScript={injectedJavaScript}
-      onMessage={(event) => console.log('onMessage event', event)}
+      //   injectedJavaScript={injectedJavaScript}
+      onMessage={(event) => onMessage(event)}
+      key={testState}
+      //   renderError={() => {
+      //     return <Text>Error agai</Text>;
+      //   }}
     />
   );
 };
