@@ -252,6 +252,10 @@ const BookingDetails = (props) => {
                         ? displayRateModal(true)
                         : //modal for rate
                           console.log('Pay Now clicked');
+                      props.navigation.navigate('PaymentScreen', {
+                        ...props.route.params,
+                        order,
+                      });
                     }}>
                     <Text
                       style={{

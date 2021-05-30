@@ -35,6 +35,7 @@ import RNBootSplash from 'react-native-bootsplash';
 import SellerBio from './screens/auth/SellerBio';
 
 import Providers from './navigation';
+import PaymentView from './screens/payment/PaymentView';
 // import BuyerRequests from './screens/buyer/BuyerRequests.js';
 
 export default function App() {
