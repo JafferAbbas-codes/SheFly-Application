@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import PaymentView from './PaymentView';
+import axios from 'axios';
 
 const PaymentScreen = (props) => {
   const [response, setResponse] = useState();
