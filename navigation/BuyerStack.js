@@ -30,6 +30,7 @@ import Bookings from '../screens/buyer/Booking';
 import BookingDetails from '../screens/buyer/BookingDetails';
 import PostRequest from '../screens/buyer/PostRequest';
 import SendOfferToSeller from '../screens/buyer/SendOfferToSeller';
+import PaymentScreen from '../screens/payment/PaymentScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -237,7 +238,7 @@ const ProfileStackScreen = () => {
       <Stack.Screen name="Bookings" component={Bookings} />
       <Stack.Screen name="BookingDetails" component={BookingDetails} />
       {/* <Stack.Screen name="RequestDetails" component={RequestDetails} /> */}
-      {/* <Stack.Screen name="Explorer" component={Explorer} /> */}
+      <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
     </Stack.Navigator>
   );
 };

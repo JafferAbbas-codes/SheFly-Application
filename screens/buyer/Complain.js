@@ -78,23 +78,39 @@ const ComplainForm = ({
           createComplainAPI(values.description);
         }}>
         {(propss) => (
-          <View style={{margin: 25}}>
+          <View
+            style={{
+              margin: 25,
+              borderColor: 'black',
+              borderRadius: 10,
+              borderWidth: 1,
+              padding: 20,
+            }}>
             <Text
               style={{
                 fontWeight: 'bold',
                 textAlign: 'center',
                 fontSize: 30,
-                marginVertical: 15,
+                // marginVertical: 15,
               }}>
               Launch a Complain
             </Text>
             <Text
-              style={{textAlign: 'center', fontSize: 25, marginVertical: 15}}>
+              style={{textAlign: 'center', fontSize: 15, marginVertical: 10}}>
               Booking No.{' '}
               {order._id.substring(order._id.length - 10, order._id.length - 3)}
             </Text>
             <TextInput
-              style={gStyles.input}
+              style={{
+                backgroundColor: '#fafafa',
+                borderColor: '#D2D2D2',
+                borderWidth: 1,
+                borderRadius: 10,
+                // flex: 9,
+                // width: 200,
+                paddingVertical: 5,
+                // height: 200,
+              }}
               placeholder="Seller Name"
               onChangeText={propss.handleChange('seller')}
               value={order.seller.name}
@@ -105,7 +121,17 @@ const ComplainForm = ({
             </Text>
 
             <TextInput
-              style={gStyles.input}
+              style={{
+                backgroundColor: '#fafafa',
+                borderColor: '#D2D2D2',
+                borderWidth: 1,
+                borderRadius: 10,
+                // flex: 9,
+                // width: 200,
+                paddingVertical: 5,
+                // paddingHorizontal: 10,
+                // height: 200,
+              }}
               placeholder="Buyer Name"
               onChangeText={propss.handleChange('buyer')}
               value={order.buyer.name}
@@ -117,7 +143,16 @@ const ComplainForm = ({
 
             <TextInput
               multiline={true}
-              style={gStyles.input}
+              style={{
+                backgroundColor: '#fafafa',
+                borderColor: '#D2D2D2',
+                borderWidth: 1,
+                borderRadius: 10,
+                // flex: 9,
+                // width: 200,
+                paddingVertical: 5,
+                height: 100,
+              }}
               placeholder="Description"
               onChangeText={propss.handleChange('description')}
               value={propss.values.description}
