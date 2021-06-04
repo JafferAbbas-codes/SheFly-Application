@@ -18,7 +18,7 @@ const PaymentScreen = (props) => {
     try {
       const stripeResponse = await axios.post('http://localhost:8000/payment', {
         email: 'codergogoi@gmail.com',
-        product: cartInfo,
+        product: order,
         authToken: jsonResponse,
       });
 
@@ -37,14 +37,77 @@ const PaymentScreen = (props) => {
       setPaymentStatus(' Payment failed due to some issue');
     }
   };
+  const paymentUI = () => {
+    if (!makePayment) {
+      return (
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 300,
+            marginTop: 50,
+          }}>
+          <Text style={{fontSize: 25, margin: 10}}> Make Payment </Text>
+          <Text style={{fontSize: 16, margin: 10}}>
+            {' '}
+            Product Description: {order.description}{' '}
+          </Text>
+          <Text style={{fontSize: 16, margin: 10}}>
+            {' '}
+            Payable Amount: {order.budget}{' '}
+          </Text>
+
+          <TouchableOpacity
+            style={{
+              height: 60,
+              width: 300,
+              backgroundColor: '#FF5733',
+              borderRadius: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              setMakePayment(true);
+            }}>
+            <Text style={{color: '#FFF', fontSize: 20}}>Proceed To Pay</Text>
+          </TouchableOpacity>
+        </View>
+      );
+
+      // show to make payment
+    } else {
+      if (response !== undefined) {
+        return (
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 300,
+              marginTop: 50,
+            }}>
+            <Text style={{fontSize: 25, margin: 10}}> {paymentStatus} </Text>
+            <Text style={{fontSize: 16, margin: 10}}> {response} </Text>
+          </View>
+        );
+      } else {
+        return (
+          <PaymentView
+            order={props.route.params.order}
+            onCheckStatus={onCheckStatus}
+          />
+        );
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Payment</Text>
-      <PaymentView
-        order={props.route.params.order}
-        onCheckStatus={onCheckStatus}
-      />
+      {paymentUI()}
     </View>
   );
 };
