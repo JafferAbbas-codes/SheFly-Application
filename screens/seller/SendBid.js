@@ -225,6 +225,7 @@ const SendBid = (props) => {
                       onChangeText={propss.handleChange('budget')}
                       value={propss.values.budget}
                       onBlur={propss.handleBlur('budget')}
+                      keyboardType="number-pad"
                     />
                     <Text
                       style={{
