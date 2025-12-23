@@ -175,6 +175,11 @@ dependencies {
      implementation 'com.android.support:multidex:1.0.3' //enter the latest version
     implementation "androidx.appcompat:appcompat:1.0.0"
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // Explicitly add compressor matching the plugin's 2.x API
+    implementation "id.zelory:compressor:2.1.1"
+    // Pin Fresco to a version available on Maven Central
+    implementation "com.facebook.fresco:fresco:2.5.0"
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:2.5.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

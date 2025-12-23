@@ -1,4 +1,5 @@
-export const URL = 'https://she-fly-application-server.herokuapp.com/';
+// export const URL = 'https://she-fly-application-server.herokuapp.com/';
+export const URL = 'https://she-fly-server.vercel.app/';
 // export const URL = 'http://192.168.43.13:4000/';
 
 export const loginRoute = 'auth/login/';

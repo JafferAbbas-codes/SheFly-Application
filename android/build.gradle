@@ -8,6 +8,7 @@ buildscript {
     }
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -28,8 +29,22 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
         google()
+        mavenCentral()
         jcenter()
         maven { url 'https://www.jitpack.io' }
         maven { url 'https://maven.google.com' }
+    }
+    // Force a working Compressor version (transitive from react-native-image-crop-picker)
+    configurations.all {
+        resolutionStrategy {
+            // Match the API expected by react-native-image-crop-picker (2.x Compressor)
+            force "id.zelory:compressor:2.1.1"
+            eachDependency { details ->
+                if (details.requested.group == "com.facebook.fresco") {
+                    // Fresco 2.2.0 is no longer mirrored on JCenter; use a newer version from Maven Central.
+                    details.useVersion "2.5.0"
+                }
+            }
+        }
     }
 }
